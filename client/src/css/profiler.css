@@ -1,0 +1,49 @@
+#app {
+  background-color: hotpink;
+}
+
+.dnd-profile {
+  background-color: coral;
+}
+
+.character-spells {
+  height: 90vh;
+  width: 20vw;
+  background-color: dodgerblue;
+}
+
+
+.chosen-spell {
+  background-color: greenyellow;
+  color: cyan;
+  background-image: url("../assets/slot.png");
+  background-size: cover;
+}
+
+.spell-list {
+  background-color: green;
+  position: absolute;
+  z-index: 1;
+  top: 1em;
+  left: 6em;
+}
+
+.available-spell {
+  background-color: maroon;
+  color: aquamarine;
+  background-image: url("../assets/slot.png");
+  background-size: cover;
+}
+
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  position: relative;
+  width: 5em;
+  height: 5em;
+  margin: 0.5em;
+}
