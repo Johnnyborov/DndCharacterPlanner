@@ -1,51 +1,41 @@
 <template>
-  <li @click="clickHandler($event)">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click="clickHandler($event)">
     {{spell.name}}
-    <spell-list v-if="showList" class="spell-list" ref="spell-list" @spell-chosen="spellChosenHandler" />
+
+    <spell-tooltip v-if="mouseOver" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />
+    
+    <available-spells-list v-if="currentlyClickedId === id" @spell-chosen="spellChosenHandler"
+      @enter-child="enterChildHandler" class="available-spells-list" />
   </li>
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import spell from '../../mixins/spell.js'
 
-import SpellList from './SpellList.vue'
+import AvailableSpellsList from './AvailableSpellsList.vue'
+
+import {mapMutations} from 'vuex'
+
 
 export default {
   name: 'ChosenSpell',
+  mixins: [spell],
+
   components: {
-    'spell-list': SpellList
+    'available-spells-list': AvailableSpellsList
   },
 
   props: {
-    id: Number,
-    spell: Object
+    currentlyClickedId: Number
   },
-
-  computed: {
-    ...mapState('spells', [
-      'spellList',
-      'chosenSpells'
-    ]),
-
-    showList() {
-      return this.spell.showList
-    }
-  },
-
 
   methods: {
     ...mapMutations('spells', [
       'setChosenSpell'
     ]),
 
-    clickHandler(event) {
-      event.stopPropagation()
-
-      this.$emit('clicked-spell', this.id)
-    },
-
     spellChosenHandler(spell) {
-      this.setChosenSpell({ id: this.id, name: spell })
+      this.setChosenSpell({ id: this.id, spell: spell })
     }
   }
 }

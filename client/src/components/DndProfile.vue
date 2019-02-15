@@ -1,14 +1,14 @@
 <template>
-  <character-spells class="character-spells" />
+  <chosen-spells-list class="chosen-spells-list" />
 </template>
 
 <script>
-import CharacterSpells from './spells/CharacterSpells.vue'
+import ChosenSpellsList from './spells/ChosenSpellsList.vue'
 
 export default {
   name: 'DndProfile',
   components: {
-    'character-spells': CharacterSpells
+    'chosen-spells-list': ChosenSpellsList
   }
 }
 </script>

@@ -2,33 +2,14 @@ export default {
   namespaced: true,
 
   state: {
-    spellList: ["spell1", "spell2", "spell3", "spell4"],
+    availableSpellsList: [{name: 'spell1'}, {name: 'spell2'}, {name: 'spell3'}, {name: 'spell4'}],
 
-    chosenSpells: [{name: "", showList: false}, {name: "", showList: false}],
-
-    prevClicked: -1
+    chosenSpellsList: [{name: ''}, {name: ''}]
   },
 
   mutations: {
-    setChosenSpell(state, {id, name}) {
-      state.chosenSpells[id].name = name
-    },
-
-    showSpellList(state, id) {
-      if (state.prevClicked !== -1) {
-        state.chosenSpells[state.prevClicked].showList = false
-      }
-
-      state.prevClicked = id
-      state.chosenSpells[id].showList = true
-    },
-
-    hideSpellList(state) {
-      if (state.prevClicked !== -1) {
-        state.chosenSpells[state.prevClicked].showList = false
-      }
-
-      state.prevClicked = -1
+    setChosenSpell(state, {id, spell}) {
+      state.chosenSpellsList.splice(id, 1, spell)
     }
   }
 }

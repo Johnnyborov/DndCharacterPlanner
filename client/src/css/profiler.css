@@ -6,12 +6,11 @@
   background-color: coral;
 }
 
-.character-spells {
+.chosen-spells-list {
   height: 90vh;
   width: 20vw;
   background-color: dodgerblue;
 }
-
 
 .chosen-spell {
   background-color: greenyellow;
@@ -20,7 +19,7 @@
   background-size: cover;
 }
 
-.spell-list {
+.available-spells-list {
   background-color: green;
   position: absolute;
   z-index: 1;
@@ -33,6 +32,15 @@
   color: aquamarine;
   background-image: url("../assets/slot.png");
   background-size: cover;
+}
+
+.spell-tooltip {
+  background-color: yellow;
+  position: absolute;
+  z-index: 2;
+  left: 5em;
+  top: 1em;
+  width: 10em;
 }
 
 
