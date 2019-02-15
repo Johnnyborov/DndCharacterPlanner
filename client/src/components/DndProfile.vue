@@ -9,6 +9,10 @@ export default {
   name: 'DndProfile',
   components: {
     'chosen-spells-list': ChosenSpellsList
+  },
+
+  created() {
+    this.$store.dispatch('spells/getSpellsList')
   }
 }
 </script>
