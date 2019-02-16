@@ -1,41 +1,36 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click="clickHandler($event)">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="spell-slot">
     {{spell.name}}
 
-    <spell-tooltip v-if="mouseOver" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />
+    <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />
     
-    <available-spells-list v-if="currentlyClickedId === id" @spell-chosen="spellChosenHandler"
-      @enter-child="enterChildHandler" class="available-spells-list" />
+    <available-spells-list v-if="currentlyClickedSlotId === slotId" :slotId="slotId" @enter-child="leaveHandler"
+      :moduleName="moduleName" class="available-spells-list" />
   </li>
 </template>
 
 <script>
-import spell from '../../mixins/spell.js'
+import spellSlot from '../../mixins/spellSlot.js'
 
 import AvailableSpellsList from './AvailableSpellsList.vue'
 
-import {mapMutations} from 'vuex'
-
-
 export default {
   name: 'ChosenSpell',
-  mixins: [spell],
+  mixins: [spellSlot],
 
   components: {
     'available-spells-list': AvailableSpellsList
   },
 
   props: {
-    currentlyClickedId: Number
+    moduleName: String,
+    slotId: Number,
+    currentlyClickedSlotId: Number
   },
 
   methods: {
-    ...mapMutations('spells', [
-      'setChosenSpell'
-    ]),
-
-    spellChosenHandler(spell) {
-      this.setChosenSpell({ id: this.id, spell: spell })
+    clickHandler() {
+      this.$emit('clicked-slot', this.slotId)
     }
   }
 }

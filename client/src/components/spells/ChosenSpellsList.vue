@@ -1,15 +1,14 @@
 <template>
   <div @click="clickedEslewhereHandler" @mouseleave="clickedEslewhereHandler" class="character-spells">
+    <slot></slot>
     <ul>
-      <chosen-spell v-for="(spell, index) in chosenSpellsList" :key="index" :id="index" :spell="spell" :currentlyClickedId="currentlyClickedId"
-        @clicked-spell="clickedSpellHandler" class="chosen-spell"/>
+      <chosen-spell v-for="(spell, index) in chosenSpellsList" :key="index" :slotId="index" :spell="spell" :currentlyClickedSlotId="currentlyClickedSlotId"
+        @clicked-slot="clickedSlotHandler" :moduleName="moduleName" class="chosen-spell" />
     </ul>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
 import ChosenSpell from './ChosenSpell.vue'
 
 export default {
@@ -18,25 +17,29 @@ export default {
     'chosen-spell': ChosenSpell
   },
 
+  props: {
+    moduleName: String
+  },
+
   data() {
     return {
-      currentlyClickedId: -1
+      currentlyClickedSlotId: -1
     }
   },
 
   computed: {
-    ...mapState('spells', [
-      'chosenSpellsList'
-    ])
+    chosenSpellsList() {
+      return this.$store.state[this.moduleName].chosenSpellsList
+    }
   },
 
   methods: {
-    clickedSpellHandler(id) {
-      this.currentlyClickedId = id
+    clickedSlotHandler(slotId) {
+      this.currentlyClickedSlotId = slotId
     },
 
     clickedEslewhereHandler() {
-      this.currentlyClickedId = -1
+      this.currentlyClickedSlotId = -1
     }
   }
 }

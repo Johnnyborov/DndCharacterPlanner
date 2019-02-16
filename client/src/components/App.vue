@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <dnd-profile />
+    <dnd-profile class="dnd-profile"/>
   </div>
 </template>
 

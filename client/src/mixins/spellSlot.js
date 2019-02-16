@@ -12,7 +12,6 @@ export default {
   },
 
   props: {
-    id: Number,
     spell: Object
   },
 
@@ -27,14 +26,6 @@ export default {
 
     enterChildHandler() {
       this.mouseOver = false
-    },
-
-    clickHandler(event) {
-      this.mouseOver = false
-
-      event.stopPropagation()
-
-      this.$emit('clicked-spell', this.id)
-    },
+    }
   }
 }

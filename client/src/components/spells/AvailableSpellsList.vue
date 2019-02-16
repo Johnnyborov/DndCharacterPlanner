@@ -1,15 +1,14 @@
 <template>
   <div @mouseenter="$emit('enter-child')">
     <ul>
-      <available-spell v-for="(spell, index) in availableMinusChosenList" :key="index" :id="index" :spell="spell"
-        @clicked-spell="clickedSpellHandler" class="available-spell" />
+      <li @click="spellChosenHandler({id: -1})" class="remove-option">Remove</li>
+      <available-spell v-for="(spell, index) in availableMinusChosenList" :key="index" :slotId="index" :spell="spell"
+        @spell-chosen="spellChosenHandler" class="available-spell" />
     </ul>
   </div> 
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
 import AvailableSpell from './AvailableSpell.vue'
 
 export default {
@@ -18,22 +17,30 @@ export default {
     'available-spell': AvailableSpell,
   },
 
+  props: {
+    moduleName: String,
+    slotId: Number
+  },
+
   computed: {
     availableMinusChosenList() {
-      return this.availableSpellsList.filter(spell => {
-          return !this.chosenSpellsList.find(chosenSpell => chosenSpell.name === spell.name)
+      return this.availableSpellsList.filter(availableSpell => {
+          return !this.chosenSpellsList.find(chosenSpell => chosenSpell.id === availableSpell.id)
         })
     },
 
-    ...mapState('spells', [
-      'availableSpellsList',
-      'chosenSpellsList'
-    ])
+    availableSpellsList() {
+      return this.$store.state[this.moduleName].availableSpellsList
+    },
+
+    chosenSpellsList() {
+      return this.$store.state[this.moduleName].chosenSpellsList
+    }
   },
 
   methods: {
-    clickedSpellHandler(id) {
-      this.$emit('spell-chosen', this.availableMinusChosenList[id])
+    spellChosenHandler(spell) {
+      return this.$store.dispatch(this.moduleName + '/setChosenSpell', {slotId: this.slotId, spell: spell})
     }
   }
 }

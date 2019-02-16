@@ -4,19 +4,60 @@
 
 .dnd-profile {
   background-color: coral;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.character-stats {
+  background-color: blueviolet;
+  width: 24vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.base-values {
+  background-color: slategray;
+  width: 11vw;
+}
+
+.real-values {
+  background-color: darkslategray;
+  width: 11vw;
+}
+
+.stat {
+  color: aliceblue;
+  margin: 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.remove-option {
+  background-color: crimson;
+  margin: 0.5em;
+}
+
+.spell-slot {
+  width: 5em;
+  min-height: 2em;
+  margin: 0.5em;
 }
 
 .chosen-spells-list {
   height: 90vh;
-  width: 20vw;
+  width: 23vw;
   background-color: dodgerblue;
+  margin: 1vh;
 }
 
 .chosen-spell {
   background-color: greenyellow;
   color: cyan;
   background-image: url("../assets/slot.png");
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .available-spells-list {
@@ -28,17 +69,17 @@
 }
 
 .available-spell {
-  background-color: maroon;
+  background-color: peru;
   color: aquamarine;
   background-image: url("../assets/slot.png");
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .spell-tooltip {
   background-color: yellow;
   position: absolute;
   z-index: 2;
-  left: 5em;
+  left: -11em;
   top: 1em;
   width: 10em;
 }
@@ -51,7 +92,4 @@ ul {
 
 li {
   position: relative;
-  width: 5em;
-  height: 5em;
-  margin: 0.5em;
 }
