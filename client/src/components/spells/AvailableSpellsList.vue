@@ -2,7 +2,7 @@
   <div @mouseenter="$emit('enter-child')">
     <ul>
       <li @click="spellChosenHandler(-1)" class="remove-option">Remove</li>
-      <available-spell v-for="(spell, index) in choosableSpellsList" :key="index" :slotId="index" :spell="spell"
+      <available-spell v-for="spell in choosableSpellsList" :key="spell.id" :spell="spell"
         @spell-chosen="spellChosenHandler" class="available-spell" />
     </ul>
   </div> 

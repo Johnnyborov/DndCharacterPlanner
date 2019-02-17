@@ -5,22 +5,7 @@
 </template>
 
 <script>
-function attrName(index) {
-  switch(index) {
-    case 0:
-      return 'str'
-    case 1:
-      return 'agi'
-    case 2:
-      return 'con'
-    case 3:
-      return 'wis'
-    case 4:
-      return 'int'
-    case 5:
-      return 'cha'
-  }
-}
+import {statName} from '../../store/modules/stats.js'
 
 export default {
   name: 'SpellTooltip',
@@ -38,7 +23,7 @@ export default {
           let sign = ''
           if (bonusStat.value > 0) sign = '+'
 
-          res = res + '</br>' + sign + bonusStat.value + ' ' + attrName(bonusStat.index)
+          res = res + '</br>' + sign + bonusStat.value + ' ' + statName(bonusStat.index)
         })
       }
       

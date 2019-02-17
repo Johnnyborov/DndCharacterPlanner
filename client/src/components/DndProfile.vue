@@ -1,5 +1,7 @@
 <template>
   <div>
+    <class-control class="class-control" />
+
     <character-stats class="character-stats" />
 
     <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list">
@@ -13,31 +15,37 @@
     <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list">
       <p>Chosen Spells</p>
     </chosen-spells-list>
+
+    <saver-loader class="saver-loader" />
   </div>
 </template>
 
 <script>
+import ClassControl from './ClassControl.vue'
+import SaverLoader from './SaverLoader.vue'
 import CharacterStats from './CharacterStats.vue'
-
 import ChosenSpellsList from './spells/ChosenSpellsList.vue'
+
 import spells from '../store/modules/spells.js'
 
 export default {
   name: 'DndProfile',
   components: {
+    'class-control': ClassControl,
+    'saver-loader': SaverLoader,
     'character-stats': CharacterStats,
     'chosen-spells-list': ChosenSpellsList
   },
 
   created() {
     this.$store.registerModule('abilities', spells)
-    this.$store.dispatch('abilities/initializeModule', {type: 'abilities', amount: 4})
+    this.$store.dispatch('abilities/initializeModule', 'abilities')
 
     this.$store.registerModule('feats', spells)
-    this.$store.dispatch('feats/initializeModule', {type: 'feats', amount: 2})
+    this.$store.dispatch('feats/initializeModule', 'feats')
 
     this.$store.registerModule('spells', spells)
-    this.$store.dispatch('spells/initializeModule', {type: 'spells', amount: 3})
+    this.$store.dispatch('spells/initializeModule', 'spells')
 
     this.$store.dispatch('stats/initializeModule')
   },

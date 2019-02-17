@@ -32,26 +32,11 @@
 const stats1x2Id = 10
 const stats2x1Id = 60
 
-function attrIndex(val) {
-  switch(val) {
-    case 'str':
-      return 0
-    case 'agi':
-      return 1
-    case 'con':
-      return 2
-    case 'wis':
-      return 3
-    case 'int':
-      return 4
-    case 'cha':
-      return 5
-  }
-}
+import {statIndex} from '../../store/modules/stats.js'
 
 function calculateId(id, s1, s2) {
-  let i1 = attrIndex(s1)
-  let i2 = attrIndex(s2)
+  let i1 = statIndex(s1)
+  let i2 = statIndex(s2)
 
   if (id === stats1x2Id) {
     if (i1 < i2) {

@@ -1,10 +1,7 @@
 const debug = process.env.NODE_ENV !== 'production'
-const url = debug ? 'http://localhost:5000/api/profiler/list' : '/api/profiler/list'
+const url = debug ? 'http://localhost:5000/api/profiler' : '/api/profiler'
 
-const characterBaseStats = [
-  {name: 'str', value: 13}, {name: 'agi', value: 13}, {name: 'con', value: 13},
-  {name: 'wis', value: 12}, {name: 'int', value: 12}, {name: 'cha', value: 12}
-]
+const characterBaseStats = [13,13,13,12,12,12]
 const abilitiesList = [
   {id: 201, name: 'ability1', bonusStats: [{index: 0, value: 1}]},
   {id: 202, name: 'ability2', bonusStats: [{index: 1, value: 1}]},
@@ -54,7 +51,7 @@ const spellsList = [
 ]
 export default {
   getBaseStats(func) {
-    setTimeout(() => func(characterBaseStats), 100)
+    setTimeout(() => func(JSON.parse(JSON.stringify(characterBaseStats))), 100)
   },
 
   getAbilitiesList(func) {
@@ -66,8 +63,27 @@ export default {
   },
 
   getSpellsList(func) {
-    //fetch(url).then(responce => responce.json()).then(json => func(json))
+    //fetch(url + '/list').then(responce => responce.json()).then(json => func(json))
 
     setTimeout(() => func(spellsList), 100)
+  },
+
+  saveCharacter(char, func) {
+    fetch(url + '/savecharacter', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(char)
+    }).then(responce => responce.json()).then(json => func(json))
+  },
+
+  getCharacters() {
+    fetch(url + '/getcharacters').then(responce => responce.json()).then(json => console.log(json))
+  },
+
+  getCharacter(guid, func) {
+    fetch(url + '/getcharacter?guid=' + guid).then(responce => responce.json()).then(json => func(json))
   }
 }

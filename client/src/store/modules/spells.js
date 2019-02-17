@@ -13,6 +13,12 @@ export default {
     }
   },
 
+  getters: {
+    chosenSpellsIds(state) {
+      return state.chosenSpellsList.map(spell => spell.id)
+    }
+  },
+
   mutations: {
     setType(state, type) {
       state.type = type
@@ -22,7 +28,16 @@ export default {
       state.availableSpellsList = list
     },
 
-    setChosenSpells(state, list) {
+    setChosenSpells(state, idsList) {
+      let list = idsList.map(id => {
+        let spell = state.availableSpellsList.find(s => s.id === id)
+
+        if (typeof(spell) === 'undefined')
+          spell = {id: -1}
+ 
+        return spell
+      })
+
       state.chosenSpellsList = list
     },
 
@@ -36,13 +51,8 @@ export default {
   },
 
   actions: {
-    initializeModule({commit}, {type, amount}) {
+    initializeModule({commit}, type) {
       commit('setType', type)
-
-
-      let chosenSpellsList = Array(amount).fill({id: -1})
-      commit('setChosenSpells', chosenSpellsList)
-
 
 
       let setterFunction = list => {
@@ -64,6 +74,11 @@ export default {
       if (state.type === 'abilities' || state.type === 'feats') {
         dispatch('stats/calculateBonusValues', null, { root: true })
       }
+    },
+
+    setChosenSpellsAmount({commit}, amount) {
+      let chosenSpellsList = Array(amount).fill(-1)
+      commit('setChosenSpells', chosenSpellsList)
     }
   }
 }
