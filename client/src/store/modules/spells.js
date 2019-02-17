@@ -26,7 +26,11 @@ export default {
       state.chosenSpellsList = list
     },
 
-    setChosenSpell(state, {slotId, spell}) {
+    setChosenSpell(state, {slotId, spellId}) {
+      let spell = state.availableSpellsList.find(s => s.id === spellId)
+      if (typeof(spell) === 'undefined')
+        spell = {id: -1}
+ 
       state.chosenSpellsList.splice(slotId, 1, spell)
     }
   },
@@ -54,8 +58,8 @@ export default {
       }
     },
 
-    setChosenSpell({state, commit, dispatch}, spell) {
-      commit('setChosenSpell', spell)
+    setChosenSpell({state, commit, dispatch}, spellId) {
+      commit('setChosenSpell', spellId)
 
       if (state.type === 'abilities' || state.type === 'feats') {
         dispatch('stats/calculateBonusValues', null, { root: true })

@@ -1,5 +1,7 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="spell-slot">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler"
+    class="spell-slot" :class="{'currently-choosing': currentlyClickedSlotId === slotId}">
+
     {{spell.name}}
 
     <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />

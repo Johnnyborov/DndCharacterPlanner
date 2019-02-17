@@ -60,6 +60,10 @@
   background-size: 100% 100%;
 }
 
+.currently-choosing {
+  background-image: url("../assets/selected-slot.png");
+}
+
 .available-spells-list {
   background-color: green;
   position: absolute;
