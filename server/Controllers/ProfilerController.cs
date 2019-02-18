@@ -19,13 +19,11 @@ namespace server.Controllers
     {
       db = context;
 
-      spellList = new List<Spell>();
-      spellList.Add(new Spell{ id = 1001, name="spell1" });
-      spellList.Add(new Spell{ id = 1002, name="spell2" });
-      spellList.Add(new Spell{ id = 1003, name="spell3" });
-      spellList.Add(new Spell{ id = 1004, name="spell4" });
-      spellList.Add(new Spell{ id = 1005, name="spell5" });
-      spellList.Add(new Spell{ id = 1006, name="spell6" });
+      using (var file = System.IO.File.OpenText(@"Data/spells.txt")) {
+        var serializer = new Newtonsoft.Json.JsonSerializer();
+
+        spellList = (List<Spell>)serializer.Deserialize(file, typeof(List<Spell>));
+      }
     }
 
     [HttpGet]
@@ -38,6 +36,12 @@ namespace server.Controllers
     [HttpGet]
     public ActionResult<List<Character>> GetCharacters()
     {
+      // using (var file = System.IO.File.CreateText(@"Data/spells.txt")) {
+      //   var serializer = new Newtonsoft.Json.JsonSerializer();
+
+      //   serializer.Serialize(file, spellList);
+      // }
+
       Response.ContentType = "application/json";
       return db.Characters.ToList().Select(c => (Character)c).ToList();
     }
