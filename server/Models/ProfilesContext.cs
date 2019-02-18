@@ -8,16 +8,11 @@ namespace server.Models
 {
   public class ProfilesContext : DbContext
   {
-    public DbSet<Character> Characters { get; set; }
+    public DbSet<CharacterSerialized> Characters { get; set; }
 
     public ProfilesContext(DbContextOptions<ProfilesContext> options) : base(options)
     {
       Database.EnsureCreated();
     }
-
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     modelBuilder.Entity<Character>().HasKey(u => new { u.Guid });
-    // }
   }
 }

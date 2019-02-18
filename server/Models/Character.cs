@@ -8,39 +8,25 @@ using Newtonsoft.Json;
 
 namespace server.Models
 {
-  public class CharacterNet
+  public class Character
   {
+    [NotMapped]
     public List<int> Stats { get; set; }
-    public List<int> Abilities { get; set; }
-    public List<int> Feats { get; set; }
-    public List<int> Spells { get; set; }
 
-    public CharacterNet(Character c)
-    {
-      Stats = c.Stats;
-      Abilities = c.Abilities;
-      Feats = c.Feats;
-      Spells = c.Spells;
-    }
+    [NotMapped]
+    public List<int> Abilities { get; set; }
+
+    [NotMapped]
+    public List<int> Feats { get; set; }
+
+    [NotMapped]
+    public List<int> Spells { get; set; }
   }
 
-  public class Character
+  public class CharacterSerialized: Character
   {
     [Key]
     public Guid Guid { get; set; } 
-
-
-    [NotMapped]
-    public List<int> Stats { get; set; }
-
-    [NotMapped]
-    public List<int> Abilities { get; set; }
-
-    [NotMapped]
-    public List<int> Feats { get; set; }
-
-    [NotMapped]
-    public List<int> Spells { get; set; }
 
 
     [Column("Stats")]

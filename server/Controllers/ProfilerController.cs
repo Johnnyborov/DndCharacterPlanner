@@ -13,47 +13,48 @@ namespace server.Controllers
   public class ProfilerController : ControllerBase
   {
     ProfilesContext db;
+    List<Spell> spellList;
 
     public ProfilerController(ProfilesContext context)
     {
       db = context;
+
+      spellList = new List<Spell>();
+      spellList.Add(new Spell{ id = 1001, name="spell1" });
+      spellList.Add(new Spell{ id = 1002, name="spell2" });
+      spellList.Add(new Spell{ id = 1003, name="spell3" });
+      spellList.Add(new Spell{ id = 1004, name="spell4" });
+      spellList.Add(new Spell{ id = 1005, name="spell5" });
+      spellList.Add(new Spell{ id = 1006, name="spell6" });
     }
 
     [HttpGet]
-    public ActionResult<List<Spell>> List()
-    {
-      var list = new List<Spell>();
-      list.Add(new Spell{ id = 1001, name="spell1" });
-      list.Add(new Spell{ id = 1002, name="spell2" });
-      list.Add(new Spell{ id = 1003, name="spell3" });
-      list.Add(new Spell{ id = 1004, name="spell4" });
-      list.Add(new Spell{ id = 1005, name="spell5" });
-      list.Add(new Spell{ id = 1006, name="spell6" });
-
-      Response.ContentType = "application/json";
-      return list;
-    }
-
-    [HttpGet]
-    public ActionResult<List<CharacterNet>> GetCharacters()
+    public ActionResult<List<Spell>> SpellList()
     {
       Response.ContentType = "application/json";
-      return db.Characters.ToList().Select(c => new CharacterNet(c)).ToList();
+      return spellList;
     }
 
     [HttpGet]
-    public ActionResult<CharacterNet> GetCharacter(Guid guid)
+    public ActionResult<List<Character>> GetCharacters()
+    {
+      Response.ContentType = "application/json";
+      return db.Characters.ToList().Select(c => (Character)c).ToList();
+    }
+
+    [HttpGet]
+    public ActionResult<Character> GetCharacter(Guid guid)
     {     
       Response.ContentType = "application/json";
 
-      var c = db.Characters.Find(guid);
-      if (c == null) return NotFound("Character with this guid doesn't exits!");
+      var character = db.Characters.Find(guid);
+      if (character == null) return NotFound("Character with this guid doesn't exits!");
 
-      return new CharacterNet(c);
+      return character;
     }
 
     [HttpPost]
-    public ActionResult<Guid> SaveCharacter(Character character)
+    public ActionResult<Guid> SaveCharacter(CharacterSerialized character)
     {
       db.Characters.Add(character);
       db.SaveChanges();

@@ -38,32 +38,33 @@ export default {
     slotId: Number
   },
 
-  computed: {
+  computed: {  
+    availableSpells() {
+      return this.$store.state[this.moduleName].availableSpells
+    },
+
+    chosenSpells() {
+      return this.$store.state[this.moduleName].chosenSpells
+    },
+
+
     choosableSpellsList() {
-      return this.availableSpellsList.filter(availableSpell => {
+      return this.availableSpells.filter(availableSpell => {
         if (isVariation(availableSpell.id))
           return false
 
-        let sameSpell = this.chosenSpellsList.find(chosenSpell => chosenSpell.id === availableSpell.id)
+        let sameSpell = this.chosenSpells.find(chosenSpellId => chosenSpellId === availableSpell.id)
         if (sameSpell && !canHaveMultiple(availableSpell.id))
           return false
 
         return true
       })
-    },
-
-    availableSpellsList() {
-      return this.$store.state[this.moduleName].availableSpellsList
-    },
-
-    chosenSpellsList() {
-      return this.$store.state[this.moduleName].chosenSpellsList
     }
   },
 
   methods: {
     spellChosenHandler(spellId) {
-      return this.$store.dispatch(this.moduleName + '/setChosenSpell', {slotId: this.slotId, spellId: spellId})
+      return this.$store.dispatch(this.moduleName + '/setChosenSpellId', {slotId: this.slotId, spellId: spellId})
     }
   }
 }

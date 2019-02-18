@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="spell.id === stats1x2Id">  
+    <div v-if="spellId === stats1x2Id">  
       +1 
       <select @click.stop :value="selected1" @input="selected1Changed($event)">
         <option v-for="(stat, index) in statTypesMinusSelected2" :key="index">
@@ -16,7 +16,7 @@
       </select>   
     </div>
 
-    <div v-if="spell.id === stats2x1Id">  
+    <div v-if="spellId === stats2x1Id">  
       +2
       <select @click.stop :value="selected1" @input="selected1Changed($event)">
         <option v-for="(stat, index) in statTypes" :key="index">
@@ -55,7 +55,7 @@ export default {
   name: 'StatChooser',
 
   props: {
-    spell: Object
+    spellId: Number
   },
 
   data() {
@@ -97,9 +97,9 @@ export default {
     },
 
     changeId() {
-      let id = calculateId(this.spell.id, this.selected1, this.selected2)
+      let newId = calculateId(this.spellId, this.selected1, this.selected2)
   
-      this.$emit('id-changed', id)
+      this.$emit('id-changed', newId)
     }
   }
 }

@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div @click="focusedModule=''" @mouseleave="focusedModule=''">
     <class-control class="class-control" />
 
     <character-stats class="character-stats" />
 
-    <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list">
+    <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
       <p>Class Abilities</p>
     </chosen-spells-list>
 
-    <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list">
+    <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
       <p>Chosen Feats</p>
     </chosen-spells-list>
 
-    <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list">
+    <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
       <p>Chosen Spells</p>
     </chosen-spells-list>
 
@@ -36,6 +36,13 @@ export default {
     'character-stats': CharacterStats,
     'chosen-spells-list': ChosenSpellsList
   },
+
+  data() {
+    return {
+      focusedModule: ''
+    }
+  },
+
 
   created() {
     this.$store.registerModule('abilities', spells)

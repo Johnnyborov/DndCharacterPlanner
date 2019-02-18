@@ -1,5 +1,24 @@
 const debug = process.env.NODE_ENV !== 'production'
-const url = debug ? 'http://localhost:5000/api/profiler' : '/api/profiler'
+const baseUrl = debug ? 'http://localhost:5000/api/profiler' : '/api/profiler'
+
+function makeRequest(url, options, func) {
+  fetch(url, options)
+  .then(response => {
+    if (response.ok)
+      return response.json()
+    else
+      throw new Error(response.status + ' ' + response.statusText)
+  })
+  .catch(error => {
+    throw new Error(error.message)
+  })
+  .then(json => {
+    func(json)
+  })
+  .catch(error => {
+    console.log('Error: ' + error.message)
+  })
+}
 
 const characterBaseStats = [13,13,13,12,12,12]
 const abilitiesList = [
@@ -63,27 +82,29 @@ export default {
   },
 
   getSpellsList(func) {
-    //fetch(url + '/list').then(responce => responce.json()).then(json => func(json))
+    makeRequest(baseUrl + '/spelllist', null, func)
 
-    setTimeout(() => func(spellsList), 100)
+    //setTimeout(() => func(spellsList), 100)
   },
 
   saveCharacter(char, func) {
-    fetch(url + '/savecharacter', {
+    let options = {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(char)
-    }).then(responce => responce.json()).then(json => func(json))
+    }
+
+    makeRequest(baseUrl + '/savecharacter', options, func)
   },
 
   getCharacters() {
-    fetch(url + '/getcharacters').then(responce => responce.json()).then(json => console.log(json))
+    makeRequest(baseUrl + '/getcharacters', null, arg => console.log(arg))
   },
 
   getCharacter(guid, func) {
-    fetch(url + '/getcharacter?guid=' + guid).then(responce => responce.json()).then(json => func(json))
+    makeRequest(baseUrl + '/getcharacter?guid=' + guid, null, func)
   }
 }

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
 
 import api from '../api/profiler.js'
 
@@ -17,22 +17,34 @@ export default {
 
   data() {
     return {
-      loadFrom: '22f7f711-22d0-45f6-4505-08d695178789'
+      loadFrom: 'fb44108b-89d1-41f0-b6d2-08d695b8220b'
     }
   },
 
   computed: {
-    ...mapGetters({
-      statsValues: 'stats/baseStatsValues',
-      abilitiesIds: 'abilities/chosenSpellsIds',
-      featsIds: 'feats/chosenSpellsIds',
-      spellsIds: 'spells/chosenSpellsIds'
+    ...mapState('stats', {
+      getStats: 'characterBaseStats'
+    }),
+
+    ...mapState('abilities', {
+      getAbilities: 'chosenSpells'
+    }),
+
+    ...mapState('feats', {
+      getFeats: 'chosenSpells'
+    }),
+    
+    ...mapState('spells', {
+      getSpells: 'chosenSpells'
     })
   },
 
   methods: {
     ...mapMutations({
       setStats: 'stats/setBaseStats',
+    }),
+
+    ...mapActions({
       setAbilities: 'abilities/setChosenSpells',
       setFeats: 'feats/setChosenSpells',
       setSpells: 'spells/setChosenSpells',
@@ -41,10 +53,10 @@ export default {
 
     saveHandler() {
       let char = {
-        stats: this.statsValues,
-        abilities: this.abilitiesIds,
-        feats: this.featsIds,
-        spells: this.spellsIds
+        stats: this.getStats,
+        abilities: this.getAbilities,
+        feats: this.getFeats,
+        spells: this.getSpells
       }
 
       api.saveCharacter(char, guid => {
@@ -58,8 +70,6 @@ export default {
         this.setAbilities(char.abilities)
         this.setFeats(char.feats)
         this.setSpells(char.spells)
-
-        this.$store.dispatch('stats/calculateBonusValues')
       }
 
       api.getCharacter(this.loadFrom, loadCharacterFunction)

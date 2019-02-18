@@ -1,5 +1,16 @@
 import api from '../../api/profiler.js'
 
+function modifyBonusValuesFrom(moduleName, bonusValues, rootState, rootGetters) {
+  rootState[moduleName].chosenSpells.forEach(spellId => {
+    let spell = rootGetters[moduleName + '/chosenSpell'](spellId)
+    if (typeof(spell.bonusStats) !== 'undefined') {
+      spell.bonusStats.forEach(bonusStat => {
+        bonusValues.splice(bonusStat.index, 1, bonusValues[bonusStat.index] + bonusStat.value)
+      })
+    }
+  })
+}
+
 export function statName(index) {
   switch(index) {
     case 0:
@@ -44,11 +55,7 @@ export default {
 
   getters: {
     realStatValue: (state) => (index) => {
-      return Math.min(20, state.characterBaseStats[index].value + state.bonusValues[index])
-    },
-
-    baseStatsValues: (state) => {
-      return state.characterBaseStats.map(stat => stat.value)
+      return Math.min(20, state.characterBaseStats[index] + state.bonusValues[index])
     }
   },
 
@@ -57,14 +64,12 @@ export default {
       state.bonusValues = values
     },
 
-    setBaseStats(state, statValues) {
-      let i = 0
-      let stats = statValues.map(statValue => {return { name: statName(i++), value: statValue }})
-      state.characterBaseStats = stats
+    setBaseStats(state, values) {
+      state.characterBaseStats = values
     },
 
     setBaseStatValue(state, {index, value}) {
-      state.characterBaseStats[index].value = value
+      state.characterBaseStats.splice(index, 1, value)
     }
   },
 
@@ -77,26 +82,13 @@ export default {
       })
     },
 
-    calculateBonusValues({commit, rootState}) {
+    calculateBonusValues({commit, rootState, rootGetters}) {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
-      rootState['abilities'].chosenSpellsList.forEach(abiltiy => {
-        if (abiltiy.id !== -1) {
-          abiltiy.bonusStats.forEach(bonusStat => {
-            bonusValues.splice(bonusStat.index, 1, bonusValues[bonusStat.index] + bonusStat.value)
-          })
-        }
-      })
+      modifyBonusValuesFrom('abilities', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('feats', bonusValues, rootState, rootGetters)
 
-      rootState['feats'].chosenSpellsList.forEach(feat => {
-        if (feat.id !== -1) {
-          feat.bonusStats.forEach(bonusStat => {
-            bonusValues.splice(bonusStat.index, 1, bonusValues[bonusStat.index] + bonusStat.value)
-          })
-        }
-      })
-
-
+      
       commit('setBonusValues', bonusValues)
     }
   }

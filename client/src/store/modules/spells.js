@@ -1,5 +1,11 @@
 import api from '../../api/profiler.js'
 
+function updateStats(state, dispatch) {
+  if (state.type === 'abilities' || state.type === 'feats') {
+    dispatch('stats/calculateBonusValues', null, { root: true })
+  }
+}
+
 export default {
   namespaced: true,
 
@@ -7,15 +13,17 @@ export default {
     return {
       type: '',
 
-      availableSpellsList: [],
+      availableSpells: [],
 
-      chosenSpellsList: []
+      chosenSpells: []
     }
   },
 
   getters: {
-    chosenSpellsIds(state) {
-      return state.chosenSpellsList.map(spell => spell.id)
+    chosenSpell: (state) => (id) => {
+      if (id === -1) return { id: -1 }
+      
+      return state.availableSpells.find(spell => spell.id == id)
     }
   },
 
@@ -24,29 +32,16 @@ export default {
       state.type = type
     },
 
-    setAvailableSpells(state, list) {
-      state.availableSpellsList = list
+    setAvailableSpells(state, spells) {
+      state.availableSpells = spells
     },
 
-    setChosenSpells(state, idsList) {
-      let list = idsList.map(id => {
-        let spell = state.availableSpellsList.find(s => s.id === id)
-
-        if (typeof(spell) === 'undefined')
-          spell = {id: -1}
- 
-        return spell
-      })
-
-      state.chosenSpellsList = list
+    setChosenSpells(state, spells) {
+      state.chosenSpells = spells
     },
 
-    setChosenSpell(state, {slotId, spellId}) {
-      let spell = state.availableSpellsList.find(s => s.id === spellId)
-      if (typeof(spell) === 'undefined')
-        spell = {id: -1}
- 
-      state.chosenSpellsList.splice(slotId, 1, spell)
+    setChosenSpellId(state, {slotId, spellId}) {
+      state.chosenSpells.splice(slotId, 1, spellId)
     }
   },
 
@@ -55,8 +50,8 @@ export default {
       commit('setType', type)
 
 
-      let setterFunction = list => {
-        commit('setAvailableSpells', list)
+      let setterFunction = spells => {
+        commit('setAvailableSpells', spells)
       }
 
       if (type == 'abilities') {
@@ -68,17 +63,23 @@ export default {
       }
     },
 
-    setChosenSpell({state, commit, dispatch}, spellId) {
-      commit('setChosenSpell', spellId)
 
-      if (state.type === 'abilities' || state.type === 'feats') {
-        dispatch('stats/calculateBonusValues', null, { root: true })
-      }
+    setChosenSpells({state, commit, dispatch}, spells) {
+      commit('setChosenSpells', spells)
+
+      updateStats(state, dispatch)
     },
 
+    setChosenSpellId({state, commit, dispatch}, arg) {
+      commit('setChosenSpellId', arg)
+
+      updateStats(state, dispatch)
+    },
+
+
     setChosenSpellsAmount({commit}, amount) {
-      let chosenSpellsList = Array(amount).fill(-1)
-      commit('setChosenSpells', chosenSpellsList)
+      let idsList = Array(amount).fill(-1)
+      commit('setChosenSpells', idsList)
     }
   }
 }

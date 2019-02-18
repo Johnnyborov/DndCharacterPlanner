@@ -4,8 +4,8 @@
       <p>Base Values:</p>
       <ul>
         <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
-          {{stat.name}}
-          <select :value="characterBaseStats[index].value" @input="updateBaseStatValue(index, $event)">
+          {{statName(index)}}
+          <select :value="characterBaseStats[index]" @input="updateBaseStatValue(index, $event)">
             <option v-for="(val, idx) in values" :key="idx" :value="val">
               {{val}}
             </option>
@@ -18,7 +18,7 @@
       <p>Real Values:</p>
       <ul>
         <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
-          {{stat.name}}
+          {{statName(index)}}
           {{realStatValue(index)}}
         </li>
       </ul>
@@ -28,6 +28,8 @@
 
 <script>
 import {mapState, mapGetters} from 'vuex'
+
+import {statName as statNameImported} from '../store/modules/stats.js'
 
 export default {
   name: 'DndProfile',
@@ -49,6 +51,10 @@ export default {
   },
 
   methods: {
+    statName(index) {
+      return statNameImported(index)
+    },
+
     updateBaseStatValue(index, event) {
       this.$store.commit('stats/setBaseStatValue', {index: index, value: Number(event.target.value)})
     }

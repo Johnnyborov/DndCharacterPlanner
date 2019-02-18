@@ -7,7 +7,7 @@ export default {
 
   data() {
     return {
-      mouseOver: false
+      mouseOver: false,
     }
   },
 
