@@ -8,6 +8,7 @@ export default {
   data() {
     return {
       mouseOver: false,
+      posY: 0
     }
   },
 
@@ -18,6 +19,8 @@ export default {
   methods: {
     enterHandler() {
       this.mouseOver = true
+      this.posY = this.$el.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top
+      this.posY += parseFloat(getComputedStyle(this.$parent.$el).fontSize) // +1em
     },
 
     leaveHandler() {

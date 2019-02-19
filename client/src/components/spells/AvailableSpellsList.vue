@@ -35,7 +35,8 @@ export default {
 
   props: {
     moduleName: String,
-    slotId: Number
+    slotId: Number,
+    posY: Number
   },
 
   computed: {  
@@ -60,6 +61,10 @@ export default {
         return true
       })
     }
+  },
+  
+  mounted() {
+    this.$el.style.top = this.posY + 'px'
   },
 
   methods: {

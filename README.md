@@ -35,18 +35,25 @@ dotnet build
 
 ## Using WebScraper
 
-### Downloading pages from fandom stite to local files
+### Downloading pages from fandom site to local files
 Files are downloaded to in utilities/WebScraper/results
 ```
 cd utilities/WebScraper
 dotnet run --save-pages
 ```
 
-### Parsing download files to json
+### Parsing downloaded files to json
 Created file is utilities/WebScraper/results/spells.json
 ```
 cd utilities/WebScraper
 dotnet run --scrape-from-files
+```
+
+### Parsing to json directly from the site
+Created file is utilities/WebScraper/results/spells.json
+```
+cd utilities/WebScraper
+dotnet run --scrape-from-url
 ```
 
 ### Printing spells.json to a text file

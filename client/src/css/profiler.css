@@ -60,6 +60,7 @@
   width: 23vw;
   background-color: dodgerblue;
   margin: 1vh;
+  position: relative;
 }
 
 .chosen-spell {
@@ -67,6 +68,7 @@
   color: darkorange;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
+
 }
 
 .currently-choosing {
@@ -74,9 +76,9 @@
 }
 
 .scrollable-list {
-  height: 50vh;
-  overflow: hidden;
-  overflow-y: scroll;
+  max-height: 50vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .available-spells-list {
@@ -98,17 +100,12 @@
   background-color: yellow;
   position: absolute;
   z-index: 2;
-  left: -11em;
-  top: 1em;
-  width: 10em;
+  left: -21em;
+  width: 20em;
 }
 
 
 ul {
   list-style-type: none;
   padding-left: 0;
-}
-
-li {
-  position: relative;
 }

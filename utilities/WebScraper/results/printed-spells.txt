@@ -80,10 +80,11 @@ Range: 60 feet
 Components: S
 Duration: Instantaneous or 1 hour (see below)
 Description: Using your action, you transmute a nonmagical flame you can see that is no larger than a 5-foot cube in one of the following ways:
-You spread the fire 5 feet in a direction, provided kindling material is present in the new location.
-You extinguish the flames.
-You double or halve the radius of the bright/dim light cast by the flame, change its color, or both. The effect lasts for 1 hour.
-You cause simple shapes flicker in the flames. The effect lasts for 1 hour.
+
+* You spread the fire 5 feet in a direction, provided kindling material is present in the new location.
+* You extinguish the flames.
+* You double or halve the radius of the bright/dim light cast by the flame, change its color, or both. The effect lasts for 1 hour.
+* You cause simple shapes flicker in the flames. The effect lasts for 1 hour.
 You can have three durational effects active at a time, and you can dismiss a single effect as an action.
 Save: 
 Ritual: False
@@ -136,10 +137,11 @@ Range: 30 feet
 Components: V, S
 Duration: Instantaneous
 Description: You use your action to create one of the following effects within range:
-You create a harmless sensory effect that predicts what the weather will be for the next 24 hours. This effect lasts for 6 seconds, or 1 round.
-You make a flower blossom, a seed pod open, or a leaf bud bloom.
-You create a harmless nature-related sensory effect. The effect must fit in a 5-foot cube.
-You light or put out a small flame.
+
+* You create a harmless sensory effect that predicts what the weather will be for the next 24 hours. This effect lasts for 6 seconds, or 1 round.
+* You make a flower blossom, a seed pod open, or a leaf bud bloom.
+* You create a harmless nature-related sensory effect. The effect must fit in a 5-foot cube.
+* You light or put out a small flame.
 Save: 
 Ritual: False
 Concentration: False
@@ -260,9 +262,10 @@ Range: 30 feet
 Components: V, S
 Duration: Instantaneous
 Description: Using your action, you transmute the air to create of the following effects:
-One Medium or smaller creature that you choose must pass a Strength save or be shoved up to 5 feet away from you.
-You create a gust that can gently push an object that weighs 5 lbs or less and isn't held or carried up to 10 feet away from you.
-You create a sensory effect that cannot inflict harm using the air.
+
+* One Medium or smaller creature that you choose must pass a Strength save or be shoved up to 5 feet away from you.
+* You create a gust that can gently push an object that weighs 5 lbs or less and isn't held or carried up to 10 feet away from you.
+* You create a sensory effect that cannot inflict harm using the air.
 Save: STR
 Ritual: False
 Concentration: False
@@ -421,9 +424,10 @@ Range: 30 feet
 Components: S
 Duration: Instantaneous/1 hour
 Description: Choose a portion of dirt or stone that you can see and fits in a 5-foot cube. You change it in one of the following ways:
-If you target loose earth, you can move it up to 5 feet away. This movement doesn't deal damage.
-You cause shapes and colors to appear. The changes last for 1 hour.
-You cause the ground to become difficult terrain, or make difficult terrain become normal. This change lasts for 1 hour.
+
+* If you target loose earth, you can move it up to 5 feet away. This movement doesn't deal damage.
+* You cause shapes and colors to appear. The changes last for 1 hour.
+* You cause the ground to become difficult terrain, or make difficult terrain become normal. This change lasts for 1 hour.
 If you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss an effect as an action.
 Save: 
 Ritual: False
@@ -461,12 +465,13 @@ Range: 10 feet
 Components: V, S
 Duration: Instantaneous
 Description: You create one of the following effects:
-You create a harmless sensory effect.
- You light or put out a small fire.
- You clean or soil an object no larger than 1 cubic foot.
- You chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour.
- You make a small mark appear on an object or surface for 1 hour.
- You create a nonmagical trinket or a hand-sized illusory image. It lasts until the end of your next turn.
+
+* You create a harmless sensory effect.
+* You light or put out a small fire.
+* You clean or soil an object no larger than 1 cubic foot.
+* You chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour.
+* You make a small mark appear on an object or surface for 1 hour.
+* You create a nonmagical trinket or a hand-sized illusory image. It lasts until the end of your next turn.
 If you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time, and you can dismiss an effect as an action.
 Save: 
 Ritual: False
@@ -566,10 +571,11 @@ Range: 30 feet
 Components: S
 Duration: Instantaneous/1 hour
 Description: You choose an area of water that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:
-You move the water up to 5 feet in any direction. This movement doesn't cause damage.
-You cause the water to form into simple shapes and animate. This change lasts for 1 hour.
-You change the water's color or opacity. This change lasts for 1 hour.
-You freeze the water, provided there are no creatures in it. The water unfreezes in 1 hour.
+
+* You move the water up to 5 feet in any direction. This movement doesn't cause damage.
+* You cause the water to form into simple shapes and animate. This change lasts for 1 hour.
+* You change the water's color or opacity. This change lasts for 1 hour.
+* You freeze the water, provided there are no creatures in it. The water unfreezes in 1 hour.
 If you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.
 Save: 
 Ritual: False
@@ -648,12 +654,13 @@ Range: 30 feet
 Components: V
 Duration: Instantaneous/1 minute
 Description: You create one of the following magical effects within range:
-Your voice booms up to three times as loud as normal for 1 minute.
-You cause flames to flicker, brighten, dim, or change color for 1 minute.
-You cause harmless tremors in the ground for 1 minute.
-You create a sound that originates from a point of your choice within range.
-You cause an unlocked door or window to fly open or slam shut.
-You alter the appearance of your eyes for 1 minute.
+
+* Your voice booms up to three times as loud as normal for 1 minute.
+* You cause flames to flicker, brighten, dim, or change color for 1 minute.
+* You cause harmless tremors in the ground for 1 minute.
+* You create a sound that originates from a point of your choice within range.
+* You cause an unlocked door or window to fly open or slam shut.
+* You alter the appearance of your eyes for 1 minute.
 If you cast this spell multiple times, you can have up to three of its 1-minute effects active at a time, and you can dismiss such an effect as an action.
 Save: 
 Ritual: False
@@ -706,7 +713,8 @@ Time: 1 action
 Range: 60 feet
 Components: V S
 Duration: Instantaneous
-Description: 
+Description: A creature you can see must pass a Wisdom save or take necrotic damage. If it's missing any hit points, the damage die is 1d12; otherwise, it's 1d8.
+The damage increases by one die when you reach 5th, 11th, and 17th level.
 Save: WIS
 Ritual: False
 Concentration: False
@@ -739,7 +747,8 @@ Time: 1 action
 Range: 60 feet
 Components: V
 Duration: Instantaneous
-Description: 
+Description: Choose a creature you can see. If it can hear you, it must pass a Wisdom save or take 1d4 psychic damage and have disadvantage on its next attack roll before the end of its next turn.
+The damage increases by 1d4 when you reach 5th, 11th, and 17th level.
 Save: WIS
 Ritual: False
 Concentration: False
@@ -754,7 +763,10 @@ Time: 1 action
 Range: 5 feet
 Components: V M (Holy symbol)
 Duration: Instantaneous
-Description: 
+Description: creature
+Constitution
+radiant
+The damage increases by 1d6 when you reach 5th, 11th, and 17th level.
 Save: CON
 Ritual: False
 Concentration: False
@@ -994,12 +1006,13 @@ Range: Touch
 Components: V S M (25gp of powdered silver; consumed)
 Duration: Instantaneous
 Description: When you cast the spell, choose one of the following rites, the target of which must be within 10 feet of you throughout the casting.
-Atonement: You touch one willing creature whose alignment has changed, and you make a DC 20 Insight check. On a success, you restore the target to its original alignment.
-Bless Water: You touch one vial of water and cause it to become holy water.
- Coming of Age: You touch one young adult humanoid. For the next 24 hours, whenever the target makes an ability check, it can roll a d4 and add the number rolled to the ability check. A creature can benefit from this rite only once.
-Dedication: You touch one humanoid who wishes to be dedicated to your god's service. For the next 24 hours, whenever the target makes a saving throw, it can roll a d4 and add the number rolled to the save. A creature can benefit from this rite only once.
- Funeral Rite: You touch one corpse, and for the next 7 days, the target can't become undead by any means short of a Wish spell.
-Wedding: You touch adult humanoids willing to be bonded together in marriage. For the next 7 days, each target gains a +2 bonus to AC while they are within 30 feet of each other. A creature can benefit from this rite again only if widowed.
+
+* Atonement: You touch one willing creature whose alignment has changed, and you make a DC 20 Insight check. On a success, you restore the target to its original alignment.
+* Bless Water: You touch one vial of water and cause it to become holy water.
+* Coming of Age: You touch one young adult humanoid. For the next 24 hours, whenever the target makes an ability check, it can roll a d4 and add the number rolled to the ability check. A creature can benefit from this rite only once.
+* Dedication: You touch one humanoid who wishes to be dedicated to your god's service. For the next 24 hours, whenever the target makes a saving throw, it can roll a d4 and add the number rolled to the save. A creature can benefit from this rite only once.
+* Funeral Rite: You touch one corpse, and for the next 7 days, the target can't become undead by any means short of a Wish spell.
+* Wedding: You touch adult humanoids willing to be bonded together in marriage. For the next 7 days, each target gains a +2 bonus to AC while they are within 30 feet of each other. A creature can benefit from this rite again only if widowed.
 Save: 
 Ritual: True
 Concentration: False
@@ -1028,7 +1041,6 @@ Description: Make a ranged spell attack against the target. On a hit, the target
 If you roll the same number on both d8s, the energy leaps to a different creature of your choice within 30 feet of the target. Make a new attack and damage roll.
 A creature can be targeted only once by each casting of this spell.
 At Higher Levels: Each target takes 1d6 extra damage of the type rolled for each slot level above 1st.
-References
 Save: ATK
 Ritual: False
 Concentration: False
@@ -1100,11 +1112,12 @@ Components: V
 Duration: 1 round
 Description: Choose a creature you can see to make a Wisdom save. If they fail, they follow a one-word command from you. The spell fails if the creature is undead, doesn't understand your language, if obeying the command will harm it, or if they can't follow the command.
 You may use any single word and the DM will interpret it as they feel is appropriate. Common commands and their effects are as follows:
-Approach: The target comes directly toward you and, if it is able to reach within 5 feet of you, it stops and ends its turn.
-Drop: The target drops whatever it is holding and then ends its turn.
-Flee: The target uses its turn to move directly away from you.
-Grovel: The target falls prone and then ends its turn.
-Halt: The target doesn't move and takes no actions. If a creature is flying and is able to stay aloft for the duration of the spell, it will move the minimum necessary for it to stay in the air.
+
+* Approach: The target comes directly toward you and, if it is able to reach within 5 feet of you, it stops and ends its turn.
+* Drop: The target drops whatever it is holding and then ends its turn.
+* Flee: The target uses its turn to move directly away from you.
+* Grovel: The target falls prone and then ends its turn.
+* Halt: The target doesn't move and takes no actions. If a creature is flying and is able to stay aloft for the duration of the spell, it will move the minimum necessary for it to stay in the air.
 At Higher Levels: You can affect one more creature for each slot level above 1st. The creatures must be within 30 feet of each other when you target them.
 Save: WIS
 Ritual: False
@@ -1376,7 +1389,8 @@ Time: 1 action
 Range: 60 feet
 Components: V
 Duration: Conc. Up to 1 minute
-Description: 
+Description: Blue, green, or violet lights outline objects inside a 20-foot cube of space. All creatures in the area make a Dexterity save or be cast in light as well. The light cast by this spell illuminates a 10-foot radius.
+Attacks against affected creatures are made with advantage, and affected creature or object (if applicable) will no longer be invisible.
 Save: DEX
 Ritual: False
 Concentration: True
@@ -1496,7 +1510,8 @@ Time: 1 action
 Range: 120 feet
 Components: V S
 Duration: 1 round
-Description: 
+Description: Make a ranged spell attack against a creature you can see. On a hit, the target takes 4d6 radiant damage, and before the end of your next turn, the next attack roll made on it has advantage.
+At Higher Levels: The damage increases by 1d6 for each slot level above 1st.
 Save: ATK
 Ritual: False
 Concentration: False
@@ -1825,7 +1840,9 @@ Time: 1 bonus action
 Range: Self
 Components: V
 Duration: Conc. Up to 1 minute
-Description: 
+Description: The next time you hit a creature with a melee weapon attack, the attack deals an extra 1d6 fire damage to the target and sets them on fire. The fire goes out if the spell is ended.
+At the start of its turns, the target must make a Constitution saving throw. On a failure, it takes 1d6 fire damage. On a success, the spell ends. If the target or a creature within 5 feet of it uses an action to put out the flames, or if some other effect puts out the flames, the spell ends.
+At Higher Levels: The initial extra damage dealt by the attack increases by 1d6 for each slot above 1st.
 Save: CON
 Ritual: False
 Concentration: True
@@ -1840,7 +1857,7 @@ Time: 1 reaction
 Range: Self
 Components: V S
 Duration: 1 round
-Description: 
+Description: Until the start of your next turn, you have a +5 bonus to AC. This includes the triggering attack. You also take no damage from Magic Missile.
 Save: 
 Ritual: False
 Concentration: False
@@ -2225,12 +2242,13 @@ Range: 120 feet
 Components: V S
 Duration: Instantaneous
 Description: When you cast this spell, choose one of the following effects:
-If there are any tracks on the ground, you know where they are, and you make Survival checks to follow them with advantage for 1 hour or until you cast this spell again.
- If there's edible forage, you know it and where to find it.
- If there's clean drinking water, you know it and where to find it.
- If there's suitable shelter for you and your companions, you know it and where to find.
- Send spirits to bring back wood for a fire and to set up a campsite in the area using your supplies.
- Have spirits instantly break down a campsite.
+
+* If there are any tracks on the ground, you know where they are, and you make Survival checks to follow them with advantage for 1 hour or until you cast this spell again.
+* If there's edible forage, you know it and where to find it.
+* If there's clean drinking water, you know it and where to find it.
+* If there's suitable shelter for you and your companions, you know it and where to find.
+* Send spirits to bring back wood for a fire and to set up a campsite in the area using your supplies.
+* Have spirits instantly break down a campsite.
 Save: 
 Ritual: False
 Concentration: True
@@ -2337,10 +2355,11 @@ Range: Self
 Components: V S M (25gp of marked stick-like trinkets)
 Duration: Instantaneous
 Description: Some otherworldly being gives you an omen through the use of some divining tool. Asking it about the result of something you intend to do in the next 30 minutes will reveal one of four omens:
-If things will turn out well, Weal,
-If they will turn out badly, Woe,
-If both good and bad, Weal and woe,
-or if nothing particularly good or bad will happen, you will see Nothing at all.
+
+* If things will turn out well, Weal,
+* If they will turn out badly, Woe,
+* If both good and bad, Weal and woe,
+* or if nothing particularly good or bad will happen, you will see Nothing at all.
 The otherworldly being isn't capable of accounting for changes in circumstances between now and doing the thing, and if you try to ask again before taking a long rest, there is a 25% chance the reading will be random.
 Save: 
 Ritual: True
@@ -2444,8 +2463,9 @@ Range: 60 feet
 Components: V S
 Duration: Conc. Up to 1 minute
 Description: Each humanoid in a 20-foot-radius sphere must make a Charisma saving throw. A creature can choose to fail this save. If a creature fails its saving throw, choose one of the following effects:
-You can suppress any effect causing them to be charmed or frightened. When this spell ends, any suppressed effect resumes, provided that its duration has not expired.
-You can make themÿindifferent about creatures of your choice that it is hostile toward. This indifference ends if the target takes damage or if it witnesses any of its friends being harmed.
+
+* You can suppress any effect causing them to be charmed or frightened. When this spell ends, any suppressed effect resumes, provided that its duration has not expired.
+* You can make themÿindifferent about creatures of your choice that it is hostile toward. This indifference ends if the target takes damage or if it witnesses any of its friends being harmed.
 When the spell ends, the creature becomes hostile again, unless the DM rules otherwise.
 Save: CHA
 Ritual: False
@@ -2517,7 +2537,8 @@ Time: 1 action
 Range: 120 feet
 Components: V S
 Duration: Conc. Up to 1 minute
-Description: 
+Description: A humanoid you can see makes a Wisdom save. If it fails, it becomes charmed by you and must use its action each turn to make a melee attack against a target of your choosingÿprior to making its movement. It can't target itself. You can choose no target and it will act normally, also doing so if there are no appropriate targets within its reach.
+You must use your action on every subsequent turn to maintain the spell or it fails. The charmed target may also make another Wisdom save at the end of each of its turns and end the spell on a success.
 Save: WIS
 Ritual: False
 Concentration: True
@@ -2651,12 +2672,13 @@ Range: Touch
 Components: V S M (Fur or feather)
 Duration: Conc. Up to 1 hour
 Description: A creature you touch gains one of the following effects until the spell ends.
-Bear's Endurance: The target has advantage on Constitution checks. It also gains 2d6 temporary hit points, which are lost when the spell ends.
- Bull's Strength: The target has advantage on Strength checks, and its carrying capacity doubles.
- Cat's Grace: The target has advantage on Dexterity checks. It also doesn't take damage from falling 20 feet or less if it isn't incapacitated.
- Eagle's Splendor: The target has advantage on Charisma checks.
- Fox's Cunning: The target has advantage on Intelligence checks.
- Owl's Wisdom: The target has advantage on Wisdom checks.
+
+* Bear's Endurance: The target has advantage on Constitution checks. It also gains 2d6 temporary hit points, which are lost when the spell ends.
+* Bull's Strength: The target has advantage on Strength checks, and its carrying capacity doubles.
+* Cat's Grace: The target has advantage on Dexterity checks. It also doesn't take damage from falling 20 feet or less if it isn't incapacitated.
+* Eagle's Splendor: The target has advantage on Charisma checks.
+* Fox's Cunning: The target has advantage on Intelligence checks.
+* Owl's Wisdom: The target has advantage on Wisdom checks.
 At Higher Levels: You can target one additional creature for each slot level above 2nd.
 Save: 
 Ritual: False
@@ -2676,8 +2698,9 @@ Components: V S M (Powdered iron)
 Duration: Conc. Up to 1 minute
 Description: Choose a creature or an object that is neither worn nor carried. If the target is unwilling, it can make a Constitution saving throw. On a success, the spell has no effect.
 If the target is a creature, everything it is wearing and carrying changes size with it. Any item dropped by an affected creature returns to normal size at once.
-Enlarge: The target's size doubles in all dimensions and its weight is multiplied by eight. If there isn't enough room, it attains the maximum possible size in the space available. Until the spell ends, the target also has advantage on Strength checks and saves. While the target's weapons are enlarged, they deal an extra 1d4 damage.
-Reduce: The target's size is halved in all dimensions and its weight is reduced to one-eighth. Until the spell ends, the target also has disadvantage on Strength checks and saving throws. While the target's weapons are reduced, they deal 1d4 less damage, but the damage can't be less than 1.
+
+* Enlarge: The target's size doubles in all dimensions and its weight is multiplied by eight. If there isn't enough room, it attains the maximum possible size in the space available. Until the spell ends, the target also has advantage on Strength checks and saves. While the target's weapons are enlarged, they deal an extra 1d4 damage.
+* Reduce: The target's size is halved in all dimensions and its weight is reduced to one-eighth. Until the spell ends, the target also has disadvantage on Strength checks and saving throws. While the target's weapons are reduced, they deal 1d4 less damage, but the damage can't be less than 1.
 Save: CON
 Ritual: False
 Concentration: True
@@ -2916,7 +2939,7 @@ Time: 1 action
 Range: Touch
 Components: V S
 Duration: Instantaneous
-Description: 
+Description: You touch a creature and end either one disease or one of the following conditions: blinded, deafened, paralyzed, or poisoned.
 Save: 
 Ritual: False
 Concentration: False
@@ -3139,8 +3162,9 @@ Range: Touch
 Components: V S M (Square of silk)
 Duration: 24 hours
 Description: Touch a creature or object. When you cast the spell, choose one or both of the following effects. The effect lasts for the duration. If you cast this spell on the same target with the same effect every day for 30 days, the illusion lasts until it's dispelled.
-False Aura: You change the way the target appears to spells and magical effects that detect magical auras. You can make a nonmagical object appear magical and vice versa, or change an object's magical aura so that it appears to belong to a specific school. You can make the false magic apparent to any creature that handles the item.
-Mask: You change the way the target appears to spells and magical effects that detect creature types. You choose a creature type and other spells and magical effects treat the target as if it were a creature of that type or of that alignment.
+
+* False Aura: You change the way the target appears to spells and magical effects that detect magical auras. You can make a nonmagical object appear magical and vice versa, or change an object's magical aura so that it appears to belong to a specific school. You can make the false magic apparent to any creature that handles the item.
+* Mask: You change the way the target appears to spells and magical effects that detect creature types. You choose a creature type and other spells and magical effects treat the target as if it were a creature of that type or of that alignment.
 Save: 
 Ritual: False
 Concentration: False
@@ -3225,7 +3249,10 @@ Time: 1 action
 Range: 60 feet
 Components: V S
 Duration: Instantaneous
-Description: 
+Description: Choose a nonmagical flame smaller than a 5-foot cube that you can see. You extinguish the fire and create fireworks or smoke when you do so.
+
+* Fireworks: The fire explodes. Each creature within 10 feet of the fire must pass a Constitution save or be blinded until the end of your next turn.
+* Smoke: Thick smoke spreads out in a 20-foot radius, moving around corners. The area is heavily obscured. The smoke lasts for 1 minute or until a strong wind disperses it.
 Save: CON
 Ritual: False
 Concentration: False
@@ -3651,10 +3678,11 @@ Range: Touch
 Components: V S
 Duration: Conc. Up to 1 minute
 Description: A creature you touch must make a Wisdom saving throw or receive one of the following curses:
-Disadvantage on ability checks and saves for an ability score of your choice
-Disadvantage on attacks against you
-Wastes turns unless it passes a Wisdom save at the start of each turn
-Takes an extra 1d8 necrotic damage whenever hit by one of your attacks or spells
+
+* Disadvantage on ability checks and saves for an ability score of your choice
+* Disadvantage on attacks against you
+* Wastes turns unless it passes a Wisdom save at the start of each turn
+* Takes an extra 1d8 necrotic damage whenever hit by one of your attacks or spells
 A DM can rule that another curse of your choosing is acceptable as long as its effect is on a level with the above options.
 The spell ends early if a Remove Curse spell is cast on the target.
 At Higher Levels: If you cast this spell using a 4th level slot, the possible duration is extended to 10 minutes. If you use a 5th or 6th level slot, the duration is 8 hours. If you use a 7th or 8th level slot, the duration is 24 hours. If you use a 9th level slot, the spell lasts until it is dispelled. Using a spell slot of 5th level or higher grants a duration that doesn't require concentration.
@@ -3763,10 +3791,11 @@ Range: 60 feet
 Components: V S
 Duration: Conc. Up to 1 hour
 Description: Fey appear in occupied spaces in range that you see. Choose one of the following options for what appears:
-1 beast of challenge rating 2 or lower
- 2 beasts of challenge rating 1 or lower
- 4 beasts of challenge rating 1/2 or lower
- 8 beasts of challenge rating 1/4 or lower
+
+* 1 beast of challenge rating 2 or lower
+* 2 beasts of challenge rating 1 or lower
+* 4 beasts of challenge rating 1/2 or lower
+* 8 beasts of challenge rating 1/4 or lower
 Each beast is considered fey and beast. It disappears when it drops to 0 hit points or when the spell ends.
 The beasts are friendly to you and your companions. They have their own initiative, but as a group. They obey any verbal commands that you issue to them, no action required. If you don't issue any commands to them, they only defend themselves from hostile creatures.
 At Higher Levels:ÿTwice as many creatures appear with a 5th-level slot, three times as many with a 7th-level slot, and four times as many with a 9th-level slot.
@@ -3980,7 +4009,11 @@ Time: 1 action
 Range: 150 feet
 Components: V S M (Bat guano, sulfur)
 Duration: Instantaneous
-Description: 
+Description: creature
+sphere
+Dexterity
+fire
+At Higher Levels: The damage increases by 1d6 for each level above 3rd.
 Save: DEX
 Ritual: False
 Concentration: False
@@ -4061,8 +4094,9 @@ Description: You inscribe a glyph either upon a surface or within an object that
 You can further refine the trigger so the spell activates only under certain circumstances or according to physical characteristics, creature kind, or alignment. You can also set conditions for creatures that don't trigger the glyph.
 The glyph is nearly invisible and requires a successful Investigation check to be found.
 When you inscribe the glyph, choose explosive runes or a spell glyph.
-Explosive Runes: When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. The sphere spreads around corners. Each creature must make a Dexterity save. A creature takes 5d8 acid, cold, fire, lightning, or thunder damage on a failure (your choice when you create the glyph), or half damage on a success.
- Spell Glyph: You can store a prepared spell of 3rd level or lower by casting it as part of creating the glyph. The spell must target a single creature or an area. The spell being stored has no immediate effect. When the glyph is triggered, the stored spell is cast. If the spell has a target, it targets the triggering creature. If the spell affects an area, the area is centered on that creature. If the spell summons hostile or harmful things, they appear as close as possible to the creature and attack it. If the spell requires concentration, it lasts for the full duration.
+
+* Explosive Runes: When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. The sphere spreads around corners. Each creature must make a Dexterity save. A creature takes 5d8 acid, cold, fire, lightning, or thunder damage on a failure (your choice when you create the glyph), or half damage on a success.
+* Spell Glyph: You can store a prepared spell of 3rd level or lower by casting it as part of creating the glyph. The spell must target a single creature or an area. The spell being stored has no immediate effect. When the glyph is triggered, the stored spell is cast. If the spell has a target, it targets the triggering creature. If the spell affects an area, the area is centered on that creature. If the spell summons hostile or harmful things, they appear as close as possible to the creature and attack it. If the spell requires concentration, it lasts for the full duration.
 At Higher Levels: The damage of an explosive rune glyph increases by 1d8 for each slot level above 3rd. If you create a spell glyph, you can store any spell of up to the same level as the slot you use for the glyph of warding.
 Save: 
 Ritual: False
@@ -4184,7 +4218,8 @@ Time: 1 action
 Range: Self (100ft line)
 Components: V S M (Fur, rod of amber/crystal/glass)
 Duration: Instantaneous
-Description: 
+Description: 100-foot long, 5-foot wide lightning strikes from you in a direction you choose. Each creature in the line must make a Dexterity save. The spell deals 8d6 lightning damage on a failed save, or half as much on a successful one. Flammable objects that aren't being worn or carried are ignited.
+At Higher Levels: The damage increases by 1d6 for each slot level above 3rd.
 Save: DEX
 Ritual: False
 Concentration: False
@@ -4203,9 +4238,10 @@ Range: 10 feet
 Components: V S M (Holy water/100gp of powdered silver and iron; consumed)
 Duration: 1 hour
 Description: A 10-foot-radius, 20-foot-tall cylinder of magical energy centered on a visible point on the ground appears. Choose one or more of the following types of creatures: celestials, elementals, fey, fiends, or undead. The circle affects a creature of the chosen type in the following ways:
-The creature can't willingly enter the cylinder by nonmagical means. If the creature tries to teleport or use interplanar travel, it must succeed on a Charisma save.
-The creature has disadvantage on attacks against targets in the cylinder.
-Targets within the cylinder can't be charmed, frightened, or possessed by the creature.
+
+* The creature can't willingly enter the cylinder by nonmagical means. If the creature tries to teleport or use interplanar travel, it must succeed on a Charisma save.
+* The creature has disadvantage on attacks against targets in the cylinder.
+* Targets within the cylinder can't be charmed, frightened, or possessed by the creature.
 When you cast this spell, you can elect to cause its magic to operate in the reverse direction, preventing a creature of the specified type from leaving the cylinder and protecting targets outside it.
 At Higher Levels: The duration increases by 1 hour for each slot level above 3rd.
 Save: CHA
@@ -4296,7 +4332,7 @@ Time: 1 action
 Range: Touch
 Components: V S M (25gp diamond dust; consumed)
 Duration: 8 hours
-Description: 
+Description: A target you touch can't be targeted by divination magic or seen through scrying. The target can be a creature, place, or object no larger than 10 feet in any dimension.
 Save: 
 Ritual: False
 Concentration: False
@@ -4583,7 +4619,10 @@ Time: 1 minute
 Range: Touch
 Components: V S
 Duration: 8 hours
-Description: 
+Description: Touch a Tiny nonmagical object that isn't attached to or carried by anything. It animates, and sprouts arms and legs. When it drops to 0 hit points, it reverts to its original form, and any remaining damage carries over.
+As a bonus action, you can mentally command the servant if it is within 120 feet of you. If you issue no commands, it does nothing other than defend itself against hostile creatures. Once given an order, the servant continues to follow that order until its task is complete.
+The servant is a Tiny, unaligned construct. It has 15 AC, 4d4 hit points, and a walking and climbing speed of 30 feet. It's immune to poison and psychic damage, and the blinded, charmed, deafened, exhaustion, frightened, paralyzed, petrified, and poisoned conditions. It knows no languages, has a passive perception of 10, and its only sight is 60 feet of blindsight. Per turn, it can make a single melee slam attack against one target, which deals 1d4+3 bludgeoning damage. It has a +5 to hit. Its ability scores are 4 strength, 16 dexterity, 10 constitution, 2 intelligence, 10 wisdom, and 1 charisma.
+At Higher Levels: You can animate two additional objects for each slot level above 3rd. You can command all on the same bonus action.
 Save: 
 Ritual: False
 Concentration: False
@@ -4601,7 +4640,7 @@ Time: 1 action
 Range: Touch
 Components: V M (Clay model of ziggurat)
 Duration: 1 hour
-Description: 
+Description: A creature you touch understands any spoken language it hears. When it speaks, any creature that knows at least one language can hear and understand it.
 Save: 
 Ritual: False
 Concentration: False
@@ -4689,7 +4728,7 @@ Time: 1 action (Ritual)
 Range: 30 feet
 Components: V S M (Cork)
 Duration: 1 hour
-Description: 
+Description: Up to 10 willing creatures you can see gain the ability to move across liquid as if it were solid ground. Lava still deals damage from its heat. If you target a creature submerged in liquid, the target floats to the surface at a rate of 60 feet per round.
 Save: 
 Ritual: True
 Concentration: False
@@ -4783,7 +4822,8 @@ Time: 1 action
 Range: 30 feet
 Components: V S M (Bat fur)
 Duration: Conc. Up to 1 hour
-Description: 
+Description: You create an invisible eye that hovers in the air. You mentally receive visual information from the eye. It has darkvision out to 30 feet and can look in every direction.
+As an action, you can move the eye up to 30 feet in any direction. There's no limit on how far away from you it can be, but it can't enter another plane. A solid barrier blocks the eye's movement, though it can pass through an opening at least 1 inch in diameter.
 Save: 
 Ritual: False
 Concentration: True
@@ -4912,7 +4952,13 @@ Time: 1 action
 Range: 90 feet
 Components: V S M (3 nut shells)
 Duration: Conc. Up to 1 minute
-Description: 
+Description: Each creature in a 10-foot-radius sphere makes a Wisdom save. On a success, nothing happens. On a failure, the target can't take reactions and must roll a d10 at the start of each of its turns. This determines its action that turn. At the end its turn, it can make a Wisdom save. If it succeeds, the spell ends.
+		1		Takes no action and uses all movement to go in a random direction. Assign a direction to each number of a d8 and roll it-- this determines the direction.
+		2-6		Doesn't move or take actions.
+		7/8		Makes a melee attack against a random creature in reach. If there's none, it does nothing.
+		9/10		Can act and move normally.
+
+At Higher Levels: The radius of the sphere increases by 5 feet for each slot level above 4th.
 Save: WIS
 Ritual: False
 Concentration: True
@@ -4930,10 +4976,11 @@ Range: 90 feet
 Components: V S
 Duration: Conc. Up to 1 hour
 Description: Elementals appear in unoccupied spaces that you can see. Choose one the following options:
-1 elemental of challenge rating 2 or lower
- 2 elementals of challenge rating 1 or lower
- 4 elementals of challenge rating 1/2 or lower
- 8 elementals of challenge rating 1/4 or lower.
+
+* 1 elemental of challenge rating 2 or lower
+* 2 elementals of challenge rating 1 or lower
+* 4 elementals of challenge rating 1/2 or lower
+* 8 elementals of challenge rating 1/4 or lower.
 An elemental disappears when it drops to 0 hit points or when the spell ends.
 The elementals are friendly to you and your companions. Roll initiative for the summoned creatures as a group. They obey any verbal commands that you issue to them, no action required from you. If you don't issue a commands, they do nothing but defend themselves from hostile creatures.
 At Higher Levels: Twice as many elementals appear if you cast this spell with a 6th-level slot, and three times as many appear with an 8th-level slot.
@@ -4954,10 +5001,11 @@ Range: 60 feet
 Components: V S M (Holly berry per creature)
 Duration: Conc. Up to 1 hour
 Description: Fey appear in unoccupied spaces you can see. Choose one of the following options for what appears:
-1 fey of challenge rating 2 or lower
-2 fey of challenge rating 1 or lower
-4 fey of challenge rating 1/2 or lower
-8 fey of challenge rating 1/4 or lower
+
+* 1 fey of challenge rating 2 or lower
+* 2 fey of challenge rating 1 or lower
+* 4 fey of challenge rating 1/2 or lower
+* 8 fey of challenge rating 1/4 or lower
 A creature disappears when it drops to 0 hit points or when the spell ends.
 The summoned creatures are friendly to you and your companions. Roll initiative for the summoned creatures as a group. They obey any verbal commands that you issue to them, no action required. If you don't issue any commands, the only action they take is defending themselves from hostile creatures.
 At Higher Levels:ÿWhen you cast this spell using higher-level slots, more creatures appear: twice as many with a 6th-level slot and three times as many with an 8th-level slot.
@@ -4978,10 +5026,11 @@ Range: 300 feet
 Components: V S M (Water, dust)
 Duration: Conc. Up to 10 minutes
 Description: You control any freestanding water inside a cube up to 100 feet on any side. You can choose one of the following effects. As an action, you can repeat the same effect or choose a different one.
-Flood: The water level rises by up to 20 feet. If the area includes a shore, the water spills onto land. The water level remains elevated until the spell ends or you choose a different effect. If you choose an area in a large body of water, you create a 20-foot tall wave that travels from one side of the area to the other, then crashes down. Any Huge or smaller vehicles in the wave's path are carried with. If struck by the wave, they have a 25% chance of capsizing. The wave repeats on the start of your next turn while the flood lasts.
- Part Water: You cause the water to move apart and create a trench. The trench extends across the spell's area. The separated water forms a wall to either side. The trench remains until the spell ends or you choose a different effect. Once the spell ends, the water refills in the trench over the course of the next round.
- Redirect Flow: You cause flowing water to move in a direction you choose, even if the water has to flow in unlikely directions. The water moves as you direct it, but once it's out of the spell's area, it resumes flow based on the terrain. The water moves until the spell ends or you choose a different effect.
- Whirlpool: You cause a whirlpool to form in the center of a body of water at least 50 feet wide and 25 feet deep. The whirlpool is a vortex 5 feet wide at the base, up to 50 feet wide at the top, and 25 feet tall. Any creature or object in the water and within 25 feet of the vortex is pulled 10 feet toward it. Swimming away requires an Athletics check. When a creature enters the vortex or starts its turn there, it must make a Strength save. On failure, it takes 2d8 bludgeoning damage and is caught in the vortex. On a success, it takes half damage and isn't caught. A creature caught can use its action to try to swim away, but has disadvantage the check. The first time an object enters the vortex, it takes 2d8 bludgeoning damage. This damage occurs each round it remains in the vortex.
+
+* Flood: The water level rises by up to 20 feet. If the area includes a shore, the water spills onto land. The water level remains elevated until the spell ends or you choose a different effect. If you choose an area in a large body of water, you create a 20-foot tall wave that travels from one side of the area to the other, then crashes down. Any Huge or smaller vehicles in the wave's path are carried with. If struck by the wave, they have a 25% chance of capsizing. The wave repeats on the start of your next turn while the flood lasts.
+* Part Water: You cause the water to move apart and create a trench. The trench extends across the spell's area. The separated water forms a wall to either side. The trench remains until the spell ends or you choose a different effect. Once the spell ends, the water refills in the trench over the course of the next round.
+* Redirect Flow: You cause flowing water to move in a direction you choose, even if the water has to flow in unlikely directions. The water moves as you direct it, but once it's out of the spell's area, it resumes flow based on the terrain. The water moves until the spell ends or you choose a different effect.
+* Whirlpool: You cause a whirlpool to form in the center of a body of water at least 50 feet wide and 25 feet deep. The whirlpool is a vortex 5 feet wide at the base, up to 50 feet wide at the top, and 25 feet tall. Any creature or object in the water and within 25 feet of the vortex is pulled 10 feet toward it. Swimming away requires an Athletics check. When a creature enters the vortex or starts its turn there, it must make a Strength save. On failure, it takes 2d8 bludgeoning damage and is caught in the vortex. On a success, it takes half damage and isn't caught. A creature caught can use its action to try to swim away, but has disadvantage the check. The first time an object enters the vortex, it takes 2d8 bludgeoning damage. This damage occurs each round it remains in the vortex.
 Save: 
 Ritual: False
 Concentration: True
@@ -5240,15 +5289,17 @@ Components: V
 Duration: Conc. Up to 1 minute
 Description: Choose one of the following forms to transform into. It lasts for the duration.
 Primal Beast:
-Your walking speed increases by 10 feet.
- You gain darkvision with a range of 120 feet.
- You make Strength-based attacks with advantage.
- Your melee weapon attacks deal an extra 1d6 force damage on a hit.
+
+* Your walking speed increases by 10 feet.
+* You gain darkvision with a range of 120 feet.
+* You make Strength-based attacks with advantage.
+* Your melee weapon attacks deal an extra 1d6 force damage on a hit.
 Great Tree:
-You gain 10 temporary hit points.
- You make Constitution saves with advantage.
- You make Dexterity- and Wisdom-based attacks with advantage.
- While you are on the ground, the ground 15 feet around you is difficult terrain for enemies.
+
+* You gain 10 temporary hit points.
+* You make Constitution saves with advantage.
+* You make Dexterity- and Wisdom-based attacks with advantage.
+* While you are on the ground, the ground 15 feet around you is difficult terrain for enemies.
 Save: 
 Ritual: False
 Concentration: True
@@ -5265,7 +5316,8 @@ Time: 10 minutes
 Range: 300 feet
 Components: V S M (Stone, twig, green plant)
 Duration: 24 hours
-Description: 
+Description: You make natural terrain in a 150-foot cube in range look, sound, and smell like some other natural terrain. Manufactured structures, equipment, and creatures within the area aren't changed in appearance.
+The base terrain is unchanged, so anyone entering the area can see through the illusion. If the difference isn't obvious by touch, a creature can attempt an Investigation check. A creature who learns it's an illusion sees it as a vague image over the terrain.
 Save: 
 Ritual: False
 Concentration: False
@@ -5282,7 +5334,8 @@ Time: 1 action
 Range: 300 feet
 Components: V S M (Dust, water)
 Duration: Instantaneous
-Description: 
+Description: Each creature in a 20-foot-radius, 40-foot-high cylinder must make a Dexterity save. A creature takes 2d8 bludgeoning and 4d6 cold damage on a failed save, or half on a success. Additionally, the area is difficult terrain until the end of your next turn.
+At Higher Levels: The bludgeoning damage increases by 1d8 for each slot level above 4th.
 Save: DEX
 Ritual: False
 Concentration: False
@@ -5354,12 +5407,13 @@ Components: V S M (Lead, opaque glass, cotton/cloth, powdered chrysolite)
 Duration: 24 hours
 Description: You make magically secure cube that's as small as 5 feet to as large as 100 feet on each side. The spell lasts for the duration or until you use an action to dismiss it.
 When you cast the spell, you decide what sort of security the spell provides, choosing any or all of the following properties:
-Sound can't pass through the area's barriers.
- The barrier prevents vision (including darkvision) through it.
- Sensors created by divination spells can't appear inside the area or pass through the barrier.
- Creatures in the area can't be targeted by divination spells.
- Nothing can teleport into or out of the area.
- Planar travel is blocked within the area.
+
+* Sound can't pass through the area's barriers.
+* The barrier prevents vision (including darkvision) through it.
+* Sensors created by divination spells can't appear inside the area or pass through the barrier.
+* Creatures in the area can't be targeted by divination spells.
+* Nothing can teleport into or out of the area.
+* Planar travel is blocked within the area.
 Casting this spell on the same spot every day for a year makes this effect permanent.
 At Higher Levels: You can increase the size of the cube by 100 feet for each slot level beyond 4th.
 Save: 
@@ -5484,7 +5538,7 @@ Time: 1 action
 Range: Touch
 Components: V S M (Soft clay)
 Duration: Instantaneous
-Description: 
+Description: Touch a stone object of Medium size or smaller, or a section of stone no more than 5 feet in any dimension, and form it into a shape. The object you make can have two hinges and a latch, but finer detail isn't possible.
 Save: 
 Ritual: False
 Concentration: False
@@ -5759,10 +5813,11 @@ Duration: Conc. Up to 1 minute
 Description: You create a Large hand of force in an unoccupied space that you can see. It moves at your command, mimicking the movements of your own hand.
 The hand is an object that has AC 20 and hit points equal to your hit point maximum. If it drops to 0 hp, the spell ends. It has a Strength of 26 and a Dexterity of 10. The hand doesn't fill its space.
 When you cast the spell, and as a bonus action on your subsequent turns, the hand can move up to 60 feet and cause one of the following effects:
-Clenched Fist: The hand strikes one creature or object within 5 feet. Make a melee spell attack using your statistics. On a successful hit, the target takes 4d8 force damage.
- Forceful Hand: The hand pushes a creature within 5 feet in a direction you choose. Make a check with the hand's Strength against the target's Athletics. If the target is Medium or smaller, you have advantage. If you succeed, the hand pushes the target up to 5 feet, plus a number of feet equal to five times your spellcasting modifier. The hand moves with the target.
- Grasping Hand: The hand grapples a Huge or smaller creature within 5 feet. You use the hand's Strength score to resolve the grapple. If the target is Medium or smaller, you have advantage. While grappling the target, you can use a bonus action to have the hand deal 2d6 + your spellcasting modifier of bludgeoning damage.
- Interposing Hand: The hand places itself between you and a creature of your choice until you give it a different command. It moves to stay between you and the target, providing you with half cover. The target can't move through the hand if its Strength is less than or equal to the hand's. If its score is higher than the hand's, the target can move toward you through the hand, but the space is difficult terrain.
+
+* Clenched Fist: The hand strikes one creature or object within 5 feet. Make a melee spell attack using your statistics. On a successful hit, the target takes 4d8 force damage.
+* Forceful Hand: The hand pushes a creature within 5 feet in a direction you choose. Make a check with the hand's Strength against the target's Athletics. If the target is Medium or smaller, you have advantage. If you succeed, the hand pushes the target up to 5 feet, plus a number of feet equal to five times your spellcasting modifier. The hand moves with the target.
+* Grasping Hand: The hand grapples a Huge or smaller creature within 5 feet. You use the hand's Strength score to resolve the grapple. If the target is Medium or smaller, you have advantage. While grappling the target, you can use a bonus action to have the hand deal 2d6 + your spellcasting modifier of bludgeoning damage.
+* Interposing Hand: The hand places itself between you and a creature of your choice until you give it a different command. It moves to stay between you and the target, providing you with half cover. The target can't move through the hand if its Strength is less than or equal to the hand's. If its score is higher than the hand's, the target can move toward you through the hand, but the space is difficult terrain.
 At Higher Levels: For each slot level above 5th, Clenched Fist's damage increases by 2d8, and Grasping Hand's increases by 2d6.
 Save: ATK, STR
 Ritual: False
@@ -5833,11 +5888,12 @@ Components: V S
 Duration: Instantaneous
 Description: In the outdoors, the spell gives you knowledge of the land within 3 miles of you. In caves and other natural underground settings, the radius is limited to 300 feet. The spell doesn't work where nature has been replaced by construction, such as in dungeons and towns.
 You instantly gain knowledge of up to three facts of your choice about any of the following subjects as they relate to the area:
-Terrain and bodies of water
-Prevalent plants, minerals, animals, or people
-Celestials, fey, fiends, elementals, or undead of CR 1 or higher
-Influence from other planes of existence
-Buildings
+
+* Terrain and bodies of water
+* Prevalent plants, minerals, animals, or people
+* Celestials, fey, fiends, elementals, or undead of CR 1 or higher
+* Influence from other planes of existence
+* Buildings
 Save: 
 Ritual: True
 Concentration: False
@@ -5923,12 +5979,13 @@ Components: V S
 Duration: 7 days
 Description: Make a melee spell attack. On hit, the target is poisoned.
 At the end of each of the target's turns, it makes a Constitution save. If the target succeeds on three of these saves, it is no longer poisoned, and the spell ends. If the target fails three of these saves, the target is no longer poisoned, but choose one of the diseases below. The target is subject to the chosen disease for the spell's duration
-Blinding Sickness: The target has disadvantage on Wisdom checks and saves, and is blinded.
- Filth Fever: The target has disadvantage on Strength checks, saves, and attack rolls that use Strength.
- Flesh Rot: The target has disadvantage on Charisma checks and is vulnerable to all damage.
- Mindfire: The target has disadvantage on Intelligence checks and saves, and during combat it acts as if it's under the effects of Confusion.
- Seizure: The target has disadvantage on Dexterity checks, saves, and attack rolls that use Dexterity.
- Slimy Doom: The target has disadvantage on Constitution checks and saves. Additionally, when it takes damage, it is stunned until the end of its next turn.
+
+* Blinding Sickness: The target has disadvantage on Wisdom checks and saves, and is blinded.
+* Filth Fever: The target has disadvantage on Strength checks, saves, and attack rolls that use Strength.
+* Flesh Rot: The target has disadvantage on Charisma checks and is vulnerable to all damage.
+* Mindfire: The target has disadvantage on Intelligence checks and saves, and during combat it acts as if it's under the effects of Confusion.
+* Seizure: The target has disadvantage on Dexterity checks, saves, and attack rolls that use Dexterity.
+* Slimy Doom: The target has disadvantage on Constitution checks and saves. Additionally, when it takes damage, it is stunned until the end of its next turn.
 Save: ATK, CON
 Ritual: False
 Concentration: False
@@ -5946,9 +6003,10 @@ Range: 300 feet
 Components: V S
 Duration: Conc. Up to 1 hour
 Description: You take control of the air in a 100-foot cube that you can see. Choose one of the following effects. The effect lasts for the duration, unless you use your action to switch to a different effect. You can also temporarily stop the effect or to restart one you've stopped.
-Gusts: Wind blows in a horizontal direction that you choose. Choose the intensity of the wind: calm, moderate, or strong. If the wind is moderate or strong, ranged weapon attacks that pass through it have disadvantage. If the wind is strong, any creature moving against the wind spends 1 extra foot of movement for each foot moved.
- Downdraft: Strong wind blows downward from the top of the cube. Ranged weapon attacks that pass through it have disadvantage. A creature must make a Strength save if it flies into the cube or starts its turn there flying. On a failed save, the creature is knocked prone.
- Updraft: You cause a sustained updraft from the cube's bottom side. Creatures that fall in the cube take only half damage. When a creature makes a vertical jump, it can jump 10 feet higher than normal.
+
+* Gusts: Wind blows in a horizontal direction that you choose. Choose the intensity of the wind: calm, moderate, or strong. If the wind is moderate or strong, ranged weapon attacks that pass through it have disadvantage. If the wind is strong, any creature moving against the wind spends 1 extra foot of movement for each foot moved.
+* Downdraft: Strong wind blows downward from the top of the cube. Ranged weapon attacks that pass through it have disadvantage. A creature must make a Strength save if it flies into the cube or starts its turn there flying. On a failed save, the creature is knocked prone.
+* Updraft: You cause a sustained updraft from the cube's bottom side. Creatures that fall in the cube take only half damage. When a creature makes a vertical jump, it can jump 10 feet higher than normal.
 Save: STR
 Ritual: False
 Concentration: True
@@ -6042,8 +6100,9 @@ Range: Self
 Components: V S M (Holy water/powdered silver and iron)
 Duration: Conc. Up to 1 minute
 Description: For the duration, celestials, elementals, fey, fiends, and undead not from the material plane have disadvantage on attack rolls against you. You can end the spell early by using either of the following special functions.
-Break Enchantment: Touch a creature that is charmed, frightened, or possessed by a celestial, elemental, fey, fiend, or undead. It's no longer under the effect.
-Dismissal: Make a melee spell attack against a celestial, elemental,  fey, fiend, or undead. On hit, it must pass a Charisma save or be sent back to its home plane if it isn't there. Undead are sent to Shadowfell and fey are sent to the Feywild.
+
+* Break Enchantment: Touch a creature that is charmed, frightened, or possessed by a celestial, elemental, fey, fiend, or undead. It's no longer under the effect.
+* Dismissal: Make a melee spell attack against a celestial, elemental,  fey, fiend, or undead. On hit, it must pass a Charisma save or be sent back to its home plane if it isn't there. Undead are sent to Shadowfell and fey are sent to the Feywild.
 Save: 
 Ritual: False
 Concentration: True
@@ -6176,10 +6235,11 @@ Range: Touch
 Components: V S M (100gp diamond dust; consumed)
 Duration: Instantaneous
 Description: Touch a creature. You can reduce its exhaustion level by one, or end one of the following effects on it:
-One effect that charmed or petrified it.
- One curse or attunement to a cursed item.
- Any reduction to one ability score.
- One effect reducing hit point maximum.
+
+* One effect that charmed or petrified it.
+* One curse or attunement to a cursed item.
+* Any reduction to one ability score.
+* One effect reducing hit point maximum.
 Save: 
 Ritual: False
 Concentration: False
@@ -6196,16 +6256,17 @@ Duration: Until dispelled
 Description: Touch an area. It can have a radius up to 60 feet, and the spell fails if the radius includes an area already affected by Hallow. The affected area is subject to the following effects.
 Celestials, elementals, fey, fiends, and undead can't enter the area, nor can they charm, frighten, or possess creatures in it. Any creature under said effect(s) by them is no longer affected after entering the area. You can exclude types of creatures from this.
 You can bind an extra effect to the area. Choose an effect from the following list. When a creature that would be affected enters the spell's area for the first time or starts its turn there, it can make a Charisma save. On a success, the creature ignores the extra effect until it leaves.
-Courage: Affected creatures can't be frightened while in the area.
- Darkness: Darkness fills the area. Normal and magical light lower than this spell's casted level, can't illuminate the area.
- Daylight: Bright light fills the area. Magical darkness lower than this spell's casted level, can't put it out.
- Energy Protection: Affected creatures in the area have resistance to one damage type of your choice, except for bludgeoning, piercing, or slashing.
- Energy Vulnerability: Affected creatures in the area have vulnerability to one damage type of your choice, except for bludgeoning, piercing, or slashing.
- Everlasting Rest: Dead bodies in the area can't be turned into undead.
- Extradimensional Interference: Affected creatures can't move or travel using teleportation or interplanar means.
- Fear: Affected creatures are frightened while in the area.
- Silence: No sound can emanate from within the area, and no sound can reach into it.
- Tongues: Affected creatures can communicate with any other creature in the area, even if they don't share a common language.
+
+* Courage: Affected creatures can't be frightened while in the area.
+* Darkness: Darkness fills the area. Normal and magical light lower than this spell's casted level, can't illuminate the area.
+* Daylight: Bright light fills the area. Magical darkness lower than this spell's casted level, can't put it out.
+* Energy Protection: Affected creatures in the area have resistance to one damage type of your choice, except for bludgeoning, piercing, or slashing.
+* Energy Vulnerability: Affected creatures in the area have vulnerability to one damage type of your choice, except for bludgeoning, piercing, or slashing.
+* Everlasting Rest: Dead bodies in the area can't be turned into undead.
+* Extradimensional Interference: Affected creatures can't move or travel using teleportation or interplanar means.
+* Fear: Affected creatures are frightened while in the area.
+* Silence: No sound can emanate from within the area, and no sound can reach into it.
+* Tongues: Affected creatures can communicate with any other creature in the area, even if they don't share a common language.
 Save: CHA
 Ritual: False
 Concentration: False
@@ -6243,7 +6304,6 @@ Components: V S
 Duration: Conc. Up to 1 hour
 Description: Until the spell ends, a weapon you touch emits bright light in a 30-foot radius and dim light for an additional 30 feet. Attacks made with it deal an extra 2d8 radiant damage on a hit. If it isn't already a magic weapon, it becomes one for the duration.
 As a bonus action, you can dismiss the spell and cause the weapon to release a burst of radiance. Each creature of your choice that you can see within 30 feet of the weapon must make a Constitution save. On a failure, it takes 4d8 radiant damage and it is blinded for 1 minute. On a successful save, it takes half damage and isn't blinded. At the end of each of its turns, a blinded creature can make a Constitution save, ending the blindness on a success.
-References
 Save: ATK, CON
 Ritual: False
 Concentration: True
@@ -6635,8 +6695,9 @@ Range: 60 feet
 Components: V S
 Duration: Conc. Up to 10 minutes
 Description: When you cast the spell, and as an action for the duration, you can cause one of the effects below on a creature or object that you can see. However, you cannot move anything beyond the spell's range. You can affect the same target, or choose a new one at any time. If you switch targets, the previous one is no longer affected by the spell.
-Creature: Choose a Huge or smaller creature. Make a spellcasting ability check against the creature's Strength check. If you win, you move the creature up to 30 feet in any direction. Until the end of your next turn, the creature is restrained. A creature lifted upward is suspended in mid-air. On subsequent rounds, you can use your action to maintain your grip by repeating the checks. 
- Object: You move an object that weighs up to 1,000 lbs and can do fine actions with it. If the object isn't worn or carried, you move it up to 30 feet in any direction. Otherwise, make a spellcasting ability check against the creature's Strength. If you succeed, you pull the object away and can move it up to 30 feet.
+
+* Creature: Choose a Huge or smaller creature. Make a spellcasting ability check against the creature's Strength check. If you win, you move the creature up to 30 feet in any direction. Until the end of your next turn, the creature is restrained. A creature lifted upward is suspended in mid-air. On subsequent rounds, you can use your action to maintain your grip by repeating the checks.
+* Object: You move an object that weighs up to 1,000 lbs and can do fine actions with it. If the object isn't worn or carried, you move it up to 30 feet in any direction. Otherwise, make a spellcasting ability check against the creature's Strength. If you succeed, you pull the object away and can move it up to 30 feet.
 Save: STR
 Ritual: False
 Concentration: True
@@ -6766,10 +6827,11 @@ Range: 120 feet
 Components: V S
 Duration: Conc. Up to 1 minute
 Description: Choose a point you can see. Spirits cause trees, rocks, and grasses in a 60-foot cube centered on that point to become animated until the spell ends.
-Grasses and Undergrowth: Any area in the cube covered by grass or undergrowth is difficult terrain for your enemies.
- Trees: At the start of your turns, enemies within 10 feet of any tree in the cube must pass a Dexterity save or take 4d6 slashing damage.
- Roots and Vines: At the end of your turns, one creature of your choice that is on the ground must pass a Strength save or become restrained until the spell ends. A restrained creature can use an action to make an Athletics check against your spell save DC. A success frees it.
- Rocks: As a bonus action, you can cause a loose rock to launch at a creature you can see. Make a ranged spell attack. On hit, the target takes 3d8 bludgeoning damage, and must pass a Strength save or fall prone.
+
+* Grasses and Undergrowth: Any area in the cube covered by grass or undergrowth is difficult terrain for your enemies.
+* Trees: At the start of your turns, enemies within 10 feet of any tree in the cube must pass a Dexterity save or take 4d6 slashing damage.
+* Roots and Vines: At the end of your turns, one creature of your choice that is on the ground must pass a Strength save or become restrained until the spell ends. A restrained creature can use an action to make an Athletics check against your spell save DC. A success frees it.
+* Rocks: As a bonus action, you can cause a loose rock to launch at a creature you can see. Make a ranged spell attack. On hit, the target takes 3d8 bludgeoning damage, and must pass a Strength save or fall prone.
 Save: STR, DEX, ATK
 Ritual: False
 Concentration: True
@@ -6788,11 +6850,12 @@ Components: V S
 Duration: Instantaneous
 Description: Above ground, this spell gives knowledge of the area within 1 mile of you. In sewers and other underground settings, you gain knowledge of the area within 600 feet of you.
 You learn up to three facts of your choice about any of the following subjects as they relate to the area:
-Terrain and bodies of water.
-Prevalent buildings, plants, animals, or intelligent creatures.
-Celestials, fey, fiends, elementals, or undead with a CR of 1 or higher.
-Influences from other planes of existence.
-Electrical currents, wireless signals, and active transit lines and tracks.
+
+* Terrain and bodies of water.
+* Prevalent buildings, plants, animals, or intelligent creatures.
+* Celestials, fey, fiends, elementals, or undead with a CR of 1 or higher.
+* Influences from other planes of existence.
+* Electrical currents, wireless signals, and active transit lines and tracks.
 Save: 
 Ritual: True
 Concentration: False
@@ -6846,7 +6909,9 @@ Time: 1 action
 Range: 500 feet
 Components: V S
 Duration: Conc. Up to 10 minutes
-Description: 
+Description: You create two linked portals, one at a point within 10 feet of you and another at a point within 500 feet. If the space is occupied by a creature, the spell fails and the casting is lost. The portal lasts for the duration.
+The portals are two-dimensional rings equal to 10 feet in diameter, hovering perpendicular to the ground. A ring is visible only from a side of your choice. This side functions as a portal.
+The portals block vision through them, and passing through a portal from the non-portal side has no effect. On your turn, you can rotate the rings as a bonus action.
 Save: 
 Ritual: False
 Concentration: True
@@ -7041,10 +7106,11 @@ Duration: 24 hours
 Description: You protect an area outdoors or underground as small as a 30-foot cube or as large as a 90-foot cube. Buildings and other structures are excluded from the area. If you cast this spell in the same area every day for a year, the spell lasts until dispelled.
 The spell creates the following effects. When you cast this spell, you can specify creatures who are immune to the effects. You can also make a password that makes whoever says it immune to these effects.
 The entire area radiates magic. Dispel Magic removes one effect, not the entire area. The caster chooses which effect to end. Only when all effects are gone is the grove dispelled.
-Solid Fog: You can fill any number of 5-foot squares on the ground with thick fog, making them heavily obscured. The fog reaches 10 feet high. Every foot of movement through the fog costs 2 extra feet. To a creature immune to this effect, the fog obscures nothing and looks like mist.
- Grasping Undergrowth: You can fill any number of 5-foot squares on the ground that aren't filled with fog with grasping weeds and vines, as if they were an Entangle spell. To a creature immune to this effect, the plants feel soft and reshape themselves to serve as temporary seats and beds. 
- Grove Guardians: You animate up to four trees in the area, causing them to uproot themselves. They have the same statistics as an awakened tree, except they can't speak and their bark is covered with druidic symbols. If a creature not immune to this effect enters the warded area, the guardians fight them until they have driven off or killed the intruders. The guardians also obey your spoken commands that you issue while in the area. If you don't give them commands and no intruders are present, the guardians do nothing. The guardians can't leave the warded area. When the spell ends, they are no longer animated and take root again if possible.
- Additional Spell Effect. You can place your choice of one of the following magical effects. To a creature immune to this effect, the winds are a gentle breeze and the Spike Growth is harmless.
+
+* Solid Fog: You can fill any number of 5-foot squares on the ground with thick fog, making them heavily obscured. The fog reaches 10 feet high. Every foot of movement through the fog costs 2 extra feet. To a creature immune to this effect, the fog obscures nothing and looks like mist.
+* Grasping Undergrowth: You can fill any number of 5-foot squares on the ground that aren't filled with fog with grasping weeds and vines, as if they were an Entangle spell. To a creature immune to this effect, the plants feel soft and reshape themselves to serve as temporary seats and beds.
+* Grove Guardians: You animate up to four trees in the area, causing them to uproot themselves. They have the same statistics as an awakened tree, except they can't speak and their bark is covered with druidic symbols. If a creature not immune to this effect enters the warded area, the guardians fight them until they have driven off or killed the intruders. The guardians also obey your spoken commands that you issue while in the area. If you don't give them commands and no intruders are present, the guardians do nothing. The guardians can't leave the warded area. When the spell ends, they are no longer animated and take root again if possible.
+* Additional Spell Effect. You can place your choice of one of the following magical effects. To a creature immune to this effect, the winds are a gentle breeze and the Spike Growth is harmless.
  A constant Gust of Wind in two locations of your choice
  Spike Growth in one location of your choice
  Wind Wall in two locations of your choice
@@ -7066,9 +7132,10 @@ Range: Self
 Components: V S
 Duration: Conc. Up to 1 minute
 Description: A creature you can see within 60 feet of you must pass a Wisdom save or be affected by one of the following effects of your choice. On each of your turns, you can use your action to target another creature, but can't target a creature that has succeeded on a save against this casting.
-Asleep: The target falls unconscious. It wakes up if it takes any damage, or if another creature uses its action to shake it awake.
- Panicked: The target is frightened of you. On each of its turns, it must take the Dash action and move away from you by the safest and shortest route, unless there's nowhere to move. If the target moves to a place at least 60 feet away from you and it can no longer see you, this effect ends.
- Sickened: The target has disadvantage on attack rolls and ability checks. At the end of each of its turns, it can make another Wisdom save. If it succeeds, the effect ends.
+
+* Asleep: The target falls unconscious. It wakes up if it takes any damage, or if another creature uses its action to shake it awake.
+* Panicked: The target is frightened of you. On each of its turns, it must take the Dash action and move away from you by the safest and shortest route, unless there's nowhere to move. If the target moves to a place at least 60 feet away from you and it can no longer see you, this effect ends.
+* Sickened: The target has disadvantage on attack rolls and ability checks. At the end of each of its turns, it can make another Wisdom save. If it succeeds, the effect ends.
 Save: WIS
 Ritual: False
 Concentration: True
@@ -7157,10 +7224,11 @@ Duration: 24 hours
 Description: You create a ward that protects 2,500 square feet of ground. This area can be a 50 feet square, one hundred 5-foot squares, or twenty-five 10-foot squares. The area can be up to 20 feet tall and shaped how you want. You can ward several stories of a building, dividing the area among them, as long as you can walk into each area while you're casting the spell.
 When you cast this spell, you can specify individuals to be immune to the effects of the spell. You can also specify a password that, when spoken, also provides immunity.
 The available options are as follows:
-Corridors: Fog makes the corridors heavily obscured. At each intersection, there is a 50% chance a creature will believe it's going in the opposite direction it chose. You are immune to this chance.
- Doors: All doors are magically locked as if by Arcane Lock. You can also hide up to ten doors with a Minor Illusion-like cover to make them appear as sections of the wall.
- Stairs: The stairs are filled with a Web. If burned or torn, the strands regrow in 10 minutes.
- Other Effects: You can place one of the following effects:
+
+* Corridors: Fog makes the corridors heavily obscured. At each intersection, there is a 50% chance a creature will believe it's going in the opposite direction it chose. You are immune to this chance.
+* Doors: All doors are magically locked as if by Arcane Lock. You can also hide up to ten doors with a Minor Illusion-like cover to make them appear as sections of the wall.
+* Stairs: The stairs are filled with a Web. If burned or torn, the strands regrow in 10 minutes.
+* Other Effects: You can place one of the following effects:
  Dancing Lights in four corridors. You can designate a simple program that the lights repeat.
  Magic Mouth in two locations.
  Stinking Cloud in two locations. The vapors return within 10 minutes if dispersed by wind .
@@ -7181,7 +7249,7 @@ Time: 1 action
 Range: 60 feet
 Components: V S
 Duration: Instantaneous
-Description: 
+Description: A creature you can see must make a Constitution save. It takes 14d6 necrotic damage on a fail, or half on a success. Also on a fail, its hit point maximum is reduced by the damage it took for 1 hour, but the spell can't reduce it below 1. Creatures immune to disease are unaffected by this spell, and effects that end disease relieve the reduced hit point maximum.
 Save: CON
 Ritual: False
 Concentration: False
@@ -7233,10 +7301,11 @@ Range: Self
 Components: V S
 Duration: Conc. Up to 10 minutes
 Description: Until the spell ends, you gain the following benefits:
-You shed bright light in a 30-foot radius, and dim light for an additional 30 feet.
- You are immune to fire damage and have resistance to cold damage.
- Any creature that moves within 5 feet of you for the first time on a turn or ends it there takes 1d10 fire damage.
- You can use your action to create a line of fire 15 feet long and 5 feet wide extending from you. Each creature in the line must make a Dexterity save. A creature takes 4d8 fire damage on a failed save, or half as much on a success.
+
+* You shed bright light in a 30-foot radius, and dim light for an additional 30 feet.
+* You are immune to fire damage and have resistance to cold damage.
+* Any creature that moves within 5 feet of you for the first time on a turn or ends it there takes 1d10 fire damage.
+* You can use your action to create a line of fire 15 feet long and 5 feet wide extending from you. Each creature in the line must make a Dexterity save. A creature takes 4d8 fire damage on a failed save, or half as much on a success.
 Save: DEX
 Ritual: False
 Concentration: True
@@ -7255,10 +7324,11 @@ Range: Self
 Components: V S
 Duration: Conc. Up to 10 minutes
 Description: Until the spell ends, you gain the following benefits:
-You are immune to cold damage and have resistance to fire damage.
- You ignore difficult terrain created by ice or snow.
- The ground in a 10-foot radius around you is icy and is difficult terrain.
- You can use your action to create a 15-foot cone of cold extending from you. Each creature in the cone must make a Constitution save. A creature takes 4d6 cold damage on a failed save, or half as much on a success. Failing this save halves their speed until the start of your next turn.
+
+* You are immune to cold damage and have resistance to fire damage.
+* You ignore difficult terrain created by ice or snow.
+* The ground in a 10-foot radius around you is icy and is difficult terrain.
+* You can use your action to create a 15-foot cone of cold extending from you. Each creature in the cone must make a Constitution save. A creature takes 4d6 cold damage on a failed save, or half as much on a success. Failing this save halves their speed until the start of your next turn.
 Save: CON
 Ritual: False
 Concentration: True
@@ -7276,7 +7346,11 @@ Time: 1 action
 Range: Self
 Components: V S
 Duration: Conc. Up to 10 minutes
-Description: 
+Description: You gain the following benefits:
+
+* You have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons.
+* You can use your action to shake the ground in a 15-foot radius centered on you. Other creatures on that ground must pass a Dexterity save or be knocked prone.
+* You ignore difficult terrain made of earth or stone. You can move through solid earth or stone as if it was air, but you can't end your movement there. If you do so, you are ejected to the nearest unoccupied space, the spell ends, and you are stunned until the end of your next turn.
 Save: DEX
 Ritual: False
 Concentration: True
@@ -7295,9 +7369,10 @@ Range: Self
 Components: V S
 Duration: Conc. Up to 10 minutes
 Description: Until the spell ends, you gain the following benefits:
-Ranged weapon attack rolls made against you have disadvantage.
- You gain a flying speed of 60 feet. If you are still flying when the spell ends, you fall, unless you can somehow prevent it.
- You can use your action to create a 15-foot windswept cube centered on a point you can see within 60 feet. Each creature in that area must make a Constitution save. A creature takes 2d10 bludgeoning damage on a failed save, or half as much on a success. If a Large or smaller creature fails the save, they're also pushed up to 10 feet away from the cube's center.
+
+* Ranged weapon attack rolls made against you have disadvantage.
+* You gain a flying speed of 60 feet. If you are still flying when the spell ends, you fall, unless you can somehow prevent it.
+* You can use your action to create a 15-foot windswept cube centered on a point you can see within 60 feet. Each creature in that area must make a Constitution save. A creature takes 2d10 bludgeoning damage on a failed save, or half as much on a success. If a Large or smaller creature fails the save, they're also pushed up to 10 feet away from the cube's center.
 Save: CON
 Ritual: False
 Concentration: True
@@ -7527,12 +7602,13 @@ Range: Self
 Components: V, S, M (a few hairs from a bull)
 Duration: Concentration, up to 10 minutes
 Description: You endow yourself with endurance and martial prowess fueled by magic. Until the spell ends, you can't cast spells, and you gain the following benefits:
-You gain 50 temporary hit points. If any of these remain when the spell ends, they are lost.
- You have advantage on attack rolls that you make with simple and martial weapons.
- When you hit a target with a weapon attack, that target takes an extra 2d12 force damage.
- You have proficiency with all armor, shields, simple weapons, and martial weapons.
- You have proficiency in Strength and Constitution saving throws.
- You attack twice, instead of once, when you take the Attack action on your turn. You ignore this benefit if you already have a feature, like Extra Attack, that gives you extra attacks.
+
+* You gain 50 temporary hit points. If any of these remain when the spell ends, they are lost.
+* You have advantage on attack rolls that you make with simple and martial weapons.
+* When you hit a target with a weapon attack, that target takes an extra 2d12 force damage.
+* You have proficiency with all armor, shields, simple weapons, and martial weapons.
+* You have proficiency in Strength and Constitution saving throws.
+* You attack twice, instead of once, when you take the Attack action on your turn. You ignore this benefit if you already have a feature, like Extra Attack, that gives you extra attacks.
 Immediately after this spell ends, you must succeed on a DC 15 Constitution saving throw or suffer one level of exhaustion.
 Save: 
 Ritual: False
@@ -7698,10 +7774,11 @@ Range: 30 feet
 Components: V
 Duration: Instantaneous
 Description: Choose any number of creatures you can see. Each creature that can hear you must make a Charisma save. On failure, a creature suffers an effect based on its current hit points:
-50 HP or less: deafened for 1 minute
- 40 HP or less: deafened and blinded for 10 minutes
- 30 HP or less: blinded, deafened, and stunned for 1 hour
- 20 HP or less: killed
+
+* 50 HP or less: deafened for 1 minute
+* 40 HP or less: deafened and blinded for 10 minutes
+* 30 HP or less: blinded, deafened, and stunned for 1 hour
+* 20 HP or less: killed
 Regardless of its current hit points, a celestial, an elemental, a fey, or a fiend that fails its save is forced back to its plane of origin and can't return for 24 hours by any means short of Wish.
 Save: CHA
 Ritual: False
@@ -7848,7 +7925,9 @@ Time: 1 action
 Range: Touch
 Components: V S M (250gp forked metal rod attuned to destination plane)
 Duration: Instantaneous
-Description: 
+Description: You and up to eight willing creatures who link hands in a circle are transported to a different plane. You can specify a target destination in general or specific terms, and you appear in or near that destination.
+Alternatively, if you know the sigil sequence of a teleportation circle on another plane, this spell can take you to that circle. If the circle is too small to hold everyone, they appear in the closest unoccupied spaces.
+You can use this spell to banish an unwilling creature to another plane. Make a melee spell attack against a creature in reach. On a hit, the creature must make a Charisma save. If the creature fails, it is transported to a random location on the plane you specify. It must find its own way back to your plane.
 Save: CHA
 Ritual: False
 Concentration: False
@@ -7881,7 +7960,15 @@ Time: 1 action
 Range: Self (60ft cone)
 Components: V S
 Duration: Instantaneous
-Description: 
+Description: Each creature in range must make a Dexterity save. Roll a d8 per target to determine what effect it suffers.
+		1		Takes 10d6 fire damage; half on a success
+		2		Takes 10d6 acid damage; half on a success
+		3		Takes 10d6 lightning damage; half on a success
+		4		Takes 10d6 poison damage; half on a success
+		5		Takes 10d6 cold damage; half on a success
+		6		Restrained. Makes a Constitution save at the end of its turns. At 3 saves, it's freed. At 3 fails, it permanently turns to stone and is petrified.
+		7		Blinded. Makes a Wisdom save at the start of your next turn. On a save, it's not blinded anymore. On a fail, it's transported to another plane of existence (DM's choice) and isn't blinded anymore.
+		8		Suffers two effects. Roll 1d8 twice, rerolling any 8s.
 Save: DEX
 Ritual: False
 Concentration: False
@@ -8003,14 +8090,15 @@ Description: You inscribe a glyph either upon a surface or within an object that
 You can further refine the trigger so the spell activates only under certain circumstances or according to physical characteristics, creature kind, or alignment. You can also set conditions for creatures that don't trigger the glyph.
 The glyph is nearly invisible and requires a successful Investigation check to be found.
 When you inscribe the glyph, choose one of the options below. Once triggered, the glyph glows a 60-foot-radius dim light sphere for 10 minutes, after which the spell ends. Each creature in the sphere when the glyph activates, and any creature that enters the sphere or ends its turn there, is affected.
-Death: Each target must make a Constitution save, taking 10d10 necrotic damage on a failed save, or half on a success.
- Discord: Each target must make a Constitution save. On a failed save, a target is incapable of meaningful communication and has disadvantage on attack rolls and ability checks for 1 minute.
- Fear: Each target must pass a Wisdom saving throw or become frightened for 1 minute. While frightened, the target drops whatever it's holding and moves at least 30 feet away from the glyph on each of its turns.
- Hopelessness: Each target must make a Charisma save. On a failed save, the target can't attack or target any creature with harmful abilities, spells, or other magical effects for 1 minute.
- Insanity: Each target must make an Intelligence save. On a failed save, the target can't take actions, can't understand what others say, can't read, speaks gibberish, and has erratic movement for 1 minute.
- Pain: Each target must pass a Constitution save or incapacitated for 1 minute.
- Sleep: Each target must pass a Wisdom saving throw or fall unconscious for 10 minutes. A creature awakens if it takes damage or if someone uses an action to wake it up.
- Stunning: Each target must pass a Wisdom saving throw or become stunned for 1 minute.
+
+* Death: Each target must make a Constitution save, taking 10d10 necrotic damage on a failed save, or half on a success.
+* Discord: Each target must make a Constitution save. On a failed save, a target is incapable of meaningful communication and has disadvantage on attack rolls and ability checks for 1 minute.
+* Fear: Each target must pass a Wisdom saving throw or become frightened for 1 minute. While frightened, the target drops whatever it's holding and moves at least 30 feet away from the glyph on each of its turns.
+* Hopelessness: Each target must make a Charisma save. On a failed save, the target can't attack or target any creature with harmful abilities, spells, or other magical effects for 1 minute.
+* Insanity: Each target must make an Intelligence save. On a failed save, the target can't take actions, can't understand what others say, can't read, speaks gibberish, and has erratic movement for 1 minute.
+* Pain: Each target must pass a Constitution save or incapacitated for 1 minute.
+* Sleep: Each target must pass a Wisdom saving throw or fall unconscious for 10 minutes. A creature awakens if it takes damage or if someone uses an action to wake it up.
+* Stunning: Each target must pass a Wisdom saving throw or become stunned for 1 minute.
 Save: 
 Ritual: False
 Concentration: False
@@ -8038,18 +8126,20 @@ The destination must be a place you know and is on the same plane of existence. 
 		False destination		1-50		51-100		X		X
 
 Familiarity:
-Permanent circle refers to a permanent teleportation circle you know.
- Associated object means you have an item from the destination, taken in the last 6 months.
- Very familiar is a place you've been to often, studied a lot, or a place you can see at casting.
- Seen casually is some place you've seen more than once.
- Viewed once is a place you've seen once.
- Description is a place that you only know through words, not first-hand experience.
- False destination is a place that doesn't exist. If you're teleporting to a familiar place that no longer exists, it would be rolled as a false destination.
+
+* Permanent circle refers to a permanent teleportation circle you know.
+* Associated object means you have an item from the destination, taken in the last 6 months.
+* Very familiar is a place you've been to often, studied a lot, or a place you can see at casting.
+* Seen casually is some place you've seen more than once.
+* Viewed once is a place you've seen once.
+* Description is a place that you only know through words, not first-hand experience.
+* False destination is a place that doesn't exist. If you're teleporting to a familiar place that no longer exists, it would be rolled as a false destination.
 Results:
-On target means you appear where you meant to.
- Off target means you appear at a d10 x d10 percent of the distance that was traveled away from the destination. The direction is random, determined by a d8. 1 is north, and each number's direction progresses clockwise.
- Similar area means you appear in a different area that's visually or thematically similar to the destination.
- Mishap means everything being teleported takes 3d10 force damage and the d100 is rolled again. Multiple mishaps can occur and deal damage each time.
+
+* On target means you appear where you meant to.
+* Off target means you appear at a d10 x d10 percent of the distance that was traveled away from the destination. The direction is random, determined by a d8. 1 is north, and each number's direction progresses clockwise.
+* Similar area means you appear in a different area that's visually or thematically similar to the destination.
+* Mishap means everything being teleported takes 3d10 force damage and the d100 is rolled again. Multiple mishaps can occur and deal damage each time.
 Save: 
 Ritual: False
 Concentration: False
@@ -8138,7 +8228,10 @@ Time: 1 action
 Range: 30 feet
 Components: V S
 Duration: Conc. Up to 24 hours
-Description: 
+Description: creatures
+beast
+A target takes the beast's statistics except for alignment, Intelligence, Wisdom, and Charisma. It also gains the hit points of the beast and is at the maximum health for said beast. While in this form, the target can't speak or cast spells and can only do the actions that the beast could.
+If a target hits 0 hit points, it reverts to its normal form and resumes the number of hit points it had before transforming. If there is excess damage, it deducts from the target's resumed hit points. However, as long as its normal form isn't reduced to 0 hit points, it isn't knocked unconscious.
 Save: 
 Ritual: False
 Concentration: True
@@ -8154,7 +8247,9 @@ Time: 1 action
 Range: Self (10ft radius)
 Components: V S M (Iron filings/powder iron)
 Duration: Conc. Up to 1 hour
-Description: 
+Description: A 10-foot-radius invisible sphere surrounds you. Within the sphere, spells can't be cast, summoned creatures disappear, and magic items become normal. The sphere moves with you. Summoned creatures re-appear once the sphere leaves their space, and magic items are restored upon being removed from the sphere.
+Magical effects, except those created by an artifact or a deity, are suppressed in the sphere and can't enter or affect things within it. A slot expended to cast a suppressed spell is consumed. While an effect is suppressed, it doesn't function, but the time it spends suppressed counts against its duration.
+The sphere cannot be dispelled by magic, nor can two antimagic fields suppress each other.
 Save: 
 Ritual: False
 Concentration: True
@@ -8169,7 +8264,10 @@ Time: 1 hour
 Range: 60 feet
 Components: V S M (Vinegar-soaked alum (antipathy)/honey (sympathy)
 Duration: 10 days
-Description: 
+Description: Choose a Huge or smaller object, creature, or area no bigger than a 200-foot cube, then specify an intelligent creature. The target gains an aura of antipathy, which repels the intelligent creature, or sympathy, which draws the creature to it. You choose the aura.
+In the antipathy aura, creatures of the chosen type must make a Wisdom save if they can see the target or when they come within 60 feet of it. If it fails, it's frightened and must use its movement to get to the nearest safe spot where it can't see the target. If the creature gets more than 60 feet away and can't see the target, they are no longer frightened but will become so again if they get within the aura or see the target.
+The sympathy aura causes creatures of the chosen type to pass a Wisdom save, or use their movement to enter the area if they see the target or move within reach of the target if they're within 60 feet. Once the creature has done so, it can't willingly move away. If the target harms the creature, it can make another Wisdom save.
+If the creature successfully saves, it's no longer affected by the target and recognizes the feeling as magical. Additionally, a creature affected can make a Wisdom save every 24 hours. Any creature that successfully saves is immune for 1 minute, then can be affected again.
 Save: WIS
 Ritual: False
 Concentration: False
@@ -8183,7 +8281,8 @@ Time: 1 hour
 Range: Touch
 Components: V S M (1000gp diamond, 1 cubic inch of target's flesh; consumed, 2000gp Medium-sized container with a lid)
 Duration: Instantaneous
-Description: 
+Description: A clone of a creature you touch forms inside a sealed container and grows to full size over a period of 120 days. If desired, the clone becomes a younger version of the target. As long as the container is undisturbed, the clone remains and doesn't age or move.
+After the clone is matured, if the target dies, its soul goes into the clone if possible. The clone is identical to the target and retains personality, memories, and abilities. It does not have the same equipment. The target's corpse can't be restored to life.
 Save: 
 Ritual: False
 Concentration: False
@@ -8200,7 +8299,17 @@ Time: 10 minutes
 Range: Self (5-mile radius)
 Components: V S M (Burning incense, earth and wood in water)
 Duration: Conc. Up to 8 hours
-Description: 
+Description: You take control of the weather within 5 miles of you. You must be outdoors. If you move to a place where you don't have a clear path to the sky, the spell ends early.
+When you cast the spell, you change the current weather conditions. It takes 1d4 x 10 minutes for the new conditions to take effect. Once they do, you can change the conditions again. When the spell ends, the weather gradually returns to normal.
+When you change the weather conditions, find a condition on the table and change its stage by one. When changing the wind, you can change its direction.
+		Precipitation		Temperature		Wind
+		Stage		Condition		Stage		Condition		Stage		Condition
+		1		Clear		1		Unbearable heat		1		Calm
+		2		Light clouds		2		Hot		2		Moderate wind
+		3		Overcast or ground fog		3		Warm		3		Strong Wind
+		4		Rain, hail or snow		4		Cool		4		Gale
+		5		Heavy rain, hail, or snow		5		Cold		5		Storm
+		X		6		Arctic cold		X
 Save: 
 Ritual: False
 Concentration: False
@@ -8215,7 +8324,8 @@ Time: 1 action
 Range: 60 feet
 Components: S
 Duration: 1 hour
-Description: 
+Description: A door sized for Medium creatures appears on a flat, solid surface. It leads to a demiplane that is an empty room sized 30ft x 30ft x 30ft. The room is made of wood or stone. When the spell ends, the door disappears, and anything inside the demiplane is trapped there.
+When you cast the spell, you can make a new demiplane, connect to an old one you created, or connect to one another creature made if you know the nature and contents of the demiplane.
 Save: 
 Ritual: False
 Concentration: False
@@ -8257,8 +8367,9 @@ Duration: Conc. Up to 1 minute
 Description: For the duration, an intense tremor rips through the ground in a 100-foot-radius circle centered on a point you can see. The ground in the area becomes difficult terrain. Each creature on the ground must make a concentration save if applicable.
 When you cast this spell, and at the end of your turns, each creature on the ground in the area must make a Dexterity saving throw. On a failure, it's knocked prone.
 This spell can have additional effects depending on the terrain in the area, as determined by the DM.
-Fissures: 1d6 fissures open in the spell's area at the start of your next turn in locations chosen by the DM. Each is 1d10 x 10 feet deep, 10 feet wide, and extends from one edge of the spell's area to the opposite side. A creature standing on a spot where a fissure opens must pass a Dexterity save or fall in. A creature that saves moves with the fissure's edge. A fissure that opens beneath a structure causes it to automatically collapse.
- Structures: The tremor deals 50 bludgeoning damage to any structure in contact with the ground when you cast the spell and at the start of your turns. If a structure drops to 0 hit points, it collapses. Any creature within half the distance of the structure's height must make a Dexterity save. On a failure, it takes 5d6 bludgeoning damage, is knocked prone, and is buried in the rubble. It can make a DC 20 Athletics check as an action to escape. The DM can adjust the DC depending on the nature of the rubble. On a successful save, the creature takes half as much damage and doesn't fall prone or become buried.
+
+* Fissures: 1d6 fissures open in the spell's area at the start of your next turn in locations chosen by the DM. Each is 1d10 x 10 feet deep, 10 feet wide, and extends from one edge of the spell's area to the opposite side. A creature standing on a spot where a fissure opens must pass a Dexterity save or fall in. A creature that saves moves with the fissure's edge. A fissure that opens beneath a structure causes it to automatically collapse.
+* Structures: The tremor deals 50 bludgeoning damage to any structure in contact with the ground when you cast the spell and at the start of your turns. If a structure drops to 0 hit points, it collapses. Any creature within half the distance of the structure's height must make a Dexterity save. On a failure, it takes 5d6 bludgeoning damage, is knocked prone, and is buried in the rubble. It can make a DC 20 Athletics check as an action to escape. The DM can adjust the DC depending on the nature of the rubble. On a successful save, the creature takes half as much damage and doesn't fall prone or become buried.
 Save: CON, DEX
 Ritual: False
 Concentration: True
@@ -8291,7 +8402,7 @@ Time: 1 action
 Range: Self
 Components: V
 Duration: 1 hour
-Description: 
+Description: You can replace the rolls of Charisma checks with a 15, and all magic that detects truthfulness indicates that you're being so.
 Save: 
 Ritual: False
 Concentration: False
@@ -8321,7 +8432,9 @@ Time: 1 action
 Range: 120 feet
 Components: S
 Duration: Conc. Up to 1 minute
-Description: 
+Description: A Huge shadowy dragon appears in an unoccupied space you can see, and occupies it. When the illusion first appears, enemies of you make a Wisdom save against being frightened of it for 1 minute. If a frightened creature ends its turn in a place where it doesn't have line of sight on the dragon, it can repeat the save.
+As a bonus action, you can move the illusion up to 60 feet. During this movement, you can have the dragon make an attack in a 60-foot cone originating from its position. When you first make the dragon, choose a damage type: acid, cold, fire, lightning, necrotic, or poison. Creatures in the cone make an Intelligence save, taking 7d6 damage of the picked type on a failure or half on a success.
+Any attack made on the dragon miss, it succeeds all saves, and it's immune to damage and conditions. A creature can use its action to make an Investigation check against your spell DC. If it passes, it can see through the illusion and has advantage on saving throws against its breath weapon.
 Save: 
 Ritual: False
 Concentration: True
@@ -8386,7 +8499,12 @@ Time: 1 minute
 Range: 1 mile
 Components: V S M (500gp diamond; consumed)
 Duration: Instantaneous
-Description: 
+Description: A square fortress of stone appears from the ground at an area you can see. The area must be 120 feet on each side and not have any buildings or other structures in it. Creatures in the area are harmlessly lifted.
+The fortress has four turrets with square bases that are 20 feet wide and 30 feet tall. There is one turret on each corner. The turrets are connected by 80-feet-long stone walls that are 1 foot thick and made of panels that are 10 feet wide and 20 feet tall. You can place up to four doors on the outer wall.
+A square keep, 50 feet on each side with three 10-foot-high floors, is in the center of the fortress. The floors can have as many rooms as desired, but each one must be at least 5 feet on each side. Rooms can be connected by doors or archways and have whatever furniture desired. The keep also has food to serve a nine-course meal to 100 people each day. If objects in the keep are taken outside the fortress, they become dust. The keep's floors are connected by staircases. Each wall of the keep is 6 inches thick.
+100 invisible servants come with the fortress and can be commanded by creatures you pick when you cast the spell. The servants act as though made by Unseen Servant.
+Each 10x10ft section of the fortress has 30 hit points and 15 AC per inch of thickness, and is immune to poison and psychic damage. If a section is reduced to 0 hit points, it's destroyed, and the DM may rule other sections collapse as well.
+If the spell is cast elsewhere or 7 days pass, the fortress sinks back into the ground. Creatures inside it are harmlessly set on the ground. Casting this spell every 7 days for a year makes the fortress permanent.
 Save: 
 Ritual: False
 Concentration: False
@@ -8482,7 +8600,12 @@ Time: 1 hour
 Range: 10 feet
 Components: V S M (Per target: 1000gp jacinth, 100gp silver bar; consumed)
 Duration: Special
-Description: 
+Description: You and up to eight willing creatures within range project yourselves into the Astral Plane. The material body you leave behind is unconscious and in a state of suspended animation.
+Your astral body resembles your normal form in almost every way. The main difference is a cord that extends from your back and trails behind you, fading to invisibility after 1 foot. This cord is your tether to your material body. If the cord is cut, you die instantly.
+Your astral form can pass through portals leading to any other plane. If you enter a new plane or return to the plane you were on, your body and possessions are transported, allowing you to re-enter your body. Any damage or other effects that apply to your astral form have no effect on your physical body, nor do they persist when you return to it.
+The spell ends for you and your companions when you use your action to dismiss it. When the spell ends, the affected creature returns to its physical body and awakens.
+A successful Dispel Magic spell used against an astral or physical body ends the spell for that creature. If a creature's original body or astral form drops to 0 hit points, the spell ends for it and it returns to its body.
+If you are returned to your body prematurely, your companions remain in their astral forms and must find their own way back to their bodies.
 Save: 
 Ritual: False
 Concentration: False
@@ -8516,7 +8639,11 @@ Time: 1 action
 Range: 60 feet
 Components: V S M (5000gp diamond)
 Duration: Conc. Up to 1 minute
-Description: 
+Description: You make a portal in an unoccupied space you can see that goes to a precise location on a different plane of existence. The portal is a circular opening 5 to 20 feet in diameter. You can orient the portal in any direction you choose. The portal lasts for the duration.
+The portal has a front and a back, but travel is only possible through the front. Anything that moves through it is instantly transported to the other plane, appearing in the nearest unoccupied space.
+Planar rulers can prevent portals from opening in their presence or anywhere in their domains.
+When you cast this spell, you can say the name of a specific creature and it will be pulled to the nearest unoccupied space next to you.
+?If that creature is on a plane other than the one you are on, the portal opens in the named creature's immediate vicinity and draws the creature through it to the nearest unoccupied space on your side of the portal.ÿ You gain no special power over the creature and it's free to act as desired.
 Save: 
 Ritual: False
 Concentration: True
@@ -8716,10 +8843,11 @@ Components: V S
 Duration: Conc. Up to 1 minute
 Description: A 360-foot-radius storm cloud appears in the sky at a point you can see. Each creature less than 5,000 feet below the cloud makes a Constitution save when it appears, taking 2d6 thunder damage and being deafened for 5 minutes if they fail.
 The longer you concentrate on this spell, the more effects will occur. Each takes place on a specific round.
-Round 2: Each creature and object under the cloud takes 1d6 acid damage.
- Round 3: Six lightning bolts all strike different creatures or objects of your choice. A struck creature makes a Dexterity save, taking 10d6 lightning damage if they fail and half if they succeed.
- Round 4: Each creature under the cloud takes 2d6 bludgeoning damage.
- Round 5-10: The area under the cloud becomes difficult terrain and is heavily obscured. In addition, each creature takes 1d6 cold damage and ranged weapon attacks in the area are impossible. Any fog, mists, and the like, magical or not, are dispersed due to strong winds. The storm is a severe distraction to maintaining concentration on a spell.
+
+* Round 2: Each creature and object under the cloud takes 1d6 acid damage.
+* Round 3: Six lightning bolts all strike different creatures or objects of your choice. A struck creature makes a Dexterity save, taking 10d6 lightning damage if they fail and half if they succeed.
+* Round 4: Each creature under the cloud takes 2d6 bludgeoning damage.
+* Round 5-10: The area under the cloud becomes difficult terrain and is heavily obscured. In addition, each creature takes 1d6 cold damage and ranged weapon attacks in the area are impossible. Any fog, mists, and the like, magical or not, are dispersed due to strong winds. The storm is a severe distraction to maintaining concentration on a spell.
 Save: CON
 Ritual: False
 Concentration: True
@@ -8774,7 +8902,9 @@ Time: 1 hour
 Range: Touch
 Components: V S M (Holy water, 25000gp diamonds; consumed)
 Duration: Instantaneous
-Description: 
+Description: You touch a creature that has been dead for no longer than 200 years and that died for any reason except old age. If the creature's soul is free and willing, it's restored to life with all its hit points.
+This spell closes all wounds, neutralizes any poison, cures all diseases, and lifts any curses. The spell replaces damaged or missing organs and limbs. If the creature was undead, it is restored to its non-undead form.
+The spell can provide a new body if the original no longer exists, in which case you must speak the creature's name. The creature appears in an unoccupied space you choose within 10 feet of you.
 Save: 
 Ritual: False
 Concentration: False
@@ -8808,16 +8938,18 @@ Components: V
 Duration: Instantaneous
 Description: You can duplicate a spell of level 8 or lower without needing to meet any requirements, material components with a cost included.
 Alternatively, you create one of the following effects:
-A non-magic item worth up to 25,000 gp appears in an empty space on the ground. It can't be more than 300 feet in any dimension.
- Up to 20 creatures you can see regain all hit points and end all effects listed in Greater Restoration.
- Up to 10 creatures you can see gain resistance to a damage type you choose.
- Up to 10 creatures you can see gain immunity to a spell or other magical effect for 8 hours.
- You force a re-roll of any roll made within the last round, your turn included. You can force the re-roll to be made with advantage or disadvantage. Additionally, you can choose whether or not to use the re-roll.
+
+* A non-magic item worth up to 25,000 gp appears in an empty space on the ground. It can't be more than 300 feet in any dimension.
+* Up to 20 creatures you can see regain all hit points and end all effects listed in Greater Restoration.
+* Up to 10 creatures you can see gain resistance to a damage type you choose.
+* Up to 10 creatures you can see gain immunity to a spell or other magical effect for 8 hours.
+* You force a re-roll of any roll made within the last round, your turn included. You can force the re-roll to be made with advantage or disadvantage. Additionally, you can choose whether or not to use the re-roll.
 You can do effects unlisted by stating your wish as precisely as possible. However, the DM has full ruling on what the wish does. The greater the wish, the greater the likelihood of something going wrong. This can range from the spell failing, to only getting part of the effect, to getting an undesired consequence.
 If you use Wish to do anything besides duplicate a spell, you suffer the following effects:
-Each time you cast a spell, you take 1d10 necrotic damage per spell level. This damage can't be reduced or prevented. This effect ends after a long rest.
- Your Strength score becomes 3 if not so already for 2d4 days. If you spend a day doing nothing but resting or light activity, your recovery time decreases by 2 days.
- A die that can be split into thirds is rolled. Designate one third before doing so. If you roll a number in this third, you can't cast Wish ever again.
+
+* Each time you cast a spell, you take 1d10 necrotic damage per spell level. This damage can't be reduced or prevented. This effect ends after a long rest.
+* Your Strength score becomes 3 if not so already for 2d4 days. If you spend a day doing nothing but resting or light activity, your recovery time decreases by 2 days.
+* A die that can be split into thirds is rolled. Designate one third before doing so. If you roll a number in this third, you can't cast Wish ever again.
 Save: 
 Ritual: False
 Concentration: False

@@ -4,7 +4,7 @@
 
     <stat-chooser :spellId="spell.id" @id-changed="idChangedHandler" />
 
-    <spell-tooltip v-if="mouseOver" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />
+    <spell-tooltip v-if="mouseOver" :spell="spell" :posY="posY" @enter-child="enterChildHandler" class="spell-tooltip" />
   </li>
 </template>
 

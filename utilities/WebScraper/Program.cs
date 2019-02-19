@@ -319,30 +319,7 @@ namespace WebScraper
         duration = currentElem.TextContent.Trim();
 
 
-        bool isDescription = false;
-        for (int i = 1; i < elem.Children.Length; i++)
-        {
-          currentElem = elem.Children[i];
-
-          if (currentElem.TextContent.Trim() == "Description") // skip until after Description header
-          {
-            isDescription = true;
-            continue;
-          }
-          if (currentElem.TextContent.Trim() == "Leveling") // skip Leveling Header
-          {
-            continue;
-          }
-          if (currentElem.TextContent.Trim() == "References") // references header ends the description section
-          {
-            isDescription = false;
-          }
-
-          if (isDescription)
-          {
-            description = description + "\n" + currentElem.TextContent.Trim();
-          }
-        }
+        description = ReadDescription(1, elem, false);
       }
       else if (elem.Children[1].TagName == "BLOCKQUOTE") // idk why n1 child aside is actually n3 and n1 is blockquote
       {
@@ -363,30 +340,7 @@ namespace WebScraper
         duration = currentElem.TextContent.Trim();
 
 
-        bool isDescription = false;
-        for (int i = 4; i < elem.Children.Length; i++)
-        {
-          currentElem = elem.Children[i];
-
-          if (currentElem.TextContent.Trim() == "Description") // skip until after Description header
-          {
-            isDescription = true;
-            continue;
-          }
-          if (currentElem.TextContent.Trim() == "Leveling") // skip Leveling Header
-          {
-            continue;
-          }
-          if (currentElem.TextContent.Trim() == "References") // references header ends the description section
-          {
-            isDescription = false;
-          }
-
-          if (isDescription)
-          {
-            description = description + "\n" + currentElem.TextContent.Trim();
-          }
-        }
+        description = ReadDescription(4, elem, false);
       }
       else if(elem.Children[0].TagName == "TABLE")
       {
@@ -406,7 +360,7 @@ namespace WebScraper
         duration = currentElem.TextContent.Trim();
 
 
-        description = ReadDescription(1, elem);
+        description = ReadDescription(1, elem, true);
       }
       else if (elem.Children[1].TagName == "TABLE")
       {
@@ -426,7 +380,7 @@ namespace WebScraper
         duration = currentElem.TextContent.Trim();
 
 
-        description = ReadDescription(2, elem);
+        description = ReadDescription(2, elem, true);
       }
       else if (elem.Children[0].Children.Length > 4) // it's <p> and time, range, components and duration are children of p0
       {
@@ -453,7 +407,7 @@ namespace WebScraper
         duration = attributes[4].Trim();
 
 
-        description = ReadDescription(1, elem);
+        description = ReadDescription(1, elem, true);
       }
       else // it's <p> and time, range, components and duration are inside p1, p2, p3, p4
       {
@@ -481,7 +435,7 @@ namespace WebScraper
         duration = duration.Trim();
 
 
-        description = ReadDescription(5, elem);
+        description = ReadDescription(5, elem, true);
       }
 
 
@@ -496,29 +450,54 @@ namespace WebScraper
       return spell;
     }
 
-    private static string ReadDescription(int start, AngleSharp.Dom.IElement root)
+    private static string ReadDescription(int start, AngleSharp.Dom.IElement root, bool isPureDescription)
     {
       string result = "";
 
+
+      if (root.QuerySelectorAll("#Description").Length == 0) isPureDescription = true; // all ahead is <p>s containing description       
+      
       for (int i = start; i < root.Children.Length; i++)
       {
         var currentElem = root.Children[i];
-        if (currentElem.TagName == "TABLE")
+
+
+        if (currentElem.TextContent.Trim() == "Description") // skip until after Description header
         {
-          var tbody = currentElem.Children[0];
-          result = result + "\n" + ReadTable(tbody);
+          isPureDescription = true;
+          continue;
         }
-        else if (currentElem.TagName == "UL")
+        if (currentElem.TextContent.Trim() == "Leveling") // skip Leveling Header
         {
-          result = result + "\n" + currentElem.TextContent.Trim();
+          continue;
         }
-        else if (currentElem.TagName == "P")
+        if (currentElem.TextContent.Trim() == "References") // references header ends the description section
         {
-          result = result + "\n" + currentElem.TextContent.Trim();
+          isPureDescription = false;
         }
-        else if (currentElem.ClassName != "references")
+
+        
+        if (currentElem.ClassName == "references") continue;
+
+        if (isPureDescription)
         {
-          result = result + "\n" + currentElem.TextContent.Trim();
+          if (currentElem.TagName == "TABLE")
+          {
+            var tbody = currentElem.Children[0];
+            result = result + "\n" + ReadTable(tbody);
+          }
+          else if (currentElem.TagName == "UL" || currentElem.TagName == "OL")
+          {
+            result = result + "\n" + ReadList(currentElem);
+          }
+          else if (currentElem.TagName == "P")
+          {
+            result = result + "\n" + currentElem.TextContent.Trim();
+          }
+          else
+          {
+            result = result + "\n" + currentElem.TextContent.Trim();
+          }
         }
       }
 
@@ -538,6 +517,19 @@ namespace WebScraper
           result = result + "\t\t" + text;
         }
         result = result + "\n";
+      }
+
+      return result;
+    }
+
+    private static string ReadList(AngleSharp.Dom.IElement ul)
+    {
+      string result = "";
+
+      foreach (var li in ul.Children)
+      {
+        string text = li.TextContent.Trim();
+        result = result + "\n* " + text;
       }
 
       return result;

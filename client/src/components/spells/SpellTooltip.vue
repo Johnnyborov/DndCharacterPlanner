@@ -11,13 +11,16 @@ export default {
   name: 'SpellTooltip',
 
   props: {
-    spell: Object
+    spell: Object,
+    posY: Number
   },
 
   computed: {
     text() {
-      let res = this.spell.name + '</br>Description Description</br>Description Description</br>Description Description'
+      let res = this.spell.name
     
+      if (true) res = res + '</br>' + this.spell.description
+
       if (typeof(this.spell.bonusStats) !== 'undefined') {
         this.spell.bonusStats.forEach(bonusStat => {
           let sign = ''
@@ -29,6 +32,10 @@ export default {
       
       return res
     }
+  },
+
+  mounted() {
+    this.$el.style.top = this.posY + 'px'
   }
 }
 </script>

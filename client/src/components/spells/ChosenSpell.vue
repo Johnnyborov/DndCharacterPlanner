@@ -4,9 +4,9 @@
 
     {{spell.name}}
 
-    <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" @enter-child="enterChildHandler" class="spell-tooltip" />
+    <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" :posY="posY" @enter-child="enterChildHandler" class="spell-tooltip" />
     
-    <available-spells-list v-if="currentlyClickedSlotId === slotId" :slotId="slotId" @enter-child="leaveHandler"
+    <available-spells-list v-if="currentlyClickedSlotId === slotId" :slotId="slotId" :posY="posY" @enter-child="leaveHandler"
       :moduleName="moduleName" class="available-spells-list" />
   </li>
 </template>
