@@ -1,6 +1,6 @@
 <template>
   <div @mouseenter="$emit('enter-child')">
-    <ul>
+    <ul class="scrollable-list">
       <li @click="spellChosenHandler(-1)" class="remove-option">Remove</li>
       <available-spell v-for="spell in choosableSpellsList" :key="spell.id" :spell="spell"
         @spell-chosen="spellChosenHandler" class="available-spell" />
@@ -40,7 +40,7 @@ export default {
 
   computed: {  
     availableSpells() {
-      return this.$store.state[this.moduleName].availableSpells
+      return this.$store.state[this.moduleName].availableSpells.filter(s => s.id < 1077)
     },
 
     chosenSpells() {

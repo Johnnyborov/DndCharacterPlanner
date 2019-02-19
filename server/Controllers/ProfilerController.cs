@@ -19,10 +19,16 @@ namespace server.Controllers
     {
       db = context;
 
-      using (var file = System.IO.File.OpenText(@"Data/spells.txt")) {
+      using (var file = System.IO.File.OpenText(@"Data/spells.json")) {
         var serializer = new Newtonsoft.Json.JsonSerializer();
 
         spellList = (List<Spell>)serializer.Deserialize(file, typeof(List<Spell>));
+
+        int i = 1000;
+        foreach (var spell in spellList)
+        {
+          spell.id = i++;
+        }
       }
     }
 
@@ -36,12 +42,6 @@ namespace server.Controllers
     [HttpGet]
     public ActionResult<List<Character>> GetCharacters()
     {
-      // using (var file = System.IO.File.CreateText(@"Data/spells.txt")) {
-      //   var serializer = new Newtonsoft.Json.JsonSerializer();
-
-      //   serializer.Serialize(file, spellList);
-      // }
-
       Response.ContentType = "application/json";
       return db.Characters.ToList().Select(c => (Character)c).ToList();
     }

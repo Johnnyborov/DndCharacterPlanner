@@ -1,1 +1,0 @@
-[{"id":1001,"name":"spell1"},{"id":1002,"name":"spell2"},{"id":1003,"name":"spell3"},{"id":1004,"name":"spell4"},{"id":1005,"name":"spell5"},{"id":1006,"name":"spell6"}]

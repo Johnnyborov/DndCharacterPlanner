@@ -73,6 +73,12 @@
   background-image: url("../assets/selected-slot.png");
 }
 
+.scrollable-list {
+  height: 50vh;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
 .available-spells-list {
   background-color: green;
   position: absolute;
