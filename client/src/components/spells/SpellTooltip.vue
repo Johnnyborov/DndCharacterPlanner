@@ -17,9 +17,14 @@ export default {
 
   computed: {
     text() {
-      let res = this.spell.name
+      let res = this.spell.name + '</br>'
     
-      if (true) res = res + '</br>' + this.spell.description
+      if (typeof(this.spell.time) !== 'undefined') res = res + '</br>Time: ' + this.spell.time
+      if (typeof(this.spell.range) !== 'undefined') res = res + '</br>Range: ' + this.spell.range
+      if (typeof(this.spell.components) !== 'undefined') res = res + '</br>Components: ' + this.spell.components
+      if (typeof(this.spell.duration) !== 'undefined') res = res + '</br>Duration: ' + this.spell.duration
+
+      if (typeof(this.spell.description) !== 'undefined') res = res + '</br></br>Description:<pre>' + this.spell.description + '</pre>'
 
       if (typeof(this.spell.bonusStats) !== 'undefined') {
         this.spell.bonusStats.forEach(bonusStat => {

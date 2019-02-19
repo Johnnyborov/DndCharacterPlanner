@@ -68,7 +68,6 @@
   color: darkorange;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
-
 }
 
 .currently-choosing {
@@ -108,4 +107,8 @@
 ul {
   list-style-type: none;
   padding-left: 0;
+}
+
+pre {
+  white-space: pre-wrap;
 }
