@@ -1,4 +1,7 @@
-# DndProfiler
+# DndCharacterPlanner
+
+Character Planner for D&D
+
 
 ## Building client (generates files in server/wwwroot)
 ```
@@ -33,32 +36,33 @@ cd utilities/WebScraper
 dotnet build
 ```
 
+
 ## Using WebScraper
 
 ### Downloading pages from fandom site to local files
-Files are downloaded to in utilities/WebScraper/results
+Files are downloaded to in utilities/webscraper_downloaded_pages
 ```
 cd utilities/WebScraper
 dotnet run --save-pages
 ```
 
-### Parsing downloaded files to json
-Created file is utilities/WebScraper/results/spells.json
+### Parsing downloaded pages to json
+Created file is server/Data/spells.json
 ```
 cd utilities/WebScraper
-dotnet run --scrape-from-files
+dotnet run --scrape-files
 ```
 
 ### Parsing to json directly from the site
-Created file is utilities/WebScraper/results/spells.json
+Created file is server/Data/spells.json
 ```
 cd utilities/WebScraper
-dotnet run --scrape-from-url
+dotnet run --scrape-url
 ```
 
 ### Printing spells.json to a text file
-Created files is utilities/WebScraper/results/printed-spells.txt
+Created file is utilities/WebScraper/spells.txt
 ```
 cd utilities/WebScraper
-dotnet run --print-spells > results/printed-spells.txt
+dotnet run --print > spells.txt
 ```

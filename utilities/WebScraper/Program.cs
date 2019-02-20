@@ -29,23 +29,26 @@ namespace WebScraper
 
   class Program
   {
+    private static string webScraperProjectDir;
+    private static string downloadedPagesDir;
+    private static string serverDataDir;
+
     static void Main(string[] args)
     {
       if (args.Length < 1) return;
+      webScraperProjectDir = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
+      downloadedPagesDir = webScraperProjectDir + "/../webscraper_downloaded_pages";
+      serverDataDir = webScraperProjectDir + "/../../server/Data";
 
-      if (args[0] == "--scraper-from-url")
+      if (args[0] == "--scrape-url")
       {
-        Directory.CreateDirectory("results");
-        File.Delete("results/spells.json");
+        Directory.CreateDirectory(downloadedPagesDir);
 
         List<Spell> spells = ScrapeHtml(false);
         SaveSpells(spells);
       }
-      if (args[0] == "--scrape-from-files")
+      if (args[0] == "--scrape-files")
       {
-        Directory.CreateDirectory("results");
-        File.Delete("results/spells.json");
-
         List<Spell> spells = ScrapeHtml(true);
         SaveSpells(spells);
       }
@@ -53,7 +56,7 @@ namespace WebScraper
       {
         SaveAllPages();
       }
-      else if (args[0] == "--print-spells")
+      else if (args[0] == "--print")
       {
         PrintSpells();
       }
@@ -63,9 +66,8 @@ namespace WebScraper
     {
       string allSpellsListUrl = "https://dnd5e.fandom.com/wiki/List_of_Spells";
       string allSpellsPageHtml = GetHtml(allSpellsListUrl);
-      Directory.CreateDirectory("results");
-      Directory.CreateDirectory("results/spell_pages");
-      File.WriteAllText("results/SpellsList.html", allSpellsPageHtml);
+      Directory.CreateDirectory(downloadedPagesDir + "/spell_pages");
+      File.WriteAllText(downloadedPagesDir + "/SpellsList.html.txt", allSpellsPageHtml);
  
       var parser = new HtmlParser();
       var document = parser.Parse(allSpellsPageHtml);
@@ -104,8 +106,9 @@ namespace WebScraper
 
                 string fileName = item.TextContent.Trim();
                 if (fileName.Contains('/')) fileName = fileName.Replace("/", "");
+                if (fileName.Contains(' ')) fileName = fileName.Replace(" ", "_");
 
-                File.WriteAllText("results/spell_pages/" + fileName + ".html", html);
+                File.WriteAllText(downloadedPagesDir + "/spell_pages/" + fileName + ".html.txt", html);
                 break;           
               default:
                 break;
@@ -120,7 +123,7 @@ namespace WebScraper
       string allSpellsPageHtml;
       if (fromFiles)
       {
-        allSpellsPageHtml = File.ReadAllText("results/SpellsList.html");
+        allSpellsPageHtml = File.ReadAllText(downloadedPagesDir + "/SpellsList.html.txt");
       }
       else
       {
@@ -173,8 +176,9 @@ namespace WebScraper
                 {
                   string fileName = item.TextContent.Trim();
                   if (fileName.Contains('/')) fileName = fileName.Replace("/", "");
+                  if (fileName.Contains(' ')) fileName = fileName.Replace(" ", "_");
 
-                  html = File.ReadAllText("results/spell_pages/" + fileName + ".html");
+                  html = File.ReadAllText(downloadedPagesDir + "/spell_pages/" + fileName + ".html.txt");
                 }
                 else
                 {
@@ -208,8 +212,7 @@ namespace WebScraper
 
     private static void SaveSpells(List<Spell> spells)
     {
-      Directory.CreateDirectory("results");
-      using (var fs = File.CreateText("results/spells.json"))
+      using (var fs = File.CreateText(serverDataDir + "/spells.json"))
       {
         var serializer = new JsonSerializer();
         serializer.Serialize(fs, spells);
@@ -218,8 +221,7 @@ namespace WebScraper
 
     private static void PrintSpells()
     {
-      Directory.CreateDirectory("results");
-      using (var fs = File.OpenText("results/spells.json"))
+      using (var fs = File.OpenText(serverDataDir + "/spells.json"))
       {
         var serializer = new JsonSerializer();
         var spellList = (List<Spell>)serializer.Deserialize(fs, typeof(List<Spell>));
