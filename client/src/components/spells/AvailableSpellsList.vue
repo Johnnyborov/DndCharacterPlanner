@@ -41,7 +41,7 @@ export default {
 
   computed: {  
     availableSpells() {
-      return this.$store.state[this.moduleName].availableSpells.filter(s => s.id < 1077)
+      return this.$store.state[this.moduleName].availableSpells
     },
 
     chosenSpells() {
