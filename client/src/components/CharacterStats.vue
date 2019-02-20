@@ -32,7 +32,7 @@ import {mapState, mapGetters} from 'vuex'
 import {statName as statNameImported} from '../store/modules/stats.js'
 
 export default {
-  name: 'DndProfile',
+  name: 'CharacterStats',
 
   data() {
     return {

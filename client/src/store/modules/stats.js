@@ -1,4 +1,4 @@
-import api from '../../api/profiler.js'
+import api from '../../api/planner.js'
 
 function modifyBonusValuesFrom(moduleName, bonusValues, rootState, rootGetters) {
   rootState[moduleName].chosenSpells.forEach(spellId => {

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace server.Models
 {
-  public class ProfilesContext : DbContext
+  public class CharactersContext : DbContext
   {
     public DbSet<CharacterSerialized> Characters { get; set; }
 
-    public ProfilesContext(DbContextOptions<ProfilesContext> options) : base(options)
+    public CharactersContext(DbContextOptions<CharactersContext> options) : base(options)
     {
       Database.EnsureCreated();
     }

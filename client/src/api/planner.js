@@ -1,5 +1,5 @@
 const debug = process.env.NODE_ENV !== 'production'
-const baseUrl = debug ? 'http://localhost:5000/api/profiler' : '/api/profiler'
+const baseUrl = debug ? 'http://localhost:5000/api/planner' : '/api/planner'
 
 function makeRequest(url, options, func) {
   fetch(url, options)

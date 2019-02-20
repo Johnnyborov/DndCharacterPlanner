@@ -10,12 +10,12 @@ namespace server.Controllers
 {
   [Route("api/[controller]/[action]")]
   [ApiController]
-  public class ProfilerController : ControllerBase
+  public class PlannerController : ControllerBase
   {
-    ProfilesContext db;
+    CharactersContext db;
     List<Spell> spellList;
 
-    public ProfilerController(ProfilesContext context)
+    public PlannerController(CharactersContext context)
     {
       db = context;
 

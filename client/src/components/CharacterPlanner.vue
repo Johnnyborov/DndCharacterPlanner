@@ -29,7 +29,7 @@ import ChosenSpellsList from './spells/ChosenSpellsList.vue'
 import spells from '../store/modules/spells.js'
 
 export default {
-  name: 'DndProfile',
+  name: 'CharacterPlanner',
   components: {
     'class-control': ClassControl,
     'saver-loader': SaverLoader,

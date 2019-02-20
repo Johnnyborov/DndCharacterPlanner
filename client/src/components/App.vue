@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <dnd-profile class="dnd-profile"/>
+    <character-planner class="character-planner"/>
   </div>
 </template>
 
 <script>
-import DndProfile from './DndProfile.vue'
+import CharacterPlanner from './CharacterPlanner.vue'
 
 export default {
   name: 'app',
   components: {
-    'dnd-profile': DndProfile
+    'character-planner': CharacterPlanner
   }
 }
 </script>
 
-<style src="../css/profiler.css">
+<style src="../css/planner.css">
 </style>

@@ -1,4 +1,4 @@
-import api from '../../api/profiler.js'
+import api from '../../api/planner.js'
 
 function updateStats(state, dispatch) {
   if (state.type === 'abilities' || state.type === 'feats') {

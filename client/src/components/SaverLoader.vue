@@ -10,14 +10,14 @@
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
 
-import api from '../api/profiler.js'
+import api from '../api/planner.js'
 
 export default {
   name: 'SaverLoader',
 
   data() {
     return {
-      loadFrom: 'fb44108b-89d1-41f0-b6d2-08d695b8220b'
+      loadFrom: 'a0e837c6-8ee7-4edf-7822-08d696cad720'
     }
   },
 
