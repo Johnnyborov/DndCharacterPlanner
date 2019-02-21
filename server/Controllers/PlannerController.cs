@@ -19,7 +19,13 @@ namespace server.Controllers
     {
       db = context;
 
-      using (var file = System.IO.File.OpenText(@"Data/spells.json")) {
+      string appDir = System.IO.Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName;
+
+      if (!System.IO.File.Exists(appDir + "/Data/spells.json"))
+        appDir = System.IO.Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
+
+      using (var file = System.IO.File.OpenText(appDir + "/Data/spells.json"))
+      {
         var serializer = new Newtonsoft.Json.JsonSerializer();
 
         spellList = (List<Spell>)serializer.Deserialize(file, typeof(List<Spell>));
@@ -32,6 +38,7 @@ namespace server.Controllers
       }
     }
 
+
     [HttpGet]
     public ActionResult<List<Spell>> SpellList()
     {
@@ -39,12 +46,14 @@ namespace server.Controllers
       return spellList;
     }
 
+
     [HttpGet]
     public ActionResult<List<Character>> GetCharacters()
     {
       Response.ContentType = "application/json";
       return db.Characters.ToList().Select(c => (Character)c).ToList();
     }
+
 
     [HttpGet]
     public ActionResult<Character> GetCharacter(Guid guid)
@@ -56,6 +65,7 @@ namespace server.Controllers
 
       return character;
     }
+
 
     [HttpPost]
     public ActionResult<Guid> SaveCharacter(CharacterSerialized character)

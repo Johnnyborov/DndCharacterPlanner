@@ -3,14 +3,14 @@
     <div v-if="spellId === stats1x2Id">  
       +1 
       <select @click.stop :value="selected1" @input="selected1Changed($event)">
-        <option v-for="(stat, index) in statTypesMinusSelected2" :key="index">
+        <option v-for="stat in statTypesMinusSelected2" :key="stat">
           {{stat}}
         </option>
       </select>
       <br />
       +1
       <select @click.stop :value="selected2" @input="selected2Changed($event)">
-        <option v-for="(stat, index) in statTypesMinusSelected1" :key="index">
+        <option v-for="stat in statTypesMinusSelected1" :key="stat">
           {{stat}}
         </option>
       </select>   
@@ -19,7 +19,7 @@
     <div v-if="spellId === stats2x1Id">  
       +2
       <select @click.stop :value="selected1" @input="selected1Changed($event)">
-        <option v-for="(stat, index) in statTypes" :key="index">
+        <option v-for="stat in statTypes" :key="stat">
           {{stat}}
         </option>
       </select>

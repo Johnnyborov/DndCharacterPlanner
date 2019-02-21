@@ -6,7 +6,7 @@
         <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
           {{statName(index)}}
           <select :value="characterBaseStats[index]" @input="updateBaseStatValue(index, $event)">
-            <option v-for="(val, idx) in values" :key="idx" :value="val">
+            <option v-for="val in values" :key="val" :value="val">
               {{val}}
             </option>
           </select>

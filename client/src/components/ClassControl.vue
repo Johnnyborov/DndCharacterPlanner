@@ -2,14 +2,14 @@
   <div>
     Class
     <select :value="selectedClass" @input="classChanged($event)">
-      <option v-for="(cls, index) in classes" :key="index">
+      <option v-for="cls in classes" :key="cls">
         {{cls}}
       </option>
     </select>
 
     Level
     <select :value="selectedLevel" @input="levelChanged($event)">
-      <option v-for="(lvl, index) in levels" :key="index">
+      <option v-for="lvl in levels" :key="lvl">
         {{lvl}}
       </option>
     </select>

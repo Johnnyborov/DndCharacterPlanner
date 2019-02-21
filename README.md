@@ -2,7 +2,7 @@
 
 Character Planner for D&D 5th edition
 
-It's a web application that allows to conveniently choose D&D character attributes, feats and spells for a specific class/subclass and level. It also allows to save it that created character on the server's database (and get a link) and later restore it via corresponding link.
+It's a web application that allows to conveniently choose D&D character attributes, feats and spells for a specific class/subclass and level. It also allows to save that created character on the server's database (and get a link) and later restore it via corresponding link.
 
 
 

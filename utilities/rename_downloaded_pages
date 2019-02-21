@@ -1,4 +1,4 @@
-#! bash
+#!/usr/bin/env bash
 
 scriptdir="$(dirname "$(readlink -f "$0")")"
 find_command='/c/Program_Files/msys64/usr/bin/find.exe'
