@@ -1,18 +1,18 @@
 <template>
-  <div @click="focusedModule=''" @mouseleave="focusedModule=''">
+  <div @click="spellPressedByModule=''" @mouseleave="spellPressedByModule=''">
     <class-control class="class-control" />
 
     <character-stats class="character-stats" />
 
-    <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
+    <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Class Abilities</p>
     </chosen-spells-list>
 
-    <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
+    <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Chosen Feats</p>
     </chosen-spells-list>
 
-    <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list" :focusedModule="focusedModule" @got-focus="focusedModule=$event">
+    <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Chosen Spells</p>
     </chosen-spells-list>
 
@@ -39,7 +39,7 @@ export default {
 
   data() {
     return {
-      focusedModule: ''
+      spellPressedByModule: ''
     }
   },
 

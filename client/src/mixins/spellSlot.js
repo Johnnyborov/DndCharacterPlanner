@@ -20,14 +20,10 @@ export default {
     enterHandler() {
       this.mouseOver = true
       this.posY = this.$el.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top
-      this.posY += parseFloat(getComputedStyle(this.$parent.$el).fontSize) // +1em
+
     },
 
     leaveHandler() {
-      this.mouseOver = false
-    },
-
-    enterChildHandler() {
       this.mouseOver = false
     }
   }

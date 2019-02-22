@@ -84,8 +84,8 @@
   background-color: green;
   position: absolute;
   z-index: 1;
-  top: 1em;
   left: 6em;
+  top: 1em;
 }
 
 .available-spell {
@@ -101,12 +101,14 @@
   z-index: 2;
   left: -21em;
   width: 20em;
+  top: 1em;
 }
 
 
 ul {
   list-style-type: none;
   padding-left: 0;
+  margin: 0;
 }
 
 pre {

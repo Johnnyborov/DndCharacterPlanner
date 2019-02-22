@@ -11,8 +11,7 @@ export default {
   name: 'SpellTooltip',
 
   props: {
-    spell: Object,
-    posY: Number
+    spell: Object
   },
 
   computed: {
@@ -37,10 +36,6 @@ export default {
       
       return res
     }
-  },
-
-  mounted() {
-    this.$el.style.top = this.posY + 'px'
   }
 }
 </script>

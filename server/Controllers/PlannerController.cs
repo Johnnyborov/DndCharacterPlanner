@@ -19,12 +19,20 @@ namespace server.Controllers
     {
       db = context;
 
+
       string appDir = System.IO.Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName;
+      string dataDir;
+      if (System.IO.Directory.Exists(appDir + "/Data")) // published
+      {
+        dataDir = appDir + "/Data";
+      }
+      else // build
+      {
+        dataDir = appDir + "/../../../Data";
+      }
 
-      if (!System.IO.File.Exists(appDir + "/Data/spells.json"))
-        appDir = System.IO.Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
 
-      using (var file = System.IO.File.OpenText(appDir + "/Data/spells.json"))
+      using (var file = System.IO.File.OpenText(dataDir + "/spells.json"))
       {
         var serializer = new Newtonsoft.Json.JsonSerializer();
 

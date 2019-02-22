@@ -1,10 +1,12 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click="clickHandler" class="spell-slot">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="spell-slot">
     {{spell.name}}
 
     <stat-chooser :spellId="spell.id" @id-changed="idChangedHandler" />
 
-    <spell-tooltip v-if="mouseOver" :spell="spell" :posY="posY" @enter-child="enterChildHandler" class="spell-tooltip" />
+    <div :style="{'top': posY + 'px', 'position': 'absolute'}">
+      <spell-tooltip v-if="mouseOver" :spell="spell" class="spell-tooltip" />
+    </div>
   </li>
 </template>
 

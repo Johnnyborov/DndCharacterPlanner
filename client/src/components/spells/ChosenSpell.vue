@@ -4,25 +4,18 @@
 
     {{spell.name}}
 
-    <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" :posY="posY" @enter-child="enterChildHandler" class="spell-tooltip" />
-    
-    <available-spells-list v-if="currentlyClickedSlotId === slotId" :slotId="slotId" :posY="posY" @enter-child="leaveHandler"
-      :moduleName="moduleName" class="available-spells-list" />
+    <div :style="{'top': posY + 'px', 'position': 'absolute'}">
+      <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" class="spell-tooltip" />
+    </div>
   </li>
 </template>
 
 <script>
 import spellSlot from '../../mixins/spellSlot.js'
 
-import AvailableSpellsList from './AvailableSpellsList.vue'
-
 export default {
   name: 'ChosenSpell',
   mixins: [spellSlot],
-
-  components: {
-    'available-spells-list': AvailableSpellsList
-  },
 
   props: {
     moduleName: String,
@@ -32,7 +25,7 @@ export default {
 
   methods: {
     clickHandler() {
-      this.$emit('clicked-slot', this.slotId)
+      this.$emit('clicked-slot', {slotId: this.slotId, posY: this.posY})
     }
   }
 }

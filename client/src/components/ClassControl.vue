@@ -55,7 +55,7 @@ export default {
       } else if (this.selectedClass === 'Sorcerer') {
         this.$store.dispatch('abilities/setChosenSpellsAmount', 3)
         this.$store.dispatch('feats/setChosenSpellsAmount', 4)
-        this.$store.dispatch('spells/setChosenSpellsAmount', 5)
+        this.$store.dispatch('spells/setChosenSpellsAmount', 15)
       }
 
       this.$store.dispatch('stats/initializeModule') // reset stats state

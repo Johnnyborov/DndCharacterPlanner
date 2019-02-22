@@ -1,5 +1,21 @@
 import api from '../../api/planner.js'
 
+function isVariation(id) {
+  if (id > 10 && id < 60 || id > 60 && id < 70) return true
+
+  return false
+}
+
+function canHaveMultiple(id) {
+  switch(id) {
+    case 70:
+    case 75:
+      return true
+  }
+
+  return false
+}
+
 function updateStats(state, dispatch) {
   if (state.type === 'abilities' || state.type === 'feats') {
     dispatch('stats/calculateBonusValues', null, { root: true })
@@ -24,6 +40,19 @@ export default {
       if (id === -1) return { id: -1 }
       
       return state.availableSpells.find(spell => spell.id == id)
+    },
+
+    choosableSpells: (state) => {
+      return state.availableSpells.filter(availableSpell => {
+        if (isVariation(availableSpell.id))
+          return false
+
+        let sameSpell = state.chosenSpells.find(chosenSpellId => chosenSpellId === availableSpell.id)
+        if (sameSpell && !canHaveMultiple(availableSpell.id))
+          return false
+
+        return true
+      })
     }
   },
 
