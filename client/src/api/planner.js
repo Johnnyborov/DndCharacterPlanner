@@ -1,4 +1,4 @@
-require('isomorphic-fetch') // for fetch with IE
+import 'whatwg-fetch'
 
 const debug = process.env.NODE_ENV !== 'production'
 const baseUrl = debug ? 'http://localhost:5000/api/planner' : '/api/planner'
@@ -86,10 +86,6 @@ export default {
     }
 
     makeRequest(baseUrl + '/savecharacter', options, func)
-  },
-
-  getCharacters() {
-    makeRequest(baseUrl + '/getcharacters', null, arg => console.log(arg))
   },
 
   getCharacter(id, func) {

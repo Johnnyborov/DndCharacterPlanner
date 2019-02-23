@@ -5,7 +5,7 @@
     <stat-chooser :spellId="spell.id" @id-changed="idChangedHandler" />
 
     <div :style="{'top': posY + 'px', 'position': 'absolute'}">
-      <spell-tooltip v-if="mouseOver" :spell="spell" class="spell-tooltip" />
+      <spell-tooltip v-if="mouseOver" :spell="spell" class="spell-tooltip"/>
     </div>
   </li>
 </template>

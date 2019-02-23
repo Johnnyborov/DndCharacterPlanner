@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using Microsoft.EntityFrameworkCore;
+using server.Services;
 
 namespace server.Controllers
 {
@@ -16,35 +17,11 @@ namespace server.Controllers
     CharactersContext db;
     List<Spell> spellList;
 
-    public PlannerController(CharactersContext context)
+    public PlannerController(CharactersContext context, SpellList list)
     {
       db = context;
-
-
-      string appDir = System.IO.Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName;
-      string dataDir;
-      if (System.IO.Directory.Exists(appDir + "/Data")) // published
-      {
-        dataDir = appDir + "/Data";
-      }
-      else // build
-      {
-        dataDir = appDir + "/../../../Data";
-      }
-
-
-      using (var file = System.IO.File.OpenText(dataDir + "/spells.json"))
-      {
-        var serializer = new Newtonsoft.Json.JsonSerializer();
-
-        spellList = (List<Spell>)serializer.Deserialize(file, typeof(List<Spell>));
-
-        int i = 1000;
-        foreach (var spell in spellList)
-        {
-          spell.id = i++;
-        }
-      }
+      
+      spellList = list.GetList;
     }
 
 
@@ -53,14 +30,6 @@ namespace server.Controllers
     {
       Response.ContentType = "application/json";
       return spellList;
-    }
-
-
-    [HttpGet]
-    public ActionResult<List<Character>> GetCharacters()
-    {
-      Response.ContentType = "application/json";
-      return db.Characters.Select(c => new Character(c)).ToList();
     }
 
 

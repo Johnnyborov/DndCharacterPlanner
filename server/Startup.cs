@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using server.Models;
+using server.Services;
 
 namespace server
 {
@@ -25,6 +26,8 @@ namespace server
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddSingleton<SpellList>();
+
       services.AddDbContext<CharactersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
       services.AddMvc();

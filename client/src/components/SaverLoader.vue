@@ -6,7 +6,6 @@
     Id to load:
     <input v-model="characterId"/>
     <button @click="loadHandler">Load</button>
-    <button @click="loadAllHandler">LoadAll</button>
   </div>
 </template>
 
@@ -93,10 +92,6 @@ export default {
       }
 
       api.getCharacter(this.characterId, loadCharacterFunction)
-    },
-
-    loadAllHandler() {
-      api.getCharacters()
     }
   }
 }

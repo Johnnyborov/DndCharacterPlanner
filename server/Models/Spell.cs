@@ -10,6 +10,9 @@ namespace server.Models
     public int id { get; set; }
     
     public string name { get; set; }
+
+    public int level { get; set; }
+    public List<string> classes { get; set; }
    
     public List<string> categories { get; set; }
 

@@ -14,9 +14,23 @@ export default {
     spell: Object
   },
 
+  mounted() {
+    if (this.text.length > 800) {
+      this.$el.style.width = Math.min(this.text.length / 20, 60) + 'vw'
+      this.$el.style.left = - 1 - Math.min(this.text.length / 20, 60) + 'vw'
+    }
+  },
+
   computed: {
     text() {
-      let res = this.spell.name + '</br>'
+      let res = 'Level: ' + this.spell.level + '</br>' + 'Name: ' + this.spell.name + '</br>'
+
+      if (typeof(this.spell.classes) !== 'undefined' && this.spell.classes !== null) {
+        res = res + 'Classes: '
+        for (let i = 0; i < this.spell.classes.length; i++) {
+          res = res + this.spell.classes[i] + ' '
+        }
+      }
     
       if (typeof(this.spell.time) !== 'undefined') res = res + '</br>Time: ' + this.spell.time
       if (typeof(this.spell.range) !== 'undefined') res = res + '</br>Range: ' + this.spell.range
@@ -33,7 +47,7 @@ export default {
           res = res + '</br>' + sign + bonusStat.value + ' ' + statName(bonusStat.index)
         })
       }
-      
+
       return res
     }
   }
