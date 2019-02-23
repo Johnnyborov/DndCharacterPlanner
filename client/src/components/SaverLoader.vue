@@ -1,9 +1,12 @@
 <template>
-  <div>
+  <div style="display: flex; flex-direction: column;">
+    <slot></slot>
     <button @click="saveHandler">Save</button>
-    <button @click="loadAllHandler">LoadAll</button>
-    <input v-model="loadFrom"/>
+    
+    Id to load:
+    <input v-model="characterId"/>
     <button @click="loadHandler">Load</button>
+    <button @click="loadAllHandler">LoadAll</button>
   </div>
 </template>
 
@@ -17,11 +20,17 @@ export default {
 
   data() {
     return {
-      loadFrom: 'a0e837c6-8ee7-4edf-7822-08d696cad720'
+      characterId: 1
     }
   },
 
   computed: {
+    ...mapState('classConfig', {
+      getClass: 'class',
+      getSubclass: 'subclass',
+      getLevel: 'level',
+    }),
+
     ...mapState('stats', {
       getStats: 'characterBaseStats'
     }),
@@ -41,6 +50,9 @@ export default {
 
   methods: {
     ...mapMutations({
+      setClass: 'classConfig/setClass',
+      setSubclass: 'classConfig/setSubclass',
+      setLevel: 'classConfig/setLevel',
       setStats: 'stats/setBaseStats',
     }),
 
@@ -53,26 +65,34 @@ export default {
 
     saveHandler() {
       let char = {
+        class: this.getClass,
+        subclass: this.getSubclass,
+        level: this.getLevel,
+
         stats: this.getStats,
         abilities: this.getAbilities,
         feats: this.getFeats,
         spells: this.getSpells
       }
 
-      api.saveCharacter(char, guid => {
-        this.loadFrom = guid
+      api.saveCharacter(char, id => {
+        this.characterId = id
       })
     },
 
     loadHandler() {
       let loadCharacterFunction = char => {
+        this.setClass(char.class)
+        this.setSubclass(char.subclass)
+        this.setLevel(char.level)
+
         this.setStats(char.stats)
         this.setAbilities(char.abilities)
         this.setFeats(char.feats)
         this.setSpells(char.spells)
       }
 
-      api.getCharacter(this.loadFrom, loadCharacterFunction)
+      api.getCharacter(this.characterId, loadCharacterFunction)
     },
 
     loadAllHandler() {

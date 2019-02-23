@@ -56,6 +56,12 @@ export default {
   getters: {
     realStatValue: (state) => (index) => {
       return Math.min(20, state.characterBaseStats[index] + state.bonusValues[index])
+    },
+
+    characterSkills: () => {
+      let skills = Array(10).fill(0)
+
+      return skills
     }
   },
 

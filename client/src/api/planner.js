@@ -22,15 +22,9 @@ function makeRequest(url, options, func) {
   })
 }
 
+const classConfig = {class: 'Sorcerer', subclass: '', level: 1}
 const characterBaseStats = [13,13,13,12,12,12]
-const abilitiesList = [
-  {id: 201, name: 'ability1', bonusStats: [{index: 0, value: 1}]},
-  {id: 202, name: 'ability2', bonusStats: [{index: 1, value: 1}]},
-  {id: 203, name: 'ability3', bonusStats: [{index: 2, value: 1}]},
-  {id: 204, name: 'ability4', bonusStats: [{index: 3, value: 1}]},
-  {id: 205, name: 'ability5', bonusStats: [{index: 4, value: 1}]},
-  {id: 206, name: 'ability6', bonusStats: [{index: 5, value: 1}]},
-]
+const abilitiesList = []
 const featsList = [
   {id: 1, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
 
@@ -58,19 +52,13 @@ const featsList = [
   {id: 64, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
   {id: 65, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
   {id: 66, name: 'stats+2', bonusStats: [{index: 5, value: 2}]},
+]
 
-  {id: 70, name: 'feat1', bonusStats: []},
-  {id: 71, name: 'feat2', bonusStats: []}
-]
-const spellsList = [
-  {id: 1001, name: 'spell1'},
-  {id: 1002, name: 'spell2'},
-  {id: 1003, name: 'spell3'},
-  {id: 1004, name: 'spell4'},
-  {id: 1005, name: 'spell5'},
-  {id: 1006, name: 'spell6'}
-]
 export default {
+  getClassConfig(func) {
+    setTimeout(() => func(JSON.parse(JSON.stringify(classConfig))), 100)
+  },
+
   getBaseStats(func) {
     setTimeout(() => func(JSON.parse(JSON.stringify(characterBaseStats))), 100)
   },
@@ -85,8 +73,6 @@ export default {
 
   getSpellsList(func) {
     makeRequest(baseUrl + '/spelllist', null, func)
-
-    //setTimeout(() => func(spellsList), 100)
   },
 
   saveCharacter(char, func) {
@@ -106,7 +92,7 @@ export default {
     makeRequest(baseUrl + '/getcharacters', null, arg => console.log(arg))
   },
 
-  getCharacter(guid, func) {
-    makeRequest(baseUrl + '/getcharacter?guid=' + guid, null, func)
+  getCharacter(id, func) {
+    makeRequest(baseUrl + '/getcharacter?id=' + id, null, func)
   }
 }

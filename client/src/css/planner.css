@@ -10,6 +10,8 @@
 
 .class-control {
   background-color: springgreen;
+  display: flex;
+  flex-direction: column;
 }
 
 .saver-loader {

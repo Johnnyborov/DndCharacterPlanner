@@ -25,7 +25,8 @@ export default {
 
   methods: {
     clickHandler() {
-      this.$emit('clicked-slot', {slotId: this.slotId, posY: this.posY})
+      if (this.moduleName !== 'abilities')
+        this.$emit('clicked-slot', {slotId: this.slotId, posY: this.posY})
     }
   }
 }

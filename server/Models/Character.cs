@@ -10,6 +10,23 @@ namespace server.Models
 {
   public class Character
   {
+    public Character() {}
+    public Character(Character c)
+    {
+      Class = c.Class;
+      Subclass = c.Subclass;
+      Level = c.Level;
+
+      Stats = c.Stats;
+      Abilities = c.Abilities;
+      Feats = c.Feats;
+      Spells = c.Spells;
+    }
+
+    public string Class { get; set; }
+    public string Subclass { get; set; }
+    public int Level { get; set; }
+
     [NotMapped]
     public List<int> Stats { get; set; }
 
@@ -25,8 +42,11 @@ namespace server.Models
 
   public class CharacterSerialized: Character
   {
+    public CharacterSerialized() {}
+    public CharacterSerialized(Character c) : base(c) {}
+
     [Key]
-    public Guid Guid { get; set; } 
+    public long Id { get; set; } 
 
 
     [Column("Stats")]

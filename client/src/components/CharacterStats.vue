@@ -1,38 +1,66 @@
 <template>
   <div>
-    <div class="base-values">
-      <p>Base Values:</p>
-      <ul>
-        <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
-          {{statName(index)}}
-          <select :value="characterBaseStats[index]" @input="updateBaseStatValue(index, $event)">
-            <option v-for="val in values" :key="val" :value="val">
-              {{val}}
-            </option>
-          </select>
-        </li>
-      </ul>
+    <div style="display: flex; flex-direction: column;">
+      <class-control class="class-control" />
+
+      <div class="base-values">
+        <p>Base Stat Values:</p>
+        <ul>
+          <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
+            {{statName(index)}}
+            <select :value="characterBaseStats[index]" @input="updateBaseStatValue(index, $event)">
+              <option v-for="val in values" :key="val" :value="val">
+                {{val}}
+              </option>
+            </select>
+          </li>
+        </ul>
+      </div>
+
+      Proficiencies
+      <select >
+      </select>
+      <select >
+      </select>
+      <select >
+      </select>
     </div>
 
-    <div class="real-values">
-      <p>Real Values:</p>
-      <ul>
-        <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
-          {{statName(index)}}
-          {{realStatValue(index)}}
-        </li>
-      </ul>
+    <div style="display: flex; flex-direction: column;">
+      <div class="real-values">
+        <p>Real Stat Values:</p>
+        <ul>
+          <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
+            {{statName(index)}}
+            {{realStatValue(index)}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="real-values">
+        <p>Real Skills Values:</p>
+        <ul>
+          <li v-for="(skill, index) in characterSkills" :key="index" class="stat">
+            {{skill}}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ClassControl from './ClassControl.vue'
+
 import {mapState, mapGetters} from 'vuex'
 
 import {statName as statNameImported} from '../store/modules/stats.js'
 
 export default {
   name: 'CharacterStats',
+  components: {
+    'class-control': ClassControl
+  },
 
   data() {
     return {
@@ -46,7 +74,8 @@ export default {
     ]),
 
     ...mapGetters('stats', [
-      'realStatValue'
+      'realStatValue',
+      'characterSkills'
     ])
   },
 

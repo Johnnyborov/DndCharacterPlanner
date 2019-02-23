@@ -1,9 +1,6 @@
 <template>
   <div @click="spellPressedByModule=''" @mouseleave="spellPressedByModule=''">
-    <class-control class="class-control" />
-
     <character-stats class="character-stats" />
-
     <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Class Abilities</p>
     </chosen-spells-list>
@@ -16,12 +13,11 @@
       <p>Chosen Spells</p>
     </chosen-spells-list>
 
-    <saver-loader class="saver-loader" />
+    <saver-loader class="saver-loader">Saving/Loading</saver-loader>
   </div>
 </template>
 
 <script>
-import ClassControl from './ClassControl.vue'
 import SaverLoader from './SaverLoader.vue'
 import CharacterStats from './CharacterStats.vue'
 import ChosenSpellsList from './spells/ChosenSpellsList.vue'
@@ -31,7 +27,6 @@ import spells from '../store/modules/spells.js'
 export default {
   name: 'CharacterPlanner',
   components: {
-    'class-control': ClassControl,
     'saver-loader': SaverLoader,
     'character-stats': CharacterStats,
     'chosen-spells-list': ChosenSpellsList
@@ -55,6 +50,8 @@ export default {
     this.$store.dispatch('spells/initializeModule', 'spells')
 
     this.$store.dispatch('stats/initializeModule')
+
+    this.$store.dispatch('classConfig/initializeModule')
   },
 
   destroyed() {
