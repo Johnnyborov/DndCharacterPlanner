@@ -1,5 +1,5 @@
 #app {
-  font-size: 1.5vw;
+  font-size: 1.5vmin;
 }
 
 
@@ -15,17 +15,17 @@ pre {
 
 
 .character-planner {
-  background-color: dodgerblue;
+  background-color: white;
   display: flex;
   flex-direction: row;
-  height: 200vw;
+  height: 200vmin;
 }
 
 
 
 .saver-loader {
   background-color: wheat;
-  width: 10vw;
+  width: 10vmin;
 }
 
 
@@ -34,7 +34,7 @@ pre {
   background-color: lavender;
   display: flex;
   flex-direction: column;
-  width: 18vw;
+  width: 18vmin;
 }
 
 .base-stats {
@@ -43,33 +43,41 @@ pre {
 
 .real-stats {
   background-color: darkslategray;
-  width: 9vw;
+  width: 9vmin;
 }
 
 .stat {
   color: aliceblue;
-  margin: 0.5vw;
+  margin: 0.5vmin;
   display: flex;
   justify-content: space-between;
 }
 
 
 
+.spell-lists-area {
+  background-color: dodgerblue;
+  display: flex;
+  flex-direction: row;
+}
+
+
 .remove-option {
   background-color: crimson;
-  margin: 0.5vw;
+  margin: 0.5vmin;
 }
 
 .item-slot {
-  width: 8vw;
-  min-height: 4vw;
-  margin: 0.5vw;
-  padding: 0 1vw 0 1vw;
+  width: 8vmin;
+  min-height: 4vmin;
+  margin: 0.5vmin;
+  padding: 0 1vmin 0 1vmin;
 }
 
 .choosable-items-list {
-  width: 21vw;
   position: relative;
+  width: 21vmin;
+  margin: 0 0 5vmin 0;
 }
 
 .choosable-item {
@@ -84,7 +92,7 @@ pre {
 }
 
 .scrollable-list {
-  max-height: 50vw;
+  max-height: 50vmin;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -93,8 +101,8 @@ pre {
   background-color: green;
   position: absolute;
   z-index: 1;
-  left: 10.5vw;
-  top: 1.5vw;
+  left: 10.5vmin;
+  top: 1.5vmin;
 }
 
 .available-item {
@@ -108,7 +116,7 @@ pre {
   background-color: black;
   position: absolute;
   z-index: 2;
-  left: -36.5vw;
-  width: 35vw;
-  top: 1.5vw;
+  left: -36.5vmin;
+  width: 35vmin;
+  top: 1.5vmin;
 }

@@ -3,32 +3,34 @@
     <character-config class="character-config" />
     <real-stats class="real-stats" />
 
-    <div>
-      <choosable-items-list :moduleName="'classAbilities'" class="choosable-items-list"
+    <div class="spell-lists-area">
+      <div>
+        <choosable-items-list :moduleName="'classAbilities'" class="choosable-items-list"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+          <p>Class Abilities</p>
+        </choosable-items-list>
+        <choosable-items-list :moduleName="'subclassAbilities'" class="choosable-items-list"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+          <p>Subclass Abilities</p>
+        </choosable-items-list>
+      </div>
+
+      <div>
+        <choosable-items-list :moduleName="'feats'" class="choosable-items-list"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+          <p>Chosen Feats</p>
+        </choosable-items-list>
+        <choosable-items-list :moduleName="'cantrips'" class="choosable-items-list"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+          <p>Chosen Cantrips</p>
+        </choosable-items-list>
+      </div>
+
+      <choosable-items-list :moduleName="'spells'" class="choosable-items-list"
         :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-        <p>Class Abilities</p>
-      </choosable-items-list>
-      <choosable-items-list :moduleName="'subclassAbilities'" class="choosable-items-list"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-        <p>Subclass Abilities</p>
+        <p>Chosen Spells</p>
       </choosable-items-list>
     </div>
-
-    <div>
-      <choosable-items-list :moduleName="'feats'" class="choosable-items-list"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-        <p>Chosen Feats</p>
-      </choosable-items-list>
-      <choosable-items-list :moduleName="'cantrips'" class="choosable-items-list"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-        <p>Chosen Cantrips</p>
-      </choosable-items-list>
-    </div>
-
-    <choosable-items-list :moduleName="'spells'" class="choosable-items-list"
-      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-      <p>Chosen Spells</p>
-    </choosable-items-list>
 
     <saver-loader class="saver-loader">Saving/Loading</saver-loader>
   </div>
@@ -41,7 +43,7 @@ import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
 
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
-import choosableItems from '../store/modules/choosableItems.js'
+import items from '../store/modules/items.js'
 
 
 export default {
@@ -61,21 +63,21 @@ export default {
 
 
   created() {
-    this.$store.registerModule('classAbilities', choosableItems)
+    this.$store.registerModule('classAbilities', items)
     this.$store.dispatch('classAbilities/initializeModule', 'classAbilities')
 
-    this.$store.registerModule('subclassAbilities', choosableItems)
+    this.$store.registerModule('subclassAbilities', items)
     this.$store.dispatch('subclassAbilities/initializeModule', 'subclassAbilities')
 
 
-    this.$store.registerModule('feats', choosableItems)
+    this.$store.registerModule('feats', items)
     this.$store.dispatch('feats/initializeModule', 'feats')
 
 
-    this.$store.registerModule('cantrips', choosableItems)
+    this.$store.registerModule('cantrips', items)
     this.$store.dispatch('cantrips/initializeModule', 'cantrips')
 
-    this.$store.registerModule('spells', choosableItems)
+    this.$store.registerModule('spells', items)
     this.$store.dispatch('spells/initializeModule', 'spells')
 
 

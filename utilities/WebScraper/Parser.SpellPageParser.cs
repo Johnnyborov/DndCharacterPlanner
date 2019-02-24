@@ -64,12 +64,21 @@ namespace WebScraper
 
 
         var elem = document.QuerySelector("#mw-content-text");
-
+        
         if (elem.Children[0].TagName == "ASIDE")
         {
           (time, range, components, duration) = ReadAttributes(2, elem.Children[0], "usual");
 
-          description = ReadDescription(1, elem, false);
+
+          if (elem.Children[0].Children[0].TextContent.Trim() == "Word of Radiance") // an exceptionional page
+          {
+            elem.Children[0].Remove();
+            description = elem.TextContent.Trim();
+          }
+          else
+          {
+            description = ReadDescription(1, elem, false);
+          }
         }
         else if (elem.Children[1].TagName == "BLOCKQUOTE") // idk why n1 child aside is actually n3 and n1 is blockquote
         {

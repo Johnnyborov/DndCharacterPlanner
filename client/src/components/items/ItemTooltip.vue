@@ -17,8 +17,8 @@ export default {
 
   mounted() {
     if (this.text.length > 800) {
-      this.$el.style.width = Math.min(this.text.length / 20, 65) + 'vw'
-      this.$el.style.left = - 1.5 - Math.min(this.text.length / 20, 65) + 'vw'
+      this.$el.style.width = Math.min(this.text.length / 20, 65) + 'vmin'
+      this.$el.style.left = - 1.5 - Math.min(this.text.length / 20, 65) + 'vmin'
     }
   },
 
