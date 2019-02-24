@@ -9,9 +9,14 @@
       <p>Class Abilities</p>
     </chosen-spells-list>
 
+    <div>
     <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Chosen Feats</p>
     </chosen-spells-list>
+    <chosen-spells-list :moduleName="'cantrips'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
+      <p>Chosen Cantrips</p>
+    </chosen-spells-list>
+    </div>
 
     <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
       <p>Chosen Spells</p>
@@ -49,20 +54,27 @@ export default {
     this.$store.registerModule('abilities', spells)
     this.$store.dispatch('abilities/initializeModule', 'abilities')
 
+
     this.$store.registerModule('feats', spells)
     this.$store.dispatch('feats/initializeModule', 'feats')
+
+    this.$store.registerModule('cantrips', spells)
+    this.$store.dispatch('cantrips/initializeModule', 'cantrips')
+
 
     this.$store.registerModule('spells', spells)
     this.$store.dispatch('spells/initializeModule', 'spells')
 
-    this.$store.dispatch('classConfig/initializeModule', this)
 
+
+    this.$store.dispatch('classConfig/initializeModule', this)
     this.$store.dispatch('stats/initializeModule')
   },
 
   destroyed() {
     this.$store.unregisterModule('abilities')
     this.$store.unregisterModule('feats')
+    this.$store.unregisterModule('cantrips')
     this.$store.unregisterModule('spells')
   }
 }

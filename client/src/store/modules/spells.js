@@ -26,6 +26,32 @@ function sameClass(spell, rootState) {
   return false
 }
 
+function enoughLevel(spell, rootState) {
+  if (typeof(spell.level) === 'undefined') return true
+
+  if (spell.level * 2 - 1 <= rootState['classConfig'].level) return true
+
+  return false
+}
+
+function satisfiesClassConfig(spell, rootState) {
+  if (!enoughLevel(spell, rootState))
+    return false
+
+  if (!sameClass(spell, rootState))
+    return false
+
+  return true
+}
+
+function isAppropriateType(spell, state) {
+  if (typeof(spell.level) === 'undefined') return true
+
+  if (state.type === 'cantrips' && spell.level === 0 || state.type === 'spells' && spell.level > 0) return true
+
+  return false
+}
+
 
 function updateStats(state, dispatch) {
   if (state.type === 'abilities' || state.type === 'feats') {
@@ -55,11 +81,16 @@ export default {
 
     choosableSpells: (state, getters, rootState) => {
       return state.availableSpells.filter(availableSpell => {
+        if (!isAppropriateType(availableSpell, state))
+          return false
+
         if (isVariation(availableSpell.id))
           return false
 
-        if (!sameClass(availableSpell, rootState))
+
+        if (!satisfiesClassConfig(availableSpell, rootState))
           return false
+
 
         let sameSpell = state.chosenSpells.find(chosenSpellId => chosenSpellId === availableSpell.id)
         if (sameSpell && !canHaveMultiple(availableSpell.id))
@@ -97,11 +128,13 @@ export default {
         commit('setAvailableSpells', spells)
       }
 
-      if (type == 'abilities') {
+      if (type === 'abilities') {
         api.getAbilitiesList(setterFunction)
-      } else if (type == 'feats') {
+      } else if (type === 'feats') {
         api.getFeatsList(setterFunction)
-      } else if (type == 'spells') {
+      } else if (type === 'cantrips') {
+        api.getSpellsList(setterFunction)
+      } else if (type === 'spells') {
         api.getSpellsList(setterFunction)
       }
     },
@@ -120,8 +153,16 @@ export default {
     },
 
 
-    setChosenSpellsAmount({commit}, amount) {
-      let idsList = Array(amount).fill(-1)
+    setChosenSpellsAmount({state, getters, commit, rootState}, amount) {
+      let idsList = Array(amount)
+      for (let i = 0; i < idsList.length; i++) {
+        if (i < state.chosenSpells.length && satisfiesClassConfig(getters.chosenSpell(state.chosenSpells[i]), rootState)) {
+          idsList[i] = state.chosenSpells[i]
+        } else {
+          idsList[i] = - 1
+        }
+      }
+
       commit('setChosenSpells', idsList)
     }
   }

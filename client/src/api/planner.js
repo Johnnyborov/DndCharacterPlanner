@@ -22,6 +22,17 @@ function makeRequest(url, options, func) {
   })
 }
 
+
+const cantripsAmount = {
+  'Sorcerer': {start: 4, increases: [4,10]},
+  'Fighter': {start: 0, increases: []}
+}
+const spellsAmount = {
+  'Sorcerer': {start: 2, increases: [2,3,4,5,6,7,8,9,10,11,13,15,17]},
+  'Fighter': {start: 0, increases: []}
+}
+
+
 const classConfig = {class: 'Sorcerer', subclass: 'Wild Magic', level: 5}
 const characterBaseStats = [8,14,15,10,8,15]
 const abilitiesList = []
@@ -55,6 +66,11 @@ const featsList = [
 ]
 
 export default {
+  getAmounts(func) {
+    let amounts = {cantrips: cantripsAmount, spells: spellsAmount}
+    setTimeout(() => func(amounts, 100))
+  },
+
   getClassConfig(func) {
     setTimeout(() => func(JSON.parse(JSON.stringify(classConfig))), 100)
   },

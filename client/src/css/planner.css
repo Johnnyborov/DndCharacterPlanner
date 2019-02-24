@@ -1,5 +1,4 @@
 #app {
-  background-color: hotpink;
   font-size: 1.5vw;
 }
 
@@ -16,10 +15,10 @@ pre {
 
 
 .character-planner {
-  background-color: coral;
+  background-color: dodgerblue;
   display: flex;
   flex-direction: row;
-  height: 120vw;
+  height: 150vw;
 }
 
 
@@ -32,14 +31,14 @@ pre {
 
 
 .class-config {
-  background-color: springgreen;
+  background-color: lavender;
   display: flex;
   flex-direction: column;
   width: 12vw;
 }
 
 .base-stats {
-  background-color: blueviolet;
+  background-color: gray;
 }
 
 .real-stats {
@@ -70,12 +69,11 @@ pre {
 
 .chosen-spells-list {
   width: 21vw;
-  background-color: dodgerblue;
   position: relative;
 }
 
 .chosen-spell {
-  background-color: greenyellow;
+  background-color: black;
   color: darkorange;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
@@ -100,14 +98,14 @@ pre {
 }
 
 .available-spell {
-  background-color: peru;
+  background-color: black;
   color: lime;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
 }
 
 .spell-tooltip {
-  background-color: yellow;
+  background-color: black;
   position: absolute;
   z-index: 2;
   left: -36.5vw;

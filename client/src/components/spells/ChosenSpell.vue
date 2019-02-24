@@ -1,8 +1,7 @@
 <template>
   <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler"
     class="spell-slot" :class="{'currently-choosing': currentlyClickedSlotId === slotId}">
-
-    {{spell.name}}
+    {{levelText}}{{spell.name}}
 
     <div :style="{'top': posY + 'px', 'position': 'absolute'}">
       <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" :moduleName="moduleName" class="spell-tooltip" />

@@ -1,5 +1,8 @@
 <template>
   <div>
+    Race
+    <select >
+    </select>
     Class
     <select :value="charClass" @input="classChanged($event)">
       <option v-for="cls in classes" :key="cls">

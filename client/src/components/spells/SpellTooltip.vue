@@ -25,7 +25,9 @@ export default {
   computed: {
     text() {
       let res = this.spell.name + '</br>'
-      if (this.moduleName === 'spells') {
+      if (this.moduleName === 'cantrips') {
+        res = 'Name: ' + res + 'Cantrip</br>'
+      } else if (this.moduleName === 'spells') {
         res = 'Name: ' + res + 'Level: ' + this.spell.level + '</br>'
       }
 

@@ -5,6 +5,11 @@ export default {
     'spell-tooltip': SpellTooltip
   },
 
+  props: {
+    moduleName: String,
+    spell: Object
+  },
+
   data() {
     return {
       mouseOver: false,
@@ -12,9 +17,11 @@ export default {
     }
   },
 
-  props: {
-    moduleName: String,
-    spell: Object
+  computed: {
+    levelText() {
+      if (this.moduleName === 'spells' && typeof(this.spell.level) !== 'undefined') return this.spell.level + ':'
+      else return ''
+    }
   },
 
   methods: {

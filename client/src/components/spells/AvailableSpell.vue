@@ -1,6 +1,6 @@
 <template>
   <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="spell-slot">
-    {{levelText}} {{spell.name}}
+    {{levelText}}{{spell.name}}
 
     <stat-chooser :spellId="spell.id" @id-changed="idChangedHandler" />
 
@@ -25,13 +25,6 @@ export default {
   data() {
     return {
       realSpellId: this.spell.id
-    }
-  },
-
-  computed: {
-    levelText() {
-      if (this.moduleName === 'spells') return this.spell.level + ': '
-      else return ''
     }
   },
 

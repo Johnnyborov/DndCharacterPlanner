@@ -20,6 +20,7 @@ namespace server.Models
       Stats = c.Stats;
       Abilities = c.Abilities;
       Feats = c.Feats;
+      Cantrips = c.Cantrips;
       Spells = c.Spells;
     }
 
@@ -35,6 +36,9 @@ namespace server.Models
 
     [NotMapped]
     public List<int> Feats { get; set; }
+
+    [NotMapped]
+    public List<int> Cantrips { get; set; }
 
     [NotMapped]
     public List<int> Spells { get; set; }
@@ -85,6 +89,19 @@ namespace server.Models
       set
       {
         Feats = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
+      }
+    }
+
+    [Column("Cantrips")]
+    public string CantripsSerialized
+    {
+      get
+      {
+        return JsonConvert.SerializeObject(Cantrips);
+      }
+      set
+      {
+        Cantrips = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
       }
     }
 

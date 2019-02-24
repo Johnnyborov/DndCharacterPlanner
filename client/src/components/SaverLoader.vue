@@ -19,7 +19,7 @@ export default {
 
   data() {
     return {
-      characterId: 1
+      characterId: ''
     }
   },
 
@@ -41,6 +41,10 @@ export default {
     ...mapState('feats', {
       getFeats: 'chosenSpells'
     }),
+
+    ...mapState('cantrips', {
+      getCantrips: 'chosenSpells'
+    }),
     
     ...mapState('spells', {
       getSpells: 'chosenSpells'
@@ -58,6 +62,7 @@ export default {
     ...mapActions({
       setAbilities: 'abilities/setChosenSpells',
       setFeats: 'feats/setChosenSpells',
+      setCantrips: 'cantrips/setChosenSpells',
       setSpells: 'spells/setChosenSpells',
     }),
 
@@ -71,6 +76,7 @@ export default {
         stats: this.getStats,
         abilities: this.getAbilities,
         feats: this.getFeats,
+        cantrips: this.getCantrips,
         spells: this.getSpells
       }
 
@@ -81,14 +87,15 @@ export default {
 
     loadHandler() {
       let loadCharacterFunction = char => {
-        this.setClass(char.class)
-        this.$nextTick(() => this.setSubclass(char.subclass))
-        this.setLevel(char.level)
-
         this.setStats(char.stats)
         this.setAbilities(char.abilities)
         this.setFeats(char.feats)
+        this.setCantrips(char.cantrips)
         this.setSpells(char.spells)
+
+        this.setClass(char.class)
+        this.$nextTick(() => this.setSubclass(char.subclass))
+        this.setLevel(char.level)
       }
 
       api.getCharacter(this.characterId, loadCharacterFunction)
