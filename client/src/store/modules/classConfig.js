@@ -9,17 +9,25 @@ function getListAmount(state, amountsType) {
 }
 
 function setAmounts(state, dispatch) {
+  let abilitiesAmount = getListAmount(state, 'abilities')
+  let featsAmount = getListAmount(state, 'feats')
+
+  let cantripsAmount = getListAmount(state, 'cantrips')
+  let spellsAmount = getListAmount(state, 'spells')
+
   if (state.class === 'Fighter') {
-    dispatch('abilities/setChosenSpellsAmount', 4, {root: true})
-    dispatch('feats/setChosenSpellsAmount', 5, {root: true})
-  } else if (state.class === 'Sorcerer') {
-    dispatch('abilities/setChosenSpellsAmount', 3, {root: true})
-    dispatch('feats/setChosenSpellsAmount', 4, {root: true})
+      ;
+  } else if (state.class === 'Sorcerer') {  
+    if (state.subclass === 'Divine Soul') {
+      spellsAmount += 1
+    }
   }
 
+  dispatch('abilities/setChosenSpellsAmount', abilitiesAmount, {root: true})
+  dispatch('feats/setChosenSpellsAmount', featsAmount, {root: true})
 
-  dispatch('cantrips/setChosenSpellsAmount', getListAmount(state, 'cantrips'), {root: true})
-  dispatch('spells/setChosenSpellsAmount', getListAmount(state, 'spells'), {root: true})
+  dispatch('cantrips/setChosenSpellsAmount', cantripsAmount, {root: true})
+  dispatch('spells/setChosenSpellsAmount', spellsAmount, {root: true})
 }
 
 export default {

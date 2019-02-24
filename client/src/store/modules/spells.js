@@ -20,7 +20,8 @@ function sameClass(spell, rootState) {
   if (typeof(spell.classes) === 'undefined') return true
 
   let currentClass = rootState['classConfig'].class
-  let found = spell.classes.find(c => c === currentClass)
+  let isDivineSoul = rootState['classConfig'].subclass === 'Divine Soul'
+  let found = spell.classes.find(c => c === currentClass || isDivineSoul && c === 'Cleric')
   if (found) return true
 
   return false
