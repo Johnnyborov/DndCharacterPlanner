@@ -5,7 +5,7 @@
     {{spell.name}}
 
     <div :style="{'top': posY + 'px', 'position': 'absolute'}">
-      <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" class="spell-tooltip" />
+      <spell-tooltip v-if="mouseOver && spell.id !== -1" :spell="spell" :moduleName="moduleName" class="spell-tooltip" />
     </div>
   </li>
 </template>
@@ -18,15 +18,15 @@ export default {
   mixins: [spellSlot],
 
   props: {
-    moduleName: String,
     slotId: Number,
     currentlyClickedSlotId: Number
   },
 
   methods: {
     clickHandler() {
-      if (this.moduleName !== 'abilities')
+      if (this.moduleName !== 'abilities') {
         this.$emit('clicked-slot', {slotId: this.slotId, posY: this.posY})
+      }
     }
   }
 }

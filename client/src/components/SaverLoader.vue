@@ -82,7 +82,7 @@ export default {
     loadHandler() {
       let loadCharacterFunction = char => {
         this.setClass(char.class)
-        this.setSubclass(char.subclass)
+        this.$nextTick(() => this.setSubclass(char.subclass))
         this.setLevel(char.level)
 
         this.setStats(char.stats)

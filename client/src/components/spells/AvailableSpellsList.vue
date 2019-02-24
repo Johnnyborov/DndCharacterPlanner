@@ -2,7 +2,7 @@
   <div @mouseenter="$emit('enter-child')">
     <ul class="scrollable-list" ref='scrollable-ul'>
       <li @click="spellChosenHandler(-1)" class="remove-option">Remove</li>
-      <available-spell v-for="spell in choosableSpells" :key="spell.id" :spell="spell"
+      <available-spell v-for="spell in choosableSpells" :key="spell.id" :spell="spell" :moduleName="moduleName"
         @spell-chosen="spellChosenHandler" class="available-spell" />
     </ul>
   </div> 

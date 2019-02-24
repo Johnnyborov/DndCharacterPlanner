@@ -1,11 +1,11 @@
 <template>
   <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="spell-slot">
-    {{spell.name}}
+    {{levelText}} {{spell.name}}
 
     <stat-chooser :spellId="spell.id" @id-changed="idChangedHandler" />
 
     <div :style="{'top': posY + 'px', 'position': 'absolute'}">
-      <spell-tooltip v-if="mouseOver" :spell="spell" class="spell-tooltip"/>
+      <spell-tooltip v-if="mouseOver" :spell="spell" :moduleName="moduleName" class="spell-tooltip"/>
     </div>
   </li>
 </template>
@@ -25,6 +25,13 @@ export default {
   data() {
     return {
       realSpellId: this.spell.id
+    }
+  },
+
+  computed: {
+    levelText() {
+      if (this.moduleName === 'spells') return this.spell.level + ': '
+      else return ''
     }
   },
 

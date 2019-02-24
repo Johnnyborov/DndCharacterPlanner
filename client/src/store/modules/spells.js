@@ -16,6 +16,17 @@ function canHaveMultiple(id) {
   return false
 }
 
+function sameClass(spell, rootState) {
+  if (typeof(spell.classes) === 'undefined') return true
+
+  let currentClass = rootState['classConfig'].class
+  let found = spell.classes.find(c => c === currentClass)
+  if (found) return true
+
+  return false
+}
+
+
 function updateStats(state, dispatch) {
   if (state.type === 'abilities' || state.type === 'feats') {
     dispatch('stats/calculateBonusValues', null, { root: true })
@@ -39,12 +50,15 @@ export default {
     chosenSpell: (state) => (id) => {
       if (id === -1) return { id: -1 }
       
-      return state.availableSpells.find(spell => spell.id == id)
+      return state.availableSpells.find(spell => spell.id === id)
     },
 
-    choosableSpells: (state) => {
+    choosableSpells: (state, getters, rootState) => {
       return state.availableSpells.filter(availableSpell => {
         if (isVariation(availableSpell.id))
+          return false
+
+        if (!sameClass(availableSpell, rootState))
           return false
 
         let sameSpell = state.chosenSpells.find(chosenSpellId => chosenSpellId === availableSpell.id)

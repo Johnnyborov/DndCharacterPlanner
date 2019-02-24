@@ -58,7 +58,8 @@ export default {
       return Math.min(20, state.characterBaseStats[index] + state.bonusValues[index])
     },
 
-    characterSkills: () => {
+    characterSkills: (state, getters) => {
+      //console.log(getters.realStatValue(0))
       let skills = Array(10).fill(0)
 
       return skills

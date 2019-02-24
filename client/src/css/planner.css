@@ -1,67 +1,76 @@
 #app {
   background-color: hotpink;
+  font-size: 1.5vw;
 }
+
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
 
 .character-planner {
   background-color: coral;
   display: flex;
   flex-direction: row;
+  height: 120vw;
 }
 
-.class-control {
-  background-color: springgreen;
-  display: flex;
-  flex-direction: column;
-}
+
 
 .saver-loader {
   background-color: wheat;
+  width: 10vw;
 }
 
 
-.character-stats {
-  background-color: blueviolet;
-  width: 24vw;
+
+.class-config {
+  background-color: springgreen;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 12vw;
 }
 
-.base-values {
-  background-color: slategray;
-  width: 11vw;
+.base-stats {
+  background-color: blueviolet;
 }
 
-.real-values {
+.real-stats {
   background-color: darkslategray;
-  width: 11vw;
+  width: 8vw;
 }
 
 .stat {
   color: aliceblue;
-  margin: 0.5em;
+  margin: 0.5vw;
   display: flex;
   justify-content: space-between;
 }
 
 
+
 .remove-option {
   background-color: crimson;
-  margin: 0.5em;
+  margin: 0.5vw;
 }
 
 .spell-slot {
-  width: 5em;
-  min-height: 2em;
-  margin: 0.5em;
-  padding: 0 0 0 0.5em;
+  width: 8vw;
+  min-height: 4vw;
+  margin: 0.5vw;
+  padding: 0 1vw 0 1vw;
 }
 
 .chosen-spells-list {
-  height: 90vh;
-  width: 23vw;
+  width: 21vw;
   background-color: dodgerblue;
-  margin: 1vh;
   position: relative;
 }
 
@@ -77,7 +86,7 @@
 }
 
 .scrollable-list {
-  max-height: 50vh;
+  max-height: 50vw;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -86,8 +95,8 @@
   background-color: green;
   position: absolute;
   z-index: 1;
-  left: 6em;
-  top: 1em;
+  left: 10.5vw;
+  top: 1.5vw;
 }
 
 .available-spell {
@@ -101,18 +110,7 @@
   background-color: yellow;
   position: absolute;
   z-index: 2;
-  left: -36vw;
+  left: -36.5vw;
   width: 35vw;
-  top: 1em;
-}
-
-
-ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-pre {
-  white-space: pre-wrap;
+  top: 1.5vw;
 }

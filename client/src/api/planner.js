@@ -22,8 +22,8 @@ function makeRequest(url, options, func) {
   })
 }
 
-const classConfig = {class: 'Sorcerer', subclass: '', level: 1}
-const characterBaseStats = [13,13,13,12,12,12]
+const classConfig = {class: 'Sorcerer', subclass: 'Wild Magic', level: 5}
+const characterBaseStats = [8,14,15,10,8,15]
 const abilitiesList = []
 const featsList = [
   {id: 1, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
