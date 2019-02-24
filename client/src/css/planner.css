@@ -30,11 +30,11 @@ pre {
 
 
 
-.class-config {
+.character-config {
   background-color: lavender;
   display: flex;
   flex-direction: column;
-  width: 12vw;
+  width: 18vw;
 }
 
 .base-stats {
@@ -43,7 +43,7 @@ pre {
 
 .real-stats {
   background-color: darkslategray;
-  width: 8vw;
+  width: 9vw;
 }
 
 .stat {
@@ -60,26 +60,26 @@ pre {
   margin: 0.5vw;
 }
 
-.spell-slot {
+.item-slot {
   width: 8vw;
   min-height: 4vw;
   margin: 0.5vw;
   padding: 0 1vw 0 1vw;
 }
 
-.chosen-spells-list {
+.choosable-items-list {
   width: 21vw;
   position: relative;
 }
 
-.chosen-spell {
+.choosable-item {
   background-color: black;
   color: darkorange;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
 }
 
-.currently-choosing {
+.selected-item {
   background-image: url("../assets/selected-slot.png");
 }
 
@@ -89,7 +89,7 @@ pre {
   overflow-y: auto;
 }
 
-.available-spells-list {
+.available-items-list {
   background-color: green;
   position: absolute;
   z-index: 1;
@@ -97,14 +97,14 @@ pre {
   top: 1.5vw;
 }
 
-.available-spell {
+.available-item {
   background-color: black;
   color: lime;
   background-image: url("../assets/slot.png");
   background-size: 100% 100%;
 }
 
-.spell-tooltip {
+.item-tooltip {
   background-color: black;
   position: absolute;
   z-index: 2;

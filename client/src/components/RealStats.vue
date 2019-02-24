@@ -3,7 +3,7 @@
     <div>
       <p>Real Stat Scores:</p>  
       <ul>
-        <li v-for="(stat, index) in characterBaseStats" :key="index" class="stat">
+        <li v-for="(stat, index) in baseStats" :key="index" class="stat">
           {{statName(index)}}
           {{realStatValue(index)}}
         </li>
@@ -32,7 +32,7 @@ export default {
 
   computed: {
     ...mapState('stats', [
-      'characterBaseStats'
+      'baseStats'
     ]),
 
     ...mapGetters('stats', [

@@ -1,78 +1,92 @@
 <template>
-  <div @click="spellPressedByModule=''" @mouseleave="spellPressedByModule=''">
-    <saver-loader class="saver-loader">Saving/Loading</saver-loader>
-
-    <class-config class="class-config" />
+  <div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
+    <character-config class="character-config" />
     <real-stats class="real-stats" />
 
-    <chosen-spells-list :moduleName="'abilities'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
-      <p>Class Abilities</p>
-    </chosen-spells-list>
-
     <div>
-    <chosen-spells-list :moduleName="'feats'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
-      <p>Chosen Feats</p>
-    </chosen-spells-list>
-    <chosen-spells-list :moduleName="'cantrips'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
-      <p>Chosen Cantrips</p>
-    </chosen-spells-list>
+      <choosable-items-list :moduleName="'classAbilities'" class="choosable-items-list"
+        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+        <p>Class Abilities</p>
+      </choosable-items-list>
+      <choosable-items-list :moduleName="'subclassAbilities'" class="choosable-items-list"
+        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+        <p>Subclass Abilities</p>
+      </choosable-items-list>
     </div>
 
-    <chosen-spells-list :moduleName="'spells'" class="chosen-spells-list" :spellPressedByModule="spellPressedByModule" @spell-pressed="spellPressedByModule=$event">
+    <div>
+      <choosable-items-list :moduleName="'feats'" class="choosable-items-list"
+        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+        <p>Chosen Feats</p>
+      </choosable-items-list>
+      <choosable-items-list :moduleName="'cantrips'" class="choosable-items-list"
+        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+        <p>Chosen Cantrips</p>
+      </choosable-items-list>
+    </div>
+
+    <choosable-items-list :moduleName="'spells'" class="choosable-items-list"
+      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
       <p>Chosen Spells</p>
-    </chosen-spells-list>
+    </choosable-items-list>
+
+    <saver-loader class="saver-loader">Saving/Loading</saver-loader>
   </div>
 </template>
 
 <script>
 import SaverLoader from './SaverLoader.vue'
 
-import ClassConfig from './ClassConfig.vue'
+import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
 
-import ChosenSpellsList from './spells/ChosenSpellsList.vue'
-import spells from '../store/modules/spells.js'
+import ChoosableItemsList from './items/ChoosableItemsList.vue'
+import choosableItems from '../store/modules/choosableItems.js'
 
 
 export default {
   name: 'CharacterPlanner',
   components: {
     'saver-loader': SaverLoader,
-    'class-config': ClassConfig,
+    'character-config': CharacterConfig,
     'real-stats': RealStats,
-    'chosen-spells-list': ChosenSpellsList
+    'choosable-items-list': ChoosableItemsList
   },
 
   data() {
     return {
-      spellPressedByModule: ''
+      lastModuleToClickItem: ''
     }
   },
 
 
   created() {
-    this.$store.registerModule('abilities', spells)
-    this.$store.dispatch('abilities/initializeModule', 'abilities')
+    this.$store.registerModule('classAbilities', choosableItems)
+    this.$store.dispatch('classAbilities/initializeModule', 'classAbilities')
+
+    this.$store.registerModule('subclassAbilities', choosableItems)
+    this.$store.dispatch('subclassAbilities/initializeModule', 'subclassAbilities')
 
 
-    this.$store.registerModule('feats', spells)
+    this.$store.registerModule('feats', choosableItems)
     this.$store.dispatch('feats/initializeModule', 'feats')
 
-    this.$store.registerModule('cantrips', spells)
+
+    this.$store.registerModule('cantrips', choosableItems)
     this.$store.dispatch('cantrips/initializeModule', 'cantrips')
 
-
-    this.$store.registerModule('spells', spells)
+    this.$store.registerModule('spells', choosableItems)
     this.$store.dispatch('spells/initializeModule', 'spells')
 
 
 
-    this.$store.dispatch('classConfig/initializeModule', this)
+    this.$store.dispatch('characterConfig/initializeModule', this)
     this.$store.dispatch('stats/initializeModule')
   },
 
   destroyed() {
-    this.$store.unregisterModule('abilities')
+    this.$store.unregisterModule('classAbilities')
+    this.$store.unregisterModule('subclassAbilities')
     this.$store.unregisterModule('feats')
     this.$store.unregisterModule('cantrips')
     this.$store.unregisterModule('spells')

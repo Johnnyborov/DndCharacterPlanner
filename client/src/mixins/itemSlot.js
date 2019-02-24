@@ -1,13 +1,13 @@
-import SpellTooltip from '../components/spells/SpellTooltip.vue'
+import ItemTooltip from '../components/items/ItemTooltip.vue'
 
 export default {
   components: {
-    'spell-tooltip': SpellTooltip
+    'item-tooltip': ItemTooltip
   },
 
   props: {
     moduleName: String,
-    spell: Object
+    item: Object
   },
 
   data() {
@@ -19,7 +19,7 @@ export default {
 
   computed: {
     levelText() {
-      if (this.moduleName === 'spells' && typeof(this.spell.level) !== 'undefined') return this.spell.level + ':'
+      if (this.moduleName === 'spells' && typeof(this.item.level) !== 'undefined') return this.item.level + ':'
       else return ''
     }
   },
@@ -28,7 +28,6 @@ export default {
     enterHandler() {
       this.mouseOver = true
       this.posY = this.$el.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top
-
     },
 
     leaveHandler() {

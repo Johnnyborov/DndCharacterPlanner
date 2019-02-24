@@ -24,57 +24,67 @@ export default {
   },
 
   computed: {
-    ...mapState('classConfig', {
+    ...mapState('characterConfig', {
+      getRace: 'race',
       getClass: 'class',
       getSubclass: 'subclass',
       getLevel: 'level',
     }),
 
     ...mapState('stats', {
-      getStats: 'characterBaseStats'
+      getStats: 'baseStats'
     }),
 
-    ...mapState('abilities', {
-      getAbilities: 'chosenSpells'
+    ...mapState('classAbilities', {
+      getClassAbilities: 'choosableItems'
+    }),
+
+    ...mapState('subclassAbilities', {
+      getSubclassAbilities: 'choosableItems'
     }),
 
     ...mapState('feats', {
-      getFeats: 'chosenSpells'
+      getFeats: 'choosableItems'
     }),
 
     ...mapState('cantrips', {
-      getCantrips: 'chosenSpells'
+      getCantrips: 'choosableItems'
     }),
     
     ...mapState('spells', {
-      getSpells: 'chosenSpells'
+      getSpells: 'choosableItems'
     })
   },
 
   methods: {
     ...mapMutations({
-      setClass: 'classConfig/setClass',
-      setSubclass: 'classConfig/setSubclass',
-      setLevel: 'classConfig/setLevel',
+      setRace: 'characterConfig/setRace',
+      setClass: 'characterConfig/setClass',
+      setSubclass: 'characterConfig/setSubclass',
+      setLevel: 'characterConfig/setLevel',
       setStats: 'stats/setBaseStats',
     }),
 
     ...mapActions({
-      setAbilities: 'abilities/setChosenSpells',
-      setFeats: 'feats/setChosenSpells',
-      setCantrips: 'cantrips/setChosenSpells',
-      setSpells: 'spells/setChosenSpells',
+      setClassAbilities: 'classAbilities/setChoosableItems',
+      setSubclassAbilities: 'subclassAbilities/setChoosableItems',
+      setFeats: 'feats/setChoosableItems',
+      setCantrips: 'cantrips/setChoosableItems',
+      setSpells: 'spells/setChoosableItems',
     }),
 
 
     saveHandler() {
       let char = {
+        race: this.getRace,
         class: this.getClass,
         subclass: this.getSubclass,
         level: this.getLevel,
 
         stats: this.getStats,
-        abilities: this.getAbilities,
+        
+        classAbilities: this.getClassAbilities,
+        subclassAbilities: this.getSubclassAbilities,
         feats: this.getFeats,
         cantrips: this.getCantrips,
         spells: this.getSpells
@@ -88,11 +98,15 @@ export default {
     loadHandler() {
       let loadCharacterFunction = char => {
         this.setStats(char.stats)
-        this.setAbilities(char.abilities)
+
+        this.setClassAbilities(char.classAbilities)
+        this.setSubclassAbilities(char.subclassAbilities)
         this.setFeats(char.feats)
         this.setCantrips(char.cantrips)
         this.setSpells(char.spells)
 
+
+        this.setRace(char.race)
         this.setClass(char.class)
         this.$nextTick(() => this.setSubclass(char.subclass))
         this.setLevel(char.level)

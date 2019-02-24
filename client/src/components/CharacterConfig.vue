@@ -1,7 +1,10 @@
 <template>
   <div>
     Race
-    <select >
+    <select :value="charRace" @input="raceChanged($event)">
+      <option v-for="race in races" :key="race">
+        {{race}}
+      </option>
     </select>
     Class
     <select :value="charClass" @input="classChanged($event)">
@@ -49,13 +52,15 @@ import BaseStats from './BaseStats.vue'
 import {mapState} from 'vuex'
 
 export default {
-  name: 'ClassConfig',
+  name: 'CharacterConfig',
   components: {
     'base-stats': BaseStats
   },
 
   data() {
     return {
+      races: ['Human', 'Dwarf', 'Hill Dwarf', 'Mountain Dwarf'],
+
       classes: ['Fighter', 'Sorcerer'],
 
       possibleSubclasses: {'Fighter': ['Champion', 'Samurai'], 'Sorcerer': ['Draconic Bloodline', 'Wild Magic', 'Divine Soul']},
@@ -65,7 +70,8 @@ export default {
   },
 
   computed: {
-    ...mapState('classConfig', {
+    ...mapState('characterConfig', {
+      charRace: 'race',
       charClass: 'class',
       charSubclass: 'subclass',
       charLevel: 'level'
@@ -77,16 +83,20 @@ export default {
   },
 
   methods: {
+    raceChanged(event) {
+      this.$store.dispatch('characterConfig/setRace', event.target.value)
+    },
+
     classChanged(event) {
-      this.$store.dispatch('classConfig/setClass', event.target.value)
+      this.$store.dispatch('characterConfig/setClass', event.target.value)
     },
 
     subclassChanged(event) {
-      this.$store.dispatch('classConfig/setSubclass', event.target.value)
+      this.$store.dispatch('characterConfig/setSubclass', event.target.value)
     },
 
     levelChanged(event) {
-      this.$store.dispatch('classConfig/setLevel', event.target.value)
+      this.$store.dispatch('characterConfig/setLevel', event.target.value)
     }
   }
 }

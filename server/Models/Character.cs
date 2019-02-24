@@ -18,7 +18,9 @@ namespace server.Models
       Level = c.Level;
 
       Stats = c.Stats;
-      Abilities = c.Abilities;
+
+      ClassAbilities = c.ClassAbilities;
+      SubclassAbilities = c.SubclassAbilities;
       Feats = c.Feats;
       Cantrips = c.Cantrips;
       Spells = c.Spells;
@@ -32,7 +34,10 @@ namespace server.Models
     public List<int> Stats { get; set; }
 
     [NotMapped]
-    public List<int> Abilities { get; set; }
+    public List<int> ClassAbilities { get; set; }
+
+    [NotMapped]
+    public List<int> SubclassAbilities { get; set; }
 
     [NotMapped]
     public List<int> Feats { get; set; }
@@ -66,16 +71,29 @@ namespace server.Models
       }
     }
 
-    [Column("Abilities")]
-    public string AbilitiesSerialized
+    [Column("ClassAbilities")]
+    public string ClassAbilitiesSerialized
     {
       get
       {
-        return JsonConvert.SerializeObject(Abilities);
+        return JsonConvert.SerializeObject(ClassAbilities);
       }
       set
       {
-        Abilities = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
+        ClassAbilities = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
+      }
+    }
+
+    [Column("SubclassAbilities")]
+    public string SubclassAbilitiesSerialized
+    {
+      get
+      {
+        return JsonConvert.SerializeObject(SubclassAbilities);
+      }
+      set
+      {
+        SubclassAbilities = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
       }
     }
 

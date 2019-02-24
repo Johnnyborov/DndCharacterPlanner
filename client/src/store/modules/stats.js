@@ -1,10 +1,10 @@
 import api from '../../api/planner.js'
 
 function modifyBonusValuesFrom(moduleName, bonusValues, rootState, rootGetters) {
-  rootState[moduleName].chosenSpells.forEach(spellId => {
-    let spell = rootGetters[moduleName + '/chosenSpell'](spellId)
-    if (typeof(spell.bonusStats) !== 'undefined') {
-      spell.bonusStats.forEach(bonusStat => {
+  rootState[moduleName].choosableItems.forEach(itemId => {
+    let item = rootGetters[moduleName + '/choosableItem'](itemId)
+    if (typeof(item.bonusStats) !== 'undefined') {
+      item.bonusStats.forEach(bonusStat => {
         bonusValues.splice(bonusStat.index, 1, bonusValues[bonusStat.index] + bonusStat.value)
       })
     }
@@ -49,17 +49,16 @@ export default {
   namespaced: true,
 
   state: {
-    characterBaseStats: [],
+    baseStats: [],
     bonusValues: []
   },
 
   getters: {
     realStatValue: (state) => (index) => {
-      return Math.min(20, state.characterBaseStats[index] + state.bonusValues[index])
+      return Math.min(20, state.baseStats[index] + state.bonusValues[index])
     },
 
     characterSkills: (state, getters) => {
-      //console.log(getters.realStatValue(0))
       let skills = Array(10).fill(0)
 
       return skills
@@ -72,11 +71,11 @@ export default {
     },
 
     setBaseStats(state, values) {
-      state.characterBaseStats = values
+      state.baseStats = values
     },
 
     setBaseStatValue(state, {index, value}) {
-      state.characterBaseStats.splice(index, 1, value)
+      state.baseStats.splice(index, 1, value)
     }
   },
 
@@ -92,7 +91,8 @@ export default {
     calculateBonusValues({commit, rootState, rootGetters}) {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
-      modifyBonusValuesFrom('abilities', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('classAbilities', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('subclassAbilities', bonusValues, rootState, rootGetters)
       modifyBonusValuesFrom('feats', bonusValues, rootState, rootGetters)
 
       

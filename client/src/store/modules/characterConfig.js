@@ -9,31 +9,37 @@ function getListAmount(state, amountsType) {
 }
 
 function setAmounts(state, dispatch) {
-  let abilitiesAmount = getListAmount(state, 'abilities')
+  let classAmount = getListAmount(state, 'class')
+  let subclassAmount = getListAmount(state, 'subclass')
+
   let featsAmount = getListAmount(state, 'feats')
 
   let cantripsAmount = getListAmount(state, 'cantrips')
   let spellsAmount = getListAmount(state, 'spells')
 
-  if (state.class === 'Fighter') {
-      ;
-  } else if (state.class === 'Sorcerer') {  
+
+  if (state.race === 'Human') featsAmount += 1 // state.race === |id of Human(1 feat + 1x2 stat)|
+  if (state.class === 'Sorcerer') {  
     if (state.subclass === 'Divine Soul') {
       spellsAmount += 1
     }
   }
 
-  dispatch('abilities/setChosenSpellsAmount', abilitiesAmount, {root: true})
-  dispatch('feats/setChosenSpellsAmount', featsAmount, {root: true})
+  
+  dispatch('classAbilities/setChoosableItemsAmount', classAmount, {root: true})
+  dispatch('subclassAbilities/setChoosableItemsAmount', subclassAmount, {root: true})
 
-  dispatch('cantrips/setChosenSpellsAmount', cantripsAmount, {root: true})
-  dispatch('spells/setChosenSpellsAmount', spellsAmount, {root: true})
+  dispatch('feats/setChoosableItemsAmount', featsAmount, {root: true})
+
+  dispatch('cantrips/setChoosableItemsAmount', cantripsAmount, {root: true})
+  dispatch('spells/setChoosableItemsAmount', spellsAmount, {root: true})
 }
 
 export default {
   namespaced: true,
 
   state: {
+    race: '',
     class: '',
     subclass: '',
     level: 0,
@@ -42,6 +48,10 @@ export default {
   },
 
   mutations: {
+    setRace(state, race) {
+      state.race = race
+    },
+
     setClass(state, cls) {
       state.class = cls
     },
@@ -61,7 +71,8 @@ export default {
 
   actions: {
     initializeModule({state, commit, dispatch}, vueContext) {
-      api.getClassConfig(config => {
+      api.getCharacterConfig(config => {
+        commit('setRace', config.race)
         commit('setClass', config.class)
         vueContext.$nextTick(() => commit('setSubclass', config.subclass))
         commit('setLevel', config.level)
@@ -72,6 +83,12 @@ export default {
           setAmounts(state, dispatch)
         })
       })
+    },
+
+    setRace({state, commit, dispatch}, value) {
+      commit('setRace', value)
+
+      setAmounts(state, dispatch)
     },
 
     setClass({state, commit, dispatch}, value) {

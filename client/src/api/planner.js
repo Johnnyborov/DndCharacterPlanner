@@ -23,10 +23,15 @@ function makeRequest(url, options, func) {
 }
 
 
-const abilitiesAmount = {
+const classAbilitiesAmount = {
   'Sorcerer': {start: 2, increases: [2,3,10,17,20]},
   'Fighter': {start: 2, increases: [2,3,5,9]}
 }
+const subclassAbilitiesAmount = {
+  'Sorcerer': {start: 1, increases: [7,10,15,18]},
+  'Fighter': {start: 1, increases: [6,14,18]}
+}
+
 const featsAmount = {
   'Sorcerer': {start: 0, increases: [4,8,12,16,19]},
   'Fighter': {start: 0, increases: [4,6,8,12,14,16,19]}
@@ -42,9 +47,10 @@ const spellsAmount = {
 }
 
 
-const classConfig = {class: 'Sorcerer', subclass: 'Wild Magic', level: 20}
+const characterConfig = {race: 'Dwarf', class: 'Sorcerer', subclass: 'Wild Magic', level: 20}
 const characterBaseStats = [8,14,15,10,8,15]
-const abilitiesList = []
+const classAbilitiesList = []
+const subclassAbilitiesList = []
 const featsList = [
   {id: 1, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
 
@@ -76,29 +82,45 @@ const featsList = [
 
 export default {
   getAmounts(func) {
-    let amounts = {abilities: abilitiesAmount, feats: featsAmount, cantrips: cantripsAmount, spells: spellsAmount}
+    let amounts = {
+      class: classAbilitiesAmount,
+      subclass: subclassAbilitiesAmount,
+      feats: featsAmount,
+      cantrips: cantripsAmount,
+      spells: spellsAmount
+    }
     setTimeout(() => func(amounts, 100))
   },
 
-  getClassConfig(func) {
-    setTimeout(() => func(JSON.parse(JSON.stringify(classConfig))), 100)
+  getCharacterConfig(func) {
+    setTimeout(() => func(JSON.parse(JSON.stringify(characterConfig))), 100)
   },
 
   getBaseStats(func) {
     setTimeout(() => func(JSON.parse(JSON.stringify(characterBaseStats))), 100)
   },
 
-  getAbilitiesList(func) {
-    setTimeout(() => func(abilitiesList), 100)
+
+  getClassAbilitiesList(func) {
+    setTimeout(() => func(classAbilitiesList), 100)
+  },
+
+  getSubclassAbilitiesList(func) {
+    setTimeout(() => func(subclassAbilitiesList), 100)
   },
 
   getFeatsList(func) {
     setTimeout(() => func(featsList), 100)
   },
 
+  getCantripsList(func) {
+    makeRequest(baseUrl + '/spelllist', null, func)
+  },
+
   getSpellsList(func) {
     makeRequest(baseUrl + '/spelllist', null, func)
   },
+
 
   saveCharacter(char, func) {
     let options = {
