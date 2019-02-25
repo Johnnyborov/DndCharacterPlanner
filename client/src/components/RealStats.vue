@@ -31,11 +31,11 @@ export default {
   name: 'RealStats',
 
   computed: {
-    ...mapState('stats', [
+    ...mapState('character/stats', [
       'baseStats'
     ]),
 
-    ...mapGetters('stats', [
+    ...mapGetters('character/stats', [
       'realStatValue',
       'characterSkills'
     ])

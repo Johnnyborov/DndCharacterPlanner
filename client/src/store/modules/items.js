@@ -19,8 +19,8 @@ function canHaveMultiple(id) {
 function sameClass(item, rootState) {
   if (typeof(item.classes) === 'undefined') return true
 
-  let currentClass = rootState['characterConfig'].class
-  let isDivineSoul = rootState['characterConfig'].subclass === 'Divine Soul'
+  let currentClass = rootState['character'].class.name
+  let isDivineSoul = rootState['character'].subclass === 'Divine Soul'
   let found = item.classes.find(c => c === currentClass || isDivineSoul && c === 'Cleric')
   if (found) return true
 
@@ -30,7 +30,7 @@ function sameClass(item, rootState) {
 function enoughLevel(item, rootState) {
   if (typeof(item.level) === 'undefined') return true
 
-  if (item.level * 2 - 1 <= rootState['characterConfig'].level) return true
+  if (item.level * 2 - 1 <= rootState['character'].level) return true
 
   return false
 }
@@ -54,12 +54,6 @@ function isAppropriateType(item, state) {
 }
 
 
-function updateStats(state, dispatch) {
-  if (state.type === 'classAbilities' || state.type === 'subclassAbilities' || state.type === 'feats') {
-    dispatch('stats/calculateBonusValues', null, { root: true })
-  }
-}
-
 export default {
   namespaced: true,
 
@@ -80,7 +74,7 @@ export default {
       return state.availableItems.find(item => item.id === id)
     },
 
-    choosableItems: (state, getters, rootState) => {
+    filteredAvailableItems: (state, getters, rootState) => {
       return state.availableItems.filter(availableItem => {
         if (!isAppropriateType(availableItem, state))
           return false
@@ -124,35 +118,30 @@ export default {
     initializeModule({commit}, type) {
       commit('setType', type)
 
-
-      let setterFunction = items => {
-        commit('setAvailableItems', items)
-      }
-
+      let itemsReceived
       if (type === 'classAbilities') {
-        api.getClassAbilitiesList(setterFunction)
+        itemsReceived = api.getClassAbilitiesList()
       } else if (type === 'subclassAbilities') {
-        api.getSubclassAbilitiesList(setterFunction)
+        itemsReceived = api.getSubclassAbilitiesList()
       } else if (type === 'feats') {
-        api.getFeatsList(setterFunction)
+        itemsReceived = api.getFeatsList()
       } else if (type === 'cantrips') {
-        api.getCantripsList(setterFunction)
+        itemsReceived = api.getCantripsList()
       } else if (type === 'spells') {
-        api.getSpellsList(setterFunction)
+        itemsReceived = api.getSpellsList()
       }
+
+      itemsReceived
+      .then(items => commit('setAvailableItems', items))
     },
 
-
-    setChoosableItems({state, commit, dispatch}, items) {
-      commit('setChoosableItems', items)
-
-      updateStats(state, dispatch)
-    },
 
     setChoosableItemId({state, commit, dispatch}, arg) {
       commit('setChoosableItemId', arg)
 
-      updateStats(state, dispatch)
+      if (state.type === 'classAbilities' || state.type === 'subclassAbilities' || state.type === 'feats') {
+        dispatch('character/stats/modifyBonusValues', null, { root: true })
+      }
     },
 
 

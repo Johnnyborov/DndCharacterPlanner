@@ -3,12 +3,12 @@
     <slot></slot>
     <ul>
       <choosable-item v-for="(itemId, index) in choosableItems" :key="index" :slotId="index" :item="choosableItem(itemId)" :currentlyClickedSlotId="currentlyClickedSlotId"
-        @clicked-item="clickedSlotHandler" :moduleName="moduleName" class="choosable-item" />
+        @clicked-item="clickedSlotHandler" :moduleType="moduleType" class="choosable-item" />
     </ul>
     
     <div :style="{'top': avaliableItemsPosY + 'px', 'position': 'absolute'}">
       <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items"
-        :slotId="currentlyClickedSlotId" :moduleName="moduleName" class="available-items-list" />
+        :slotId="currentlyClickedSlotId" :moduleType="moduleType" class="available-items-list" />
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   },
 
   props: {
-    moduleName: String,
+    moduleType: String,
     lastModuleToClickItem: String
   },
 
@@ -39,11 +39,11 @@ export default {
 
   computed: {
     choosableItems() {
-      return this.$store.state[this.moduleName].choosableItems
+      return this.$store.state['character/' + this.moduleType].choosableItems
     },
 
     currentlyClickedSlotId() {
-      if (this.lastModuleToClickItem !== this.moduleName)
+      if (this.lastModuleToClickItem !== this.moduleType)
         this.currentlyClickedSlotIdData = -1
         
       return this.currentlyClickedSlotIdData
@@ -52,7 +52,7 @@ export default {
 
   methods: {
     choosableItem(id) {
-      return this.$store.getters[this.moduleName + '/choosableItem'](id)
+      return this.$store.getters['character/' + this.moduleType + '/choosableItem'](id)
     },
 
     clickedSlotHandler({slotId, posY}) {
@@ -63,7 +63,7 @@ export default {
         this.$refs['available-items'].$refs['scrollable-ul'].scrollTop = 0
       })
 
-      this.$emit('item-clicked', this.moduleName)
+      this.$emit('item-clicked', this.moduleType)
     }
   }
 }

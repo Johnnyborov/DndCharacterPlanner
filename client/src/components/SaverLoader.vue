@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
@@ -24,61 +24,49 @@ export default {
   },
 
   computed: {
-    ...mapState('characterConfig', {
+    ...mapState('character', {
       getRace: 'race',
       getClass: 'class',
       getSubclass: 'subclass',
       getLevel: 'level',
     }),
 
-    ...mapState('stats', {
+    ...mapState('character/stats', {
       getStats: 'baseStats'
     }),
 
-    ...mapState('classAbilities', {
+    ...mapState('character/classAbilities', {
       getClassAbilities: 'choosableItems'
     }),
 
-    ...mapState('subclassAbilities', {
+    ...mapState('character/subclassAbilities', {
       getSubclassAbilities: 'choosableItems'
     }),
 
-    ...mapState('feats', {
+    ...mapState('character/feats', {
       getFeats: 'choosableItems'
     }),
 
-    ...mapState('cantrips', {
+    ...mapState('character/cantrips', {
       getCantrips: 'choosableItems'
     }),
     
-    ...mapState('spells', {
+    ...mapState('character/spells', {
       getSpells: 'choosableItems'
     })
   },
 
   methods: {
-    ...mapMutations({
-      setRace: 'characterConfig/setRace',
-      setClass: 'characterConfig/setClass',
-      setSubclass: 'characterConfig/setSubclass',
-      setLevel: 'characterConfig/setLevel',
-      setStats: 'stats/setBaseStats',
-    }),
-
     ...mapActions({
-      setClassAbilities: 'classAbilities/setChoosableItems',
-      setSubclassAbilities: 'subclassAbilities/setChoosableItems',
-      setFeats: 'feats/setChoosableItems',
-      setCantrips: 'cantrips/setChoosableItems',
-      setSpells: 'spells/setChoosableItems',
+      setCharacter: 'character/setCharacter',
     }),
 
 
     saveHandler() {
       let char = {
-        race: this.getRace,
-        class: this.getClass,
-        subclass: this.getSubclass,
+        race: this.getRace.name,
+        class: this.getClass.name,
+        subclass: this.getSubclass.name,
         level: this.getLevel,
 
         stats: this.getStats,
@@ -90,29 +78,15 @@ export default {
         spells: this.getSpells
       }
 
-      api.saveCharacter(char, id => {
+      api.saveCharacter(char)
+      .then(id => {
         this.characterId = id
       })
     },
 
     loadHandler() {
-      let loadCharacterFunction = char => {
-        this.setStats(char.stats)
-
-        this.setClassAbilities(char.classAbilities)
-        this.setSubclassAbilities(char.subclassAbilities)
-        this.setFeats(char.feats)
-        this.setCantrips(char.cantrips)
-        this.setSpells(char.spells)
-
-
-        this.setRace(char.race)
-        this.setClass(char.class)
-        this.$nextTick(() => this.setSubclass(char.subclass))
-        this.setLevel(char.level)
-      }
-
-      api.getCharacter(this.characterId, loadCharacterFunction)
+      api.getCharacter(this.characterId)
+      .then(char => this.setCharacter(char))
     }
   }
 }

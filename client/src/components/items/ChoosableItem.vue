@@ -4,7 +4,7 @@
     {{levelText}}{{item.name}}
 
     <div :style="{'top': posY + 'px', 'position': 'absolute'}">
-      <item-tooltip v-if="mouseOver && item.id !== -1" :item="item" :moduleName="moduleName" class="item-tooltip" />
+      <item-tooltip v-if="mouseOver && item.id !== -1" :item="item" :moduleType="moduleType" class="item-tooltip" />
     </div>
   </li>
 </template>
@@ -23,7 +23,7 @@ export default {
 
   methods: {
     clickHandler() {
-      if (this.moduleName !== 'classAbilities' && this.moduleName !== 'subclassAbilities') {
+      if (this.moduleType !== 'classAbilities' && this.moduleType !== 'subclassAbilities') {
         this.$emit('clicked-item', {slotId: this.slotId, posY: this.posY})
       }
     }

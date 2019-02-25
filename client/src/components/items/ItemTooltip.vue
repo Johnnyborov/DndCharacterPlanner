@@ -11,7 +11,7 @@ export default {
   name: 'ItemTooltip',
 
   props: {
-    moduleName: String,
+    moduleType: String,
     item: Object
   },
 
@@ -25,9 +25,9 @@ export default {
   computed: {
     text() {
       let res = this.item.name + '</br>'
-      if (this.moduleName === 'cantrips') {
+      if (this.moduleType === 'cantrips') {
         res = 'Name: ' + res + 'Cantrip</br>'
-      } else if (this.moduleName === 'spells') {
+      } else if (this.moduleType === 'spells') {
         res = 'Name: ' + res + 'Level: ' + this.item.level + '</br>'
       }
 

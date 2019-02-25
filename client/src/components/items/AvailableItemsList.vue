@@ -2,7 +2,7 @@
   <div @mouseenter="$emit('enter-child')">
     <ul class="scrollable-list" ref='scrollable-ul'>
       <li @click="itemChosenHandler(-1)" class="remove-option">Remove</li>
-      <available-item v-for="item in choosableItems" :key="item.id" :item="item" :moduleName="moduleName"
+      <available-item v-for="item in filteredAvailableItems" :key="item.id" :item="item" :moduleType="moduleType"
         @item-chosen="itemChosenHandler" class="available-item" />
     </ul>
   </div> 
@@ -18,19 +18,19 @@ export default {
   },
 
   props: {
-    moduleName: String,
+    moduleType: String,
     slotId: Number
   },
 
   computed: {  
-    choosableItems() {
-      return this.$store.getters[this.moduleName + '/choosableItems']
+    filteredAvailableItems() {
+      return this.$store.getters['character/' + this.moduleType + '/filteredAvailableItems']
     }
   },
   
   methods: {
     itemChosenHandler(itemId) {
-      return this.$store.dispatch(this.moduleName + '/setChoosableItemId', {slotId: this.slotId, itemId: itemId})
+      return this.$store.dispatch('character/' + this.moduleType + '/setChoosableItemId', {slotId: this.slotId, itemId: itemId})
     }
   }
 }

@@ -1,22 +1,22 @@
 <template>
   <div>
     Race
-    <select :value="charRace" @input="raceChanged($event)">
-      <option v-for="race in races" :key="race">
-        {{race}}
+    <select :value="charRace.name" @input="raceChanged($event)">
+      <option v-for="race in racesList" :key="race.id">
+        {{race.name}}
       </option>
     </select>
     Class
-    <select :value="charClass" @input="classChanged($event)">
-      <option v-for="cls in classes" :key="cls">
-        {{cls}}
+    <select :value="charClass.name" @input="classChanged($event)">
+      <option v-for="cls in classesList" :key="cls.id">
+        {{cls.name}}
       </option>
     </select>
 
     Subclass
-    <select :value="charSubclass" @input="subclassChanged($event)">
-      <option v-for="sub in subClasses" :key="sub">
-        {{sub}}
+    <select :value="charSubclass.name" @input="subclassChanged($event)">
+      <option v-for="sub in charClass.subclasses" :key="sub.id">
+        {{sub.name}}
       </option>
     </select>
 
@@ -49,7 +49,7 @@
 <script>
 import BaseStats from './BaseStats.vue'
 
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'CharacterConfig',
@@ -59,44 +59,46 @@ export default {
 
   data() {
     return {
-      races: ['Human', 'Dwarf', 'Hill Dwarf', 'Mountain Dwarf'],
-
-      classes: ['Fighter', 'Sorcerer'],
-
-      possibleSubclasses: {'Fighter': ['Champion', 'Samurai'], 'Sorcerer': ['Draconic Bloodline', 'Wild Magic', 'Divine Soul']},
-
       levels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     }
   },
 
   computed: {
-    ...mapState('characterConfig', {
+    ...mapState('character', {
       charRace: 'race',
-      charClass: 'class',
-      charSubclass: 'subclass',
-      charLevel: 'level'
-    }),
+      racesList: 'racesList',
 
-    subClasses() {
-      return this.possibleSubclasses[this.charClass]
-    }
+      charClass: 'class',
+      classesList: 'classesList',
+
+      charSubclass: 'subclass',
+
+      charLevel: 'level'
+    })
   },
 
   methods: {
+    ...mapActions('character', [
+      'setRaceByName',
+      'setClassByName',
+      'setSubclassByName',
+      'setLevel',
+    ]),
+
     raceChanged(event) {
-      this.$store.dispatch('characterConfig/setRace', event.target.value)
+      this.setRaceByName(event.target.value)
     },
 
     classChanged(event) {
-      this.$store.dispatch('characterConfig/setClass', event.target.value)
+      this.setClassByName(event.target.value)
     },
 
     subclassChanged(event) {
-      this.$store.dispatch('characterConfig/setSubclass', event.target.value)
+      this.setSubclassByName(event.target.value)
     },
 
     levelChanged(event) {
-      this.$store.dispatch('characterConfig/setLevel', event.target.value)
+      this.setLevel(event.target.value)
     }
   }
 }

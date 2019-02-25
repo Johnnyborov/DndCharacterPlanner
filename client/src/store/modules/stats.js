@@ -1,8 +1,6 @@
-import api from '../../api/planner.js'
-
-function modifyBonusValuesFrom(moduleName, bonusValues, rootState, rootGetters) {
-  rootState[moduleName].choosableItems.forEach(itemId => {
-    let item = rootGetters[moduleName + '/choosableItem'](itemId)
+function modifyBonusValuesFrom(modulePath, bonusValues, rootState, rootGetters) {
+  rootState[modulePath].choosableItems.forEach(itemId => {
+    let item = rootGetters[modulePath + '/choosableItem'](itemId)
     if (typeof(item.bonusStats) !== 'undefined') {
       item.bonusStats.forEach(bonusStat => {
         bonusValues.splice(bonusStat.index, 1, bonusValues[bonusStat.index] + bonusStat.value)
@@ -80,22 +78,13 @@ export default {
   },
 
   actions: {
-    initializeModule({commit, dispatch}) {
-      api.getBaseStats(stats => {
-        commit('setBaseStats', stats)
-        
-        dispatch('calculateBonusValues')
-      })
-    },
-
-    calculateBonusValues({commit, rootState, rootGetters}) {
+     modifyBonusValues({commit, rootState, rootGetters}) {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
-      modifyBonusValuesFrom('classAbilities', bonusValues, rootState, rootGetters)
-      modifyBonusValuesFrom('subclassAbilities', bonusValues, rootState, rootGetters)
-      modifyBonusValuesFrom('feats', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('character/classAbilities', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('character/subclassAbilities', bonusValues, rootState, rootGetters)
+      modifyBonusValuesFrom('character/feats', bonusValues, rootState, rootGetters)
 
-      
       commit('setBonusValues', bonusValues)
     }
   }

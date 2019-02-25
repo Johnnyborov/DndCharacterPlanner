@@ -6,7 +6,7 @@ export default {
   },
 
   props: {
-    moduleName: String,
+    moduleType: String,
     item: Object
   },
 
@@ -19,7 +19,7 @@ export default {
 
   computed: {
     levelText() {
-      if (this.moduleName === 'spells' && typeof(this.item.level) !== 'undefined') return this.item.level + ':'
+      if (this.moduleType === 'spells' && typeof(this.item.level) !== 'undefined') return this.item.level + ':'
       else return ''
     }
   },

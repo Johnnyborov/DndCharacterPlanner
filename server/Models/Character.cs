@@ -13,6 +13,7 @@ namespace server.Models
     public Character() {}
     public Character(Character c)
     {
+      Race = c.Race;
       Class = c.Class;
       Subclass = c.Subclass;
       Level = c.Level;
@@ -26,6 +27,7 @@ namespace server.Models
       Spells = c.Spells;
     }
 
+    public string Race { get; set; }
     public string Class { get; set; }
     public string Subclass { get; set; }
     public int Level { get; set; }

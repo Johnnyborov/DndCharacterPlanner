@@ -31,7 +31,7 @@ export default {
   },
 
   computed: {
-    ...mapState('stats', [
+    ...mapState('character/stats', [
       'baseStats'
     ])
   },
@@ -42,7 +42,7 @@ export default {
     },
 
     updateBaseStatValue(index, event) {
-      this.$store.commit('stats/setBaseStatValue', {index: index, value: Number(event.target.value)})
+      this.$store.commit('character/stats/setBaseStatValue', {index: index, value: Number(event.target.value)})
     }
   }
 }

@@ -3,52 +3,77 @@ import 'whatwg-fetch'
 const debug = process.env.NODE_ENV !== 'production'
 const baseUrl = debug ? 'http://localhost:5000/api/planner' : '/api/planner'
 
-function makeRequest(url, options, func) {
-  fetch(url, options)
-  .then(response => {
-    if (response.ok)
-      return response.json()
-    else
-      throw new Error(response.status + ' ' + response.statusText)
+function jsonResponsePromise(url, options) {
+  return new Promise(resolve => {
+    fetch(url, options)
+    .then(response => {
+      if (response.ok)
+        return response.json()
+      else
+        throw new Error(response.status + ' ' + response.statusText)
+    })
+    .catch(error => {
+      throw new Error(error.message)
+    })
+    .then(json => {
+      resolve(json)
+    })
+    .catch(error => {
+      console.log('Error: ' + error.message)
+    })
+  })  
+}
+
+function timeoutPromise(arg) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(arg)
+    }, 100)
   })
-  .catch(error => {
-    throw new Error(error.message)
-  })
-  .then(json => {
-    func(json)
-  })
-  .catch(error => {
-    console.log('Error: ' + error.message)
-  })
 }
 
 
-const classAbilitiesAmount = {
-  'Sorcerer': {start: 2, increases: [2,3,10,17,20]},
-  'Fighter': {start: 2, increases: [2,3,5,9]}
-}
-const subclassAbilitiesAmount = {
-  'Sorcerer': {start: 1, increases: [7,10,15,18]},
-  'Fighter': {start: 1, increases: [6,14,18]}
+const racesList = [
+  {id: 100, name: 'Human'},
+  {id: 101, name: 'Dwarf'},
+  {id: 102, name: 'Hill Dwarf'},
+  {id: 103, name: 'Mountain Dwarf'}
+]
+const classesList = [
+  {id: 200, name: 'Fighter', subclasses: [
+    {id: 300, name: 'Champion'},
+    {id: 301, name: 'Samurai'}
+  ]},
+  {id: 201, name: 'Sorcerer', subclasses: [
+    {id: 310, name: 'Draconic Bloodline'},
+    {id: 311, name: 'Wild Magic'},
+    {id: 312, name: 'Divine Soul'}
+  ]},
+]
+
+const amounts = {
+  class: {
+    'Sorcerer': {start: 2, increases: [2,3,10,17,20]},
+    'Fighter': {start: 2, increases: [2,3,5,9]}
+  },
+  subclass: {
+    'Sorcerer': {start: 1, increases: [7,10,15,18]},
+    'Fighter': {start: 1, increases: [6,14,18]}
+  },
+  feats: {
+    'Sorcerer': {start: 0, increases: [4,8,12,16,19]},
+    'Fighter': {start: 0, increases: [4,6,8,12,14,16,19]}
+  },
+  cantrips: {
+    'Sorcerer': {start: 4, increases: [4,10]},
+    'Fighter': {start: 0, increases: []}
+  },
+  spells: {
+    'Sorcerer': {start: 2, increases: [2,3,4,5,6,7,8,9,10,11,13,15,17]},
+    'Fighter': {start: 0, increases: []}
+  }
 }
 
-const featsAmount = {
-  'Sorcerer': {start: 0, increases: [4,8,12,16,19]},
-  'Fighter': {start: 0, increases: [4,6,8,12,14,16,19]}
-}
-
-const cantripsAmount = {
-  'Sorcerer': {start: 4, increases: [4,10]},
-  'Fighter': {start: 0, increases: []}
-}
-const spellsAmount = {
-  'Sorcerer': {start: 2, increases: [2,3,4,5,6,7,8,9,10,11,13,15,17]},
-  'Fighter': {start: 0, increases: []}
-}
-
-
-const characterConfig = {race: 'Dwarf', class: 'Sorcerer', subclass: 'Wild Magic', level: 20}
-const characterBaseStats = [8,14,15,10,8,15]
 const classAbilitiesList = []
 const subclassAbilitiesList = []
 const featsList = [
@@ -80,49 +105,62 @@ const featsList = [
   {id: 66, name: 'stats+2', bonusStats: [{index: 5, value: 2}]},
 ]
 
+
+const startCharacter = {
+  race: 'Hill Dwarf',
+  class: 'Sorcerer',
+  subclass: 'Wild Magic',
+  level: 20,
+  stats: [8,14,15,10,8,15],
+  classAbilities: [],
+  subclassAbilities: [],
+  feats: [],
+  cantrips: [],
+  spells: [],
+}
+
 export default {
-  getAmounts(func) {
-    let amounts = {
-      class: classAbilitiesAmount,
-      subclass: subclassAbilitiesAmount,
-      feats: featsAmount,
-      cantrips: cantripsAmount,
-      spells: spellsAmount
-    }
-    setTimeout(() => func(amounts, 100))
-  },
-
-  getCharacterConfig(func) {
-    setTimeout(() => func(JSON.parse(JSON.stringify(characterConfig))), 100)
-  },
-
-  getBaseStats(func) {
-    setTimeout(() => func(JSON.parse(JSON.stringify(characterBaseStats))), 100)
+  getStartCharacter() {
+    return timeoutPromise(JSON.parse(JSON.stringify(startCharacter)))
   },
 
 
-  getClassAbilitiesList(func) {
-    setTimeout(() => func(classAbilitiesList), 100)
+  getRacesList() {
+    return timeoutPromise(racesList)
   },
 
-  getSubclassAbilitiesList(func) {
-    setTimeout(() => func(subclassAbilitiesList), 100)
-  },
-
-  getFeatsList(func) {
-    setTimeout(() => func(featsList), 100)
-  },
-
-  getCantripsList(func) {
-    makeRequest(baseUrl + '/spelllist', null, func)
-  },
-
-  getSpellsList(func) {
-    makeRequest(baseUrl + '/spelllist', null, func)
+  getClassesList() {
+    return timeoutPromise(classesList)
   },
 
 
-  saveCharacter(char, func) {
+  getAmounts() {
+    return timeoutPromise(amounts)
+  },
+
+
+  getClassAbilitiesList() {
+    return timeoutPromise(classAbilitiesList)
+  },
+
+  getSubclassAbilitiesList() {
+    return timeoutPromise(subclassAbilitiesList)
+  },
+
+  getFeatsList() {
+    return timeoutPromise(featsList)
+  },
+
+  getCantripsList() {
+    return jsonResponsePromise(baseUrl + '/spelllist')
+  },
+
+  getSpellsList() {
+    return jsonResponsePromise(baseUrl + '/spelllist')
+  },
+
+
+  saveCharacter(char) {
     let options = {
       method: 'POST',
       headers: {
@@ -132,10 +170,10 @@ export default {
       body: JSON.stringify(char)
     }
 
-    makeRequest(baseUrl + '/savecharacter', options, func)
+    return jsonResponsePromise(baseUrl + '/savecharacter', options)
   },
 
-  getCharacter(id, func) {
-    makeRequest(baseUrl + '/getcharacter?id=' + id, null, func)
+  getCharacter(id) {
+    return jsonResponsePromise(baseUrl + '/getcharacter?id=' + id)
   }
 }
