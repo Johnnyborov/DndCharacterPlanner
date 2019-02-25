@@ -74,10 +74,20 @@ pre {
   padding: 0 1vmin 0 1vmin;
 }
 
+.item-level {
+  width: 3vmin;
+  min-height: 3vmin;
+  padding: 1vmin 0vmin 0 1.5vmin;
+}
+
 .choosable-items-list {
   position: relative;
   width: 21vmin;
   margin: 0 0 5vmin 0;
+}
+
+.list-single {
+  margin: 0 0 0 0;
 }
 
 .choosable-item {

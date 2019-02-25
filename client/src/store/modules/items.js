@@ -1,27 +1,27 @@
-import api from '../../api/planner.js'
-
 function isVariation(id) {
-  if (id > 10 && id < 60 || id > 60 && id < 70) return true
+  if (id >= 111 && id <= 155 || id >= 161 && id <= 166) return true
 
   return false
 }
 
 function canHaveMultiple(id) {
   switch(id) {
-    case 70:
-    case 75:
+    case 170:
+    case 175:
       return true
   }
 
   return false
 }
 
-function sameClass(item, rootState) {
+function sameClass(item, state, rootGetters) {
+  if (state.type === 'subclass' && rootGetters['character/class/firstItem'].id !== item.class) return false
+
   if (typeof(item.classes) === 'undefined') return true
 
-  let currentClass = rootState['character'].class.name
-  let isDivineSoul = rootState['character'].subclass === 'Divine Soul'
-  let found = item.classes.find(c => c === currentClass || isDivineSoul && c === 'Cleric')
+  let className = rootGetters['character/class/firstItem'].name
+  let isDivineSoul = rootGetters['character/subclass/firstItem'].name === 'Divine Soul'
+  let found = item.classes.find(c => c === className || isDivineSoul && c === 'Cleric')
   if (found) return true
 
   return false
@@ -30,27 +30,25 @@ function sameClass(item, rootState) {
 function enoughLevel(item, rootState) {
   if (typeof(item.level) === 'undefined') return true
 
-  if (item.level * 2 - 1 <= rootState['character'].level) return true
+  let level = rootState['character'].level
+  if (item.level * 2 - 1 <= level) return true
 
   return false
 }
 
-function satisfiesCharacterConfig(item, rootState) {
+function satisfiesCharacterConfig(item, state, rootState, rootGetters) {
+  if (typeof(rootGetters['character/race/firstItem']) === 'undefined') return false
+  if (typeof(rootGetters['character/class/firstItem']) === 'undefined') return false
+  if (typeof(rootGetters['character/subclass/firstItem']) === 'undefined') return false
+
+
   if (!enoughLevel(item, rootState))
     return false
 
-  if (!sameClass(item, rootState))
+  if (!sameClass(item, state, rootGetters))
     return false
 
   return true
-}
-
-function isAppropriateType(item, state) {
-  if (typeof(item.level) === 'undefined') return true
-
-  if (state.type === 'cantrips' && item.level === 0 || state.type === 'spells' && item.level > 0) return true
-
-  return false
 }
 
 
@@ -68,22 +66,25 @@ export default {
   },
 
   getters: {
+    firstItem: (state) => {
+      if (state.choosableItems[0] === -1) return { id: -1 }
+      
+      return state.availableItems.find(item => item.id === state.choosableItems[0])
+    },
+
     choosableItem: (state) => (id) => {
       if (id === -1) return { id: -1 }
-      
+
       return state.availableItems.find(item => item.id === id)
     },
 
-    filteredAvailableItems: (state, getters, rootState) => {
+    filteredAvailableItems: (state, getters, rootState, rootGetters) => {
       return state.availableItems.filter(availableItem => {
-        if (!isAppropriateType(availableItem, state))
-          return false
-
         if (isVariation(availableItem.id))
           return false
 
 
-        if (!satisfiesCharacterConfig(availableItem, rootState))
+        if (!satisfiesCharacterConfig(availableItem, state, rootState, rootGetters))
           return false
 
 
@@ -109,46 +110,35 @@ export default {
       state.choosableItems = items
     },
 
+    setFirstItemId(state, itemId) {
+      state.choosableItems.splice(0, 1, itemId)
+    },
+
     setChoosableItemId(state, {slotId, itemId}) {
       state.choosableItems.splice(slotId, 1, itemId)
     }
   },
 
   actions: {
-    initializeModule({commit}, type) {
-      commit('setType', type)
-
-      let itemsReceived
-      if (type === 'classAbilities') {
-        itemsReceived = api.getClassAbilitiesList()
-      } else if (type === 'subclassAbilities') {
-        itemsReceived = api.getSubclassAbilitiesList()
-      } else if (type === 'feats') {
-        itemsReceived = api.getFeatsList()
-      } else if (type === 'cantrips') {
-        itemsReceived = api.getCantripsList()
-      } else if (type === 'spells') {
-        itemsReceived = api.getSpellsList()
-      }
-
-      itemsReceived
-      .then(items => commit('setAvailableItems', items))
-    },
-
-
     setChoosableItemId({state, commit, dispatch}, arg) {
       commit('setChoosableItemId', arg)
 
-      if (state.type === 'classAbilities' || state.type === 'subclassAbilities' || state.type === 'feats') {
+      if (state.type === 'classAbilities' || state.type === 'subclassAbilities' || state.type === 'feats'
+          || state.type === 'subclass') {
+
         dispatch('character/stats/modifyBonusValues', null, { root: true })
+      }
+
+      if (state.type === 'race' || state.type === 'class' || state.type === 'subclass'|| state.type === 'level') {
+        dispatch('character/setAmounts', null, { root: true })
       }
     },
 
 
-    setChoosableItemsAmount({state, getters, commit, rootState}, amount) {
+    setChoosableItemsAmount({state, getters, commit, rootState, rootGetters}, amount) {
       let idsList = Array(amount)
       for (let i = 0; i < idsList.length; i++) {
-        if (i < state.choosableItems.length && satisfiesCharacterConfig(getters.choosableItem(state.choosableItems[i]), rootState)) {
+        if (i < state.choosableItems.length && satisfiesCharacterConfig(getters.choosableItem(state.choosableItems[i]), state, rootState, rootGetters)) {
           idsList[i] = state.choosableItems[i]
         } else {
           idsList[i] = - 1

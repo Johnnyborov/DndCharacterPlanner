@@ -1,40 +1,17 @@
 import stats from './stats.js'
 import api from '../../api/planner.js'
 
-function getListAmount(state, amountsType) {
-  let start = state.amountsDictionary[amountsType][state.class.name].start
-  let increases = state.amountsDictionary[amountsType][state.class.name].increases.filter(lvl => lvl <= state.level)
+function getListAmount(state, charConfig, amountsType) {
+  if (charConfig.class.id === -1) return 0
+  if (charConfig.level.id === -1) return 0
+
+  let start = state.amountsDictionary[amountsType][charConfig.class.name].start
+  let increases = state.amountsDictionary[amountsType][charConfig.class.name].increases.filter(lvl => lvl <= charConfig.level)
   let amount = start + increases.length
 
   return amount
 }
 
-function setAmounts(state, dispatch) {
-  let classAmount = getListAmount(state, 'class')
-  let subclassAmount = getListAmount(state, 'subclass')
-
-  let featsAmount = getListAmount(state, 'feats')
-
-  let cantripsAmount = getListAmount(state, 'cantrips')
-  let spellsAmount = getListAmount(state, 'spells')
-
-
-  if (state.race.name === 'Human') featsAmount += 1 // state.race.id === |id of Human(1 feat + 1x2 stat)|
-  if (state.class.name === 'Sorcerer') {  
-    if (state.subclass.name === 'Divine Soul') {
-      spellsAmount += 1
-    }
-  }
-
-
-  dispatch('classAbilities/setChoosableItemsAmount', classAmount)
-  dispatch('subclassAbilities/setChoosableItemsAmount', subclassAmount)
-  dispatch('feats/setChoosableItemsAmount', featsAmount)
-  dispatch('cantrips/setChoosableItemsAmount', cantripsAmount)
-  dispatch('spells/setChoosableItemsAmount', spellsAmount)
-
-  dispatch('stats/modifyBonusValues')
-}
 
 export default {
   namespaced: true,
@@ -43,47 +20,15 @@ export default {
   },
 
   state: {
-    race: {},
-    racesList: [],
-
-    class: {},
-    classesList: [],
-
-    subclass: {},
-
     level: 0,
 
     amountsDictionary: null
   },
 
   mutations: {
-    setRace(state, race) {
-      state.race = race
-    },
-
-    setRacesList(state, races) {
-      state.racesList = races
-    },
-
-
-    setClass(state, cls) {
-      state.class = cls
-    },
-
-    setClassesList(state, classes) {
-      state.classesList = classes
-    },
-
-
-    setSubclass(state, subclass) {
-      state.subclass = subclass
-    },
-
-
     setLevel(state, level) {
       state.level = level
     },
-
 
     setAmountsDictionary(state, dictionary) {
       state.amountsDictionary = dictionary
@@ -91,22 +36,37 @@ export default {
   },
 
   actions: {
-    initializeModule({state, commit, dispatch}) {
+    initializeModule({commit, dispatch}) {
       let receiveData = new Promise(resolve => {
-        dispatch('classAbilities/initializeModule', 'classAbilities')
-        dispatch('subclassAbilities/initializeModule', 'subclassAbilities')
-        dispatch('feats/initializeModule', 'feats')
-        dispatch('cantrips/initializeModule', 'cantrips')
-        dispatch('spells/initializeModule', 'spells')
+        api.getClassAbilitiesList()
+        .then(items => commit('classAbilities/setAvailableItems', items))
+
+        api.getSubclassAbilitiesList()
+        .then(items => commit('subclassAbilities/setAvailableItems', items))
+
+        api.getFeatsList()
+        .then(items => commit('feats/setAvailableItems', items))
+
+        api.getCantripsList()
+        .then(items => commit('cantrips/setAvailableItems', items))
+
+        api.getSpellsList()
+        .then(items => commit('spells/setAvailableItems', items))
+
 
         api.getRacesList()
-        .then(races => commit('setRacesList', races))
+        .then(items => commit('race/setAvailableItems', items))
         
         api.getClassesList()
-        .then(classes => commit('setClassesList', classes))
+        .then(items => commit('class/setAvailableItems', items))
+
+        api.getSubclassesList()
+        .then(items => commit('subclass/setAvailableItems', items))
+
 
         api.getAmounts()
         .then(amounts => commit('setAmountsDictionary', amounts))
+
 
         api.getStartCharacter()
         .then(char => resolve(char))
@@ -114,63 +74,69 @@ export default {
 
 
       receiveData
-      .then(char => {
+      .then(char => { 
         dispatch('setCharacter', char)
 
-        setAmounts(state, dispatch)
+        dispatch('setAmounts')
       })
     },
 
 
-    setCharacter({state, commit, dispatch}, char) {
-      let race = state.racesList.find(r => r.name === char.race)
-      commit('setRace', race)
-
-      let cls = state.classesList.find(c => c.name === char.class)
-      commit('setClass', cls)
-
-      let subclass = cls.subclasses.find(sc => sc.name === char.subclass)
-      commit('setSubclass', subclass)
-
+    setCharacter({commit, dispatch}, char) {
+      commit('race/setFirstItemId', char.race)
+      commit('class/setFirstItemId', char.class)
+      commit('subclass/setFirstItemId', char.subclass)
       commit('setLevel', char.level)
 
-
       commit('stats/setBaseStats', char.stats)
-
 
       commit('classAbilities/setChoosableItems', char.classAbilities)
       commit('subclassAbilities/setChoosableItems', char.subclassAbilities)
       commit('feats/setChoosableItems', char.feats)
       commit('cantrips/setChoosableItems', char.cantrips)
       commit('spells/setChoosableItems', char.spells)
-    },
-  
-    
-    setRaceByName({state, commit, dispatch}, raceName) {
-      let race = state.racesList.find(r => r.name === raceName)
-      commit('setRace', race)
 
-      setAmounts(state, dispatch)
+      dispatch('stats/modifyBonusValues')
     },
 
-    setClassByName({state, commit, dispatch}, className) {
-      let cls = state.classesList.find(c => c.name === className)
-      commit('setClass', cls)
-
-      setAmounts(state, dispatch)
-    },
-
-    setSubclassByName({state, commit, dispatch}, subclassName) {
-      let subclass = state.class.subclasses.find(sc => sc.name === subclassName)
-      commit('setSubclass', subclass)
-
-      setAmounts(state, dispatch)
-    },
-
-    setLevel({state, commit, dispatch}, level) {
+    setLevel({commit, dispatch}, level) {
       commit('setLevel', level)
 
-      setAmounts(state, dispatch)
+      dispatch('setAmounts')
+    },
+  
+
+    setAmounts({state, dispatch, getters}) {
+      let charConfig = {}
+      charConfig.race = getters['race/firstItem']
+      charConfig.class = getters['class/firstItem']
+      charConfig.subclass = getters['subclass/firstItem']
+      charConfig.level = state.level
+
+
+      let classAmount = getListAmount(state, charConfig, 'class')
+      let subclassAmount = getListAmount(state, charConfig, 'subclass')  
+      let featsAmount = getListAmount(state, charConfig, 'feats')
+      let cantripsAmount = getListAmount(state, charConfig, 'cantrips')
+      let spellsAmount = getListAmount(state, charConfig, 'spells')
+
+    
+
+      if (charConfig.race.id === 1001) featsAmount += 1 // Human +1x2 + 1 feat
+      if (charConfig.class.name === 'Sorcerer') {
+        if (charConfig.subclass.name === 'Divine Soul') {
+          spellsAmount += 1
+        }
+      }
+    
+    
+      dispatch('classAbilities/setChoosableItemsAmount', classAmount)
+      dispatch('subclassAbilities/setChoosableItemsAmount', subclassAmount)
+      dispatch('feats/setChoosableItemsAmount', featsAmount)
+      dispatch('cantrips/setChoosableItemsAmount', cantripsAmount)
+      dispatch('spells/setChoosableItemsAmount', spellsAmount)
+    
+      dispatch('stats/modifyBonusValues')
     }
   }
 }

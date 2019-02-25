@@ -27,9 +27,9 @@ namespace server.Models
       Spells = c.Spells;
     }
 
-    public string Race { get; set; }
-    public string Class { get; set; }
-    public string Subclass { get; set; }
+    public int Race { get; set; }
+    public int Class { get; set; }
+    public int Subclass { get; set; }
     public int Level { get; set; }
 
     [NotMapped]

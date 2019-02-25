@@ -1,44 +1,25 @@
 <template>
   <div>
-    Race
-    <select :value="charRace.name" @input="raceChanged($event)">
-      <option v-for="race in racesList" :key="race.id">
-        {{race.name}}
-      </option>
-    </select>
-    Class
-    <select :value="charClass.name" @input="classChanged($event)">
-      <option v-for="cls in classesList" :key="cls.id">
-        {{cls.name}}
-      </option>
-    </select>
+    <choosable-items-list :moduleType="'race'" class="choosable-items-list list-single"
+      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
+      <p>Race</p>
+    </choosable-items-list>
 
-    Subclass
-    <select :value="charSubclass.name" @input="subclassChanged($event)">
-      <option v-for="sub in charClass.subclasses" :key="sub.id">
-        {{sub.name}}
-      </option>
-    </select>
+    <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single"
+      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
+      <p>Class</p>
+    </choosable-items-list>
+
+    <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single"
+      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
+      <p>Subclass</p>
+    </choosable-items-list>
 
     Level
-    <select :value="charLevel" @input="levelChanged($event)">
-      <option v-for="lvl in levels" :key="lvl">
+    <select :value="level" @input="levelChangedHandler($event)">
+      <option v-for="lvl in levels" :key="lvl" :value="lvl">
         {{lvl}}
       </option>
-    </select>
-
-    <br/>
-    Background
-    <select >
-    </select>
-
-    <br/>
-    Proficiencies
-    <select >
-    </select>
-    <select >
-    </select>
-    <select >
     </select>
 
 
@@ -47,6 +28,9 @@
 </template>
 
 <script>
+import ChoosableItemsList from './items/ChoosableItemsList.vue'
+import items from '../store/modules/items.js'
+
 import BaseStats from './BaseStats.vue'
 
 import {mapState, mapActions} from 'vuex'
@@ -54,7 +38,12 @@ import {mapState, mapActions} from 'vuex'
 export default {
   name: 'CharacterConfig',
   components: {
+    'choosable-items-list': ChoosableItemsList,
     'base-stats': BaseStats
+  },
+
+  props: {
+    lastModuleToClickItem: String
   },
 
   data() {
@@ -64,42 +53,35 @@ export default {
   },
 
   computed: {
-    ...mapState('character', {
-      charRace: 'race',
-      racesList: 'racesList',
-
-      charClass: 'class',
-      classesList: 'classesList',
-
-      charSubclass: 'subclass',
-
-      charLevel: 'level'
-    })
+    ...mapState('character', [
+      'level'
+    ])
   },
 
   methods: {
     ...mapActions('character', [
-      'setRaceByName',
-      'setClassByName',
-      'setSubclassByName',
-      'setLevel',
+      'setLevel'
     ]),
 
-    raceChanged(event) {
-      this.setRaceByName(event.target.value)
-    },
-
-    classChanged(event) {
-      this.setClassByName(event.target.value)
-    },
-
-    subclassChanged(event) {
-      this.setSubclassByName(event.target.value)
-    },
-
-    levelChanged(event) {
+    levelChangedHandler(event) {
       this.setLevel(event.target.value)
     }
+  },
+  
+  created() {
+    this.$store.registerModule(['character/race'], items)
+    this.$store.registerModule(['character/class'], items)
+    this.$store.registerModule(['character/subclass'], items)
+
+    this.$store.commit('character/race/setType', 'race')
+    this.$store.commit('character/class/setType', 'class')
+    this.$store.commit('character/subclass/setType', 'subclass')
+  },
+
+  destroyed() {
+    this.$store.unregisterModule('character/race')
+    this.$store.unregisterModule('character/class')
+    this.$store.unregisterModule('character/subclass')
   }
 }
 </script>

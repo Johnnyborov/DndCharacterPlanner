@@ -1,6 +1,6 @@
 <template>
   <div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
-    <character-config class="character-config" />
+    <character-config class="character-config" :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event" />
     <real-stats class="real-stats" />
 
     <div class="spell-lists-area">
@@ -69,6 +69,12 @@ export default {
     this.$store.registerModule(['character/cantrips'], items)
     this.$store.registerModule(['character/spells'], items)
 
+    this.$store.commit('character/classAbilities/setType', 'classAbilities')
+    this.$store.commit('character/subclassAbilities/setType', 'subclassAbilities')
+    this.$store.commit('character/feats/setType', 'feats')
+    this.$store.commit('character/cantrips/setType', 'cantrips')
+    this.$store.commit('character/spells/setType', 'spells')
+    
 
     this.$store.dispatch('character/initializeModule')
   },

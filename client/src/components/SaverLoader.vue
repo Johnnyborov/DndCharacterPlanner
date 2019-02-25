@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
@@ -24,16 +24,27 @@ export default {
   },
 
   computed: {
-    ...mapState('character', {
-      getRace: 'race',
-      getClass: 'class',
-      getSubclass: 'subclass',
-      getLevel: 'level',
+    ...mapGetters('character/race', {
+      getRace: 'firstItem'
     }),
 
-    ...mapState('character/stats', {
+    ...mapGetters('character/class', {
+      getClass: 'firstItem'
+    }),
+
+    ...mapGetters('character/subclass', {
+      getSubclass: 'firstItem'
+    }),
+
+    ...mapState('character', {
+      getLevel: 'level'
+    }),
+
+
+     ...mapState('character/stats', {
       getStats: 'baseStats'
     }),
+    
 
     ...mapState('character/classAbilities', {
       getClassAbilities: 'choosableItems'
@@ -64,9 +75,9 @@ export default {
 
     saveHandler() {
       let char = {
-        race: this.getRace.name,
-        class: this.getClass.name,
-        subclass: this.getSubclass.name,
+        race: this.getRace.id,
+        class: this.getClass.id,
+        subclass: this.getSubclass.id,
         level: this.getLevel,
 
         stats: this.getStats,

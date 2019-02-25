@@ -33,23 +33,39 @@ function timeoutPromise(arg) {
 }
 
 
+const startCharacter = {
+  race: 1001,
+  class: 2001,
+  subclass: 3011,
+  level: 20,
+  stats: [8,14,15,10,8,15],
+  classAbilities: [],
+  subclassAbilities: [],
+  feats: [],
+  cantrips: [],
+  spells: [],
+}
+
+
 const racesList = [
-  {id: 100, name: 'Human'},
-  {id: 101, name: 'Dwarf'},
-  {id: 102, name: 'Hill Dwarf'},
-  {id: 103, name: 'Mountain Dwarf'}
+  {id: 1000, name: 'Human'},
+  {id: 1001, name: 'Human (Variant)'},
+  {id: 1010, name: 'Dwarf'},
+  {id: 1011, name: 'Hill Dwarf'},
+  {id: 1012, name: 'Mountain Dwarf'}
 ]
 const classesList = [
-  {id: 200, name: 'Fighter', subclasses: [
-    {id: 300, name: 'Champion'},
-    {id: 301, name: 'Samurai'}
-  ]},
-  {id: 201, name: 'Sorcerer', subclasses: [
-    {id: 310, name: 'Draconic Bloodline'},
-    {id: 311, name: 'Wild Magic'},
-    {id: 312, name: 'Divine Soul'}
-  ]},
+  {id: 2000, name: 'Fighter'},
+  {id: 2001, name: 'Sorcerer'}
 ]
+const subclassesList = [
+  {id: 3000, name: 'Champion', class: 2000},
+  {id: 3001, name: 'Samurai', class: 2000},
+  {id: 3010, name: 'Draconic Bloodline', class: 2001},
+  {id: 3011, name: 'Wild Magic', class: 2001},
+  {id: 3012, name: 'Divine Soul', class: 2001}
+]
+
 
 const amounts = {
   class: {
@@ -74,50 +90,38 @@ const amounts = {
   }
 }
 
+
 const classAbilitiesList = []
 const subclassAbilitiesList = []
 const featsList = [
-  {id: 1, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
+  {id: 100, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
 
-  {id: 10, name: 'stats+1x2', bonusStats: []},
-  {id: 11, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}]},
-  {id: 12, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 2, value: 1}]},
-  {id: 13, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 3, value: 1}]},
-  {id: 14, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 4, value: 1}]},
-  {id: 15, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 5, value: 1}]},
-  {id: 22, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 2, value: 1}]},
-  {id: 23, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 3, value: 1}]},
-  {id: 24, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 4, value: 1}]},
-  {id: 25, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 5, value: 1}]},
-  {id: 33, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 3, value: 1}]},
-  {id: 34, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 4, value: 1}]},
-  {id: 35, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 5, value: 1}]},
-  {id: 44, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 4, value: 1}]},
-  {id: 45, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 5, value: 1}]},
-  {id: 55, name: 'stats+1x2', bonusStats: [{index: 4, value: 1}, {index: 5, value: 1}]},
+  {id: 110, name: 'stats+1x2', bonusStats: []},
+  {id: 111, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}]},
+  {id: 112, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 2, value: 1}]},
+  {id: 113, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 3, value: 1}]},
+  {id: 114, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 4, value: 1}]},
+  {id: 115, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 5, value: 1}]},
+  {id: 122, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 2, value: 1}]},
+  {id: 123, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 3, value: 1}]},
+  {id: 124, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 4, value: 1}]},
+  {id: 125, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 5, value: 1}]},
+  {id: 133, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 3, value: 1}]},
+  {id: 134, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 4, value: 1}]},
+  {id: 135, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 5, value: 1}]},
+  {id: 144, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 4, value: 1}]},
+  {id: 145, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 5, value: 1}]},
+  {id: 155, name: 'stats+1x2', bonusStats: [{index: 4, value: 1}, {index: 5, value: 1}]},
 
-  {id: 60, name: 'stats+2', bonusStats: []},
-  {id: 61, name: 'stats+2', bonusStats: [{index: 0, value: 2}]},
-  {id: 62, name: 'stats+2', bonusStats: [{index: 1, value: 2}]},
-  {id: 63, name: 'stats+2', bonusStats: [{index: 2, value: 2}]},
-  {id: 64, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
-  {id: 65, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
-  {id: 66, name: 'stats+2', bonusStats: [{index: 5, value: 2}]},
+  {id: 160, name: 'stats+2', bonusStats: []},
+  {id: 161, name: 'stats+2', bonusStats: [{index: 0, value: 2}]},
+  {id: 162, name: 'stats+2', bonusStats: [{index: 1, value: 2}]},
+  {id: 163, name: 'stats+2', bonusStats: [{index: 2, value: 2}]},
+  {id: 164, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
+  {id: 165, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
+  {id: 166, name: 'stats+2', bonusStats: [{index: 5, value: 2}]},
 ]
 
-
-const startCharacter = {
-  race: 'Hill Dwarf',
-  class: 'Sorcerer',
-  subclass: 'Wild Magic',
-  level: 20,
-  stats: [8,14,15,10,8,15],
-  classAbilities: [],
-  subclassAbilities: [],
-  feats: [],
-  cantrips: [],
-  spells: [],
-}
 
 export default {
   getStartCharacter() {
@@ -131,6 +135,10 @@ export default {
 
   getClassesList() {
     return timeoutPromise(classesList)
+  },
+
+  getSubclassesList() {
+    return timeoutPromise(subclassesList)
   },
 
 
@@ -152,11 +160,11 @@ export default {
   },
 
   getCantripsList() {
-    return jsonResponsePromise(baseUrl + '/spelllist')
+    return jsonResponsePromise(baseUrl + '/cantripslist')
   },
 
   getSpellsList() {
-    return jsonResponsePromise(baseUrl + '/spelllist')
+    return jsonResponsePromise(baseUrl + '/spellslist')
   },
 
 

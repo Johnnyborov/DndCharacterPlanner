@@ -1,5 +1,6 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="item-slot">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="item-slot"
+    :class="{'item-level': moduleType === 'level'}">
     {{levelText}}{{item.name}}
 
     <stat-chooser :itemId="item.id" @id-changed="idChangedHandler" />

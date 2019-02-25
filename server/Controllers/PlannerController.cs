@@ -15,18 +15,27 @@ namespace server.Controllers
   public class PlannerController : ControllerBase
   {
     CharactersContext db;
+    List<Spell> cantripsList;
     List<Spell> spellList;
 
     public PlannerController(CharactersContext context, SpellList list)
     {
       db = context;
       
-      spellList = list.GetList;
+      cantripsList = list.GetCantripsList;
+      spellList = list.GetSpellsList;
     }
 
 
     [HttpGet]
-    public ActionResult<List<Spell>> SpellList()
+    public ActionResult<List<Spell>> CantripsList()
+    {
+      Response.ContentType = "application/json";
+      return cantripsList;
+    }
+
+    [HttpGet]
+    public ActionResult<List<Spell>> SpellsList()
     {
       Response.ContentType = "application/json";
       return spellList;

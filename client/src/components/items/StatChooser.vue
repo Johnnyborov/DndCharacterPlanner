@@ -29,8 +29,8 @@
 </template>
 
 <script>
-const stats1x2Id = 10
-const stats2x1Id = 60
+const stats1x2Id = 110
+const stats2x1Id = 160
 
 import {statIndex} from '../../store/modules/stats.js'
 

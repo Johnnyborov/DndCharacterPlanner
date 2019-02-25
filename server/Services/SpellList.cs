@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using server.Models;
 
 namespace server.Services
@@ -26,7 +27,7 @@ namespace server.Services
 
         list = (List<Spell>)serializer.Deserialize(file, typeof(List<Spell>));
 
-        int i = 1000;
+        int i = 300;
         foreach (var spell in list)
         {
           spell.id = i++;
@@ -71,6 +72,7 @@ namespace server.Services
 
     private List<Spell> list;
 
-    public List<Spell> GetList => list;
+    public List<Spell> GetCantripsList => (from s in list where s.level == 0 select s).ToList();
+    public List<Spell> GetSpellsList => (from s in list where s.level > 0 select s).ToList();
   }
 }
