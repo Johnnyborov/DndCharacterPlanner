@@ -12,7 +12,8 @@ export default {
 
   props: {
     moduleType: String,
-    item: Object
+    item: Object,
+    posX: Number
   },
 
   mounted() {
@@ -20,6 +21,12 @@ export default {
       this.$el.style.width = Math.min(this.text.length / 20, 65) + 'vmin'
       this.$el.style.left = - 1.5 - Math.min(this.text.length / 20, 65) + 'vmin'
     }
+
+    if (this.posX > 0) { // tooltip on right
+      let left = this.$el.getBoundingClientRect().left - this.$parent.$el.getBoundingClientRect().left
+      let width = this.$el.getBoundingClientRect().width
+      this.$el.style.left = left + this.posX + width + 'px'
+    }  
   },
 
   computed: {

@@ -5,8 +5,8 @@
 
     <stat-chooser :itemId="item.id" @id-changed="idChangedHandler" />
 
-    <div :style="{'top': posY + 'px', 'position': 'absolute'}">
-      <item-tooltip v-if="mouseOver" :item="item" :moduleType="moduleType" class="item-tooltip"/>
+    <div :style="{'position': 'absolute', 'top': posY + 'px'}">
+      <item-tooltip v-if="mouseOver" :item="item" :moduleType="moduleType" :posX="posX" class="item-tooltip" />
     </div>
   </li>
 </template>

@@ -1,7 +1,8 @@
 <template>
   <div @mouseenter="$emit('enter-child')">
     <ul class="scrollable-list" ref='scrollable-ul'>
-      <li @click="itemChosenHandler(-1)" class="remove-option">Remove</li>
+      <li v-if="moduleType !== 'race' && moduleType !== 'class' && moduleType !== 'subclass'"
+        @click="itemChosenHandler(-1)" class="remove-option">Remove</li>
       <available-item v-for="item in filteredAvailableItems" :key="item.id" :item="item" :moduleType="moduleType"
         @item-chosen="itemChosenHandler" class="available-item" />
     </ul>
