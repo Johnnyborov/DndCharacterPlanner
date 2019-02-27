@@ -1,25 +1,25 @@
 <template>
   <div>
-    <div v-if="itemId === stats1x2Id">  
+    <div v-if="itemId === stats1x2Id">
       +1 
-      <select @click.stop :value="selected1" @input="selected1Changed($event)">
-        <option v-for="stat in statTypesMinusSelected2" :key="stat">
+      <select @click.stop :value="selected1" @change="selected1Changed($event)">
+        <option v-for="stat in statTypesMinusSelected2" :key="stat" :value="stat">
           {{stat}}
         </option>
       </select>
       <br />
       +1
-      <select @click.stop :value="selected2" @input="selected2Changed($event)">
-        <option v-for="stat in statTypesMinusSelected1" :key="stat">
+      <select @click.stop :value="selected2" @change="selected2Changed($event)">
+        <option v-for="stat in statTypesMinusSelected1" :key="stat" :value="stat">
           {{stat}}
         </option>
       </select>   
     </div>
 
-    <div v-if="itemId === stats2x1Id">  
+    <div v-if="itemId === stats2x1Id">
       +2
-      <select @click.stop :value="selected1" @input="selected1Changed($event)">
-        <option v-for="stat in statTypes" :key="stat">
+      <select @click.stop :value="selected1" @change="selected1Changed($event)">
+        <option v-for="stat in statTypes" :key="stat" :value="stat">
           {{stat}}
         </option>
       </select>

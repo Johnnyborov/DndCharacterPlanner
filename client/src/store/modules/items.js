@@ -129,7 +129,7 @@ export default {
         dispatch('character/stats/modifyBonusValues', null, { root: true })
       }
 
-      if (state.type === 'race' || state.type === 'class' || state.type === 'subclass'|| state.type === 'level') {
+      if (state.type === 'race' || state.type === 'class' || state.type === 'subclass') {
         dispatch('character/setAmounts', null, { root: true })
       }
     },

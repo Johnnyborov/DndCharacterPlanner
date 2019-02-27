@@ -1,6 +1,6 @@
 <template>
   <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler"
-    class="item-slot" :class="{'selected-item': currentlyClickedSlotId === slotId, 'item-level': moduleType === 'level'}">
+    class="item-slot" :class="{'selected-item': currentlyClickedSlotId === slotId}">
     {{levelText}}{{item.name}}
 
     <div :style="{'position': 'absolute', 'top': posY + 'px'}">

@@ -1,29 +1,39 @@
 <template>
   <div>
-    <choosable-items-list :moduleType="'race'" class="choosable-items-list list-single"
-      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
+    <div style="display:flex;direction:row;justify-content:space-between;">
       <p>Race</p>
-    </choosable-items-list>
-
-    <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single"
-      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
-      <p>Class</p>
-    </choosable-items-list>
-
-    <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single"
-      :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)">
-      <p>Subclass</p>
-    </choosable-items-list>
-
-    Level
-    <select :value="level" @input="levelChangedHandler($event)">
-      <option v-for="lvl in levels" :key="lvl" :value="lvl">
-        {{lvl}}
-      </option>
-    </select>
-
+      <choosable-items-list :moduleType="'race'" class="choosable-items-list list-single"
+        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+    </div>
 
     <base-stats class="base-stats" />
+    
+    <div style="display:flex;direction:row;justify-content:space-between;">
+      <p>Character Level:</p><p>{{level}}</p>
+    </div>
+
+    <div style="background:olive;margin: 1vmin 0 1vmin 0;" v-for="num in [0,1]" :key="num">
+      <div style="display:flex;direction:row;justify-content:space-between;">
+        <p>Class</p>
+        <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+      </div>
+
+      <div style="display:flex;direction:row;justify-content:space-between;margin: 1vmin 0 1vmin 0;">
+        <p>Class Level</p>
+        <select :value="level" @change="levelChangedHandler($event)" style="margin: 0.5vmin">
+          <option v-for="lvl in levels" :key="lvl" :value="lvl">
+            {{lvl}}
+          </option>
+        </select>
+      </div>
+
+      <div style="display:flex;direction:row;justify-content:space-between;">
+        <p>Subclass</p>
+        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+      </div>
+    </div>
   </div>
 </template>
 

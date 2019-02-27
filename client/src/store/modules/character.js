@@ -3,7 +3,6 @@ import api from '../../api/planner.js'
 
 function getListAmount(state, charConfig, amountsType) {
   if (charConfig.class.id === -1) return 0
-  if (charConfig.level.id === -1) return 0
 
   let start = state.amountsDictionary[amountsType][charConfig.class.name].start
   let increases = state.amountsDictionary[amountsType][charConfig.class.name].increases.filter(lvl => lvl <= charConfig.level)

@@ -56,8 +56,8 @@ export default {
       if (typeof(this.item.duration) !== 'undefined') res = res + '</br>Duration: ' + this.item.duration
 
       if (typeof(this.item.description) !== 'undefined') {
-        let fontSize = Math.max(Math.min(3000 / this.item.description.length, 1.8), 1.2)
-        res = res + '</br></br>Description:<pre style="font-size: ' + fontSize + 'vh;">' + this.item.description + '</pre>'
+        let fontSize = Math.max(Math.min(3000 / this.item.description.length, 1.4), 1.2)
+        res = res + '</br></br>Description:<pre style="font-size: ' + fontSize + 'vmin;">' + this.item.description + '</pre>'
       }
 
       if (typeof(this.item.bonusStats) !== 'undefined') {
