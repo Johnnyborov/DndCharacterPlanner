@@ -2,12 +2,12 @@
   <div>
     <slot></slot>
     <ul>
-      <choosable-item v-for="(itemId, index) in choosableItems" :key="index" :slotId="index" :item="choosableItem(itemId)" :currentlyClickedSlotId="currentlyClickedSlotId"
+      <choosable-item v-for="(item, index) in itemsList" :key="index" :slotId="index" :item="item" :currentlyClickedSlotId="currentlyClickedSlotId"
         @clicked-item="clickedSlotHandler" :moduleType="moduleType" class="choosable-item" />
     </ul>
     
     <div :style="{'top': avaliableItemsPosY + 'px', 'position': 'absolute'}">
-      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items"
+      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :classListIndex="classListIndex"
         :slotId="currentlyClickedSlotId" :moduleType="moduleType" class="available-items-list" />
     </div>
   </div>
@@ -17,6 +17,7 @@
 import ChoosableItem from './ChoosableItem.vue'
 import AvailableItemsList from './AvailableItemsList.vue'
 
+import {mapState} from 'vuex'
 
 export default {
   name: 'ChoosableItemsList',
@@ -27,7 +28,8 @@ export default {
 
   props: {
     moduleType: String,
-    lastModuleToClickItem: String
+    lastModuleToClickItem: String,
+    classListIndex: Number
   },
 
   data() {
@@ -38,12 +40,33 @@ export default {
   },
 
   computed: {
-    choosableItems() {
-      return this.$store.state['character/' + this.moduleType].choosableItems
+    ...mapState('character', [
+      'race',
+      'feats',
+      'classes',
+    ]),
+
+    itemsList() {
+      switch(this.moduleType) {
+        case 'race':
+          return [this.race]
+        case 'feats':
+          return this.feats
+        case 'class':
+          return [this.classes[this.classListIndex].class]
+        case 'subclass':
+          return [this.classes[this.classListIndex].subclass]
+        case 'cantrips':
+        case 'classAbilities':
+        case 'subclassAbilities':
+          return []
+        case 'spells':
+          return typeof(this.classes[this.classListIndex].spells) === 'undefined' ? [] : this.classes[this.classListIndex].spells
+      }
     },
 
     currentlyClickedSlotId() {
-      if (this.lastModuleToClickItem !== this.moduleType)
+      if (this.lastModuleToClickItem !== this.moduleType && this.lastModuleToClickItem !== this.moduleType + this.classListIndex)
         this.currentlyClickedSlotIdData = -1
         
       return this.currentlyClickedSlotIdData
@@ -51,10 +74,6 @@ export default {
   },
 
   methods: {
-    choosableItem(id) {
-      return this.$store.getters['character/' + this.moduleType + '/choosableItem'](id)
-    },
-
     clickedSlotHandler({slotId, posY}) {
       this.currentlyClickedSlotIdData = slotId
       this.avaliableItemsPosY = posY

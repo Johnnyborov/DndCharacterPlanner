@@ -1,141 +1,219 @@
-import stats from './stats.js'
-import api from '../../api/planner.js'
+function idToItem(id, array) {
+  if (id === -1) return {id: -1}
 
-function getListAmount(state, charConfig, amountsType) {
-  if (charConfig.class.id === -1) return 0
+  let item = array.find(s => s.id === id)
 
-  let start = state.amountsDictionary[amountsType][charConfig.class.name].start
-  let increases = state.amountsDictionary[amountsType][charConfig.class.name].increases.filter(lvl => lvl <= charConfig.level)
-  let amount = start + increases.length
+  return item
+}
 
-  return amount
+function makeNewList(amount, state, getters, type, index) {
+  let oldList = []
+  let itemType = ''
+  switch(type) {
+    case 'feats':
+      oldList = state.feats
+      itemType = 'feat'
+      break
+    case 'spells':
+      oldList = state.classes[index].spells
+      itemType = 'spell'
+      break
+  }
+
+  let newList = Array(amount)
+  for (let i = 0; i < newList.length; i++) {
+    if (i < oldList.length && getters.satisfiesCharacterConfig(oldList[i], itemType, index)) {
+      newList[i] = oldList[i]
+    } else {
+      newList[i] = {id: - 1}
+    }
+  }
+
+  return newList
+}
+
+function getListAmount(state, i, listAmounts) {
+  if (state.classes[i].class.id === -1) return 0
+
+  let start = listAmounts[state.classes[i].class.name].start
+  let increases = listAmounts[state.classes[i].class.name].increases.filter(lvl => lvl <= state.classes[i].level)
+
+  return start + increases.length
 }
 
 
 export default {
   namespaced: true,
-  modules: {
-    stats
-  },
 
   state: {
-    level: 0,
+    race: {id: -1},
+    stats: [13,13,13,12,12,12],
+    feats: [],
 
-    amountsDictionary: null
+    classes: [{
+      class: {id: -1},
+      level: 1,
+      subclass: {},
+      spells: []
+    }]
   },
 
-  mutations: {
-    setLevel(state, level) {
-      state.level = level
-    },
+  getters: {
+    satisfiesCharacterConfig: (state) => (item, type, index) => {
+      switch(type) {
+        case 'feat': {
+          return true
+        }
+        case 'class': {
+          return true
+        }
+        case 'subclass': {
+          let isForCurrentClass = item.classId === state.classes[index].class.id
 
-    setAmountsDictionary(state, dictionary) {
-      state.amountsDictionary = dictionary
+          let enoughLevel = typeof(item.level) === 'undefined' ? true : item.level <= state.classes[index].level
+
+          return isForCurrentClass && enoughLevel
+        }
+        case 'spell': {
+          if (item.id === -1) return true
+
+          let className = state.classes[index].class.name
+          let isDivineSoul = state.classes[index].subclass.name === 'Divine Soul'
+          let isForCurrentClass = item.classes.findIndex(c => c === className || isDivineSoul && c === 'Cleric') !== -1
+    
+          let enoughLevel = item.level * 2 - 1 <= state.classes[index].level
+
+          return isForCurrentClass && enoughLevel
+        }
+        default:
+          return false
+      }
     }
   },
 
+  mutations: {
+    setFeatsList(state, feats) {
+      state.feats = feats
+    },
+
+    setSpellsList(state, {classListIndex, spells}) {
+      state.classes[classListIndex].spells = spells
+    },
+
+    setCharacter(state, character) {
+      state.race = character.race
+      state.stats = character.stats
+      state.feats = character.feats
+
+      state.classes = character.classes
+    },
+
+
+    setRace(state, race) {
+      state.race = race
+    },
+
+    setStat(state, {index, value}) {
+      state.stats.splice(index, 1, value)
+    },
+
+    setFeat(state, {pos, feat}) {
+      state.feats.splice(pos, 1, feat)
+    },
+
+
+    setClass(state, {classListIndex, cls}) {
+      state.classes[classListIndex].class = cls
+    },
+
+    setLevel(state, {classListIndex, level}) {
+      state.classes[classListIndex].level = level
+    },
+
+    setSubclass(state, {classListIndex, subclass}) {
+      state.classes[classListIndex].subclass = subclass
+    },
+
+    setSpell(state, {classListIndex, pos, spell}) {
+      state.classes[classListIndex].spells.splice(pos, 1, spell)
+    },
+  },
+
   actions: {
-    initializeModule({commit, dispatch}) {
-      let receiveData = new Promise(resolve => {
-        api.getClassAbilitiesList()
-        .then(items => commit('classAbilities/setAvailableItems', items))
+    setCharacter({commit, dispatch}, character) {
+      commit('setCharacter', character)
 
-        api.getSubclassAbilitiesList()
-        .then(items => commit('subclassAbilities/setAvailableItems', items))
-
-        api.getFeatsList()
-        .then(items => commit('feats/setAvailableItems', items))
-
-        api.getCantripsList()
-        .then(items => commit('cantrips/setAvailableItems', items))
-
-        api.getSpellsList()
-        .then(items => commit('spells/setAvailableItems', items))
-
-
-        api.getRacesList()
-        .then(items => commit('race/setAvailableItems', items))
-        
-        api.getClassesList()
-        .then(items => commit('class/setAvailableItems', items))
-
-        api.getSubclassesList()
-        .then(items => commit('subclass/setAvailableItems', items))
-
-
-        api.getAmounts()
-        .then(amounts => commit('setAmountsDictionary', amounts))
-
-
-        api.getStartCharacter()
-        .then(char => resolve(char))
-      })
-
-
-      receiveData
-      .then(char => { 
-        dispatch('setCharacter', char)
-
-        dispatch('setAmounts')
-      })
-    },
-
-
-    setCharacter({commit, dispatch}, char) {
-      commit('race/setFirstItemId', char.race)
-      commit('class/setFirstItemId', char.class)
-      commit('subclass/setFirstItemId', char.subclass)
-      commit('setLevel', char.level)
-
-      commit('stats/setBaseStats', char.stats)
-
-      commit('classAbilities/setChoosableItems', char.classAbilities)
-      commit('subclassAbilities/setChoosableItems', char.subclassAbilities)
-      commit('feats/setChoosableItems', char.feats)
-      commit('cantrips/setChoosableItems', char.cantrips)
-      commit('spells/setChoosableItems', char.spells)
-
-      dispatch('stats/modifyBonusValues')
-    },
-
-    setLevel({commit, dispatch}, level) {
-      commit('setLevel', level)
+      dispatch('checkSubclass')
 
       dispatch('setAmounts')
     },
-  
 
-    setAmounts({state, dispatch, getters}) {
-      let charConfig = {}
-      charConfig.race = getters['race/firstItem']
-      charConfig.class = getters['class/firstItem']
-      charConfig.subclass = getters['subclass/firstItem']
-      charConfig.level = state.level
+    setItem({rootState, commit, dispatch}, {type, classListIndex, slotId, itemId}) {
+      switch(type) {
+        case 'race':
+          let race = idToItem(itemId, rootState['database'].races)
+          commit('setRace', race)
+          dispatch('setAmounts')
+          break
+        case 'feats':
+          let feat = idToItem(itemId, rootState['database'].feats)
+          commit('setFeat', {pos: slotId, feat: feat})
+          dispatch('setAmounts')
+          break
 
+        case 'class':
+          let cls = idToItem(itemId, rootState['database'].classes)
+          commit('setClass', {classListIndex: classListIndex, cls: cls})
+          dispatch('checkSubclass')
+          dispatch('setAmounts')
+          break
+        case 'subclass':
+          let subclass = idToItem(itemId, rootState['database'].subclasses)
+          commit('setSubclass', {classListIndex: classListIndex, subclass: subclass})
+          dispatch('setAmounts')
+          break
+        case 'spells':
+          let spell = idToItem(itemId, rootState['database'].spells)
+          commit('setSpell', {classListIndex: classListIndex, pos: slotId, spell: spell})
+          break
+      }
+    },
 
-      let classAmount = getListAmount(state, charConfig, 'class')
-      let subclassAmount = getListAmount(state, charConfig, 'subclass')  
-      let featsAmount = getListAmount(state, charConfig, 'feats')
-      let cantripsAmount = getListAmount(state, charConfig, 'cantrips')
-      let spellsAmount = getListAmount(state, charConfig, 'spells')
+    setLevel({commit, dispatch}, arg) {
+      commit('setLevel', arg)
 
-    
+      dispatch('checkSubclass')
 
-      if (charConfig.race.id === 1001) featsAmount += 1 // Human +1x2 + 1 feat
-      if (charConfig.class.name === 'Sorcerer') {
-        if (charConfig.subclass.name === 'Divine Soul') {
-          spellsAmount += 1
+      dispatch('setAmounts')
+    },
+
+    setAmounts({state, getters, rootState, commit}) {
+      let totalFeatsAmount = 0
+      if (state.race.id === 1001) totalFeatsAmount += 1 // Human +1x2 + 1 feat
+
+      for (let i = 0; i < state.classes.length; i++) {
+        let featsAmount = getListAmount(state, i, rootState['database'].amounts.feats)
+        let spellsAmount = getListAmount(state, i, rootState['database'].amounts.spells)
+
+        if (state.classes[i].class.name === 'Sorcerer') {
+          if (state.classes[i].subclass.name === 'Divine Soul') {
+            spellsAmount += 1
+          }
+        }
+        totalFeatsAmount += featsAmount
+
+        commit('setSpellsList', {classListIndex: i, spells: makeNewList(spellsAmount, state, getters, 'spells', i)})
+      }
+
+      commit('setFeatsList', makeNewList(totalFeatsAmount, state, getters, 'feats'))
+    },
+
+    checkSubclass({state, getters, commit}) {
+      for (let i = 0; i < state.classes.length; i++) {
+        if (!getters.satisfiesCharacterConfig(state.classes[i].subclass, 'subclass', i)) {
+          commit('setSubclass', {classListIndex: i, subclass: {id: -1}})
         }
       }
-    
-    
-      dispatch('classAbilities/setChoosableItemsAmount', classAmount)
-      dispatch('subclassAbilities/setChoosableItemsAmount', subclassAmount)
-      dispatch('feats/setChoosableItemsAmount', featsAmount)
-      dispatch('cantrips/setChoosableItemsAmount', cantripsAmount)
-      dispatch('spells/setChoosableItemsAmount', spellsAmount)
-    
-      dispatch('stats/modifyBonusValues')
     }
   }
 }

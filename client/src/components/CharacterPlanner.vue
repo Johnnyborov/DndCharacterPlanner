@@ -9,6 +9,7 @@
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
           <p>Class Abilities</p>
         </choosable-items-list>
+
         <choosable-items-list :moduleType="'subclassAbilities'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
           <p>Subclass Abilities</p>
@@ -20,16 +21,19 @@
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
           <p>Chosen Feats</p>
         </choosable-items-list>
+
         <choosable-items-list :moduleType="'cantrips'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
           <p>Chosen Cantrips</p>
         </choosable-items-list>
       </div>
 
-      <choosable-items-list :moduleType="'spells'" class="choosable-items-list"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-        <p>Chosen Spells</p>
-      </choosable-items-list>
+      <div>
+        <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'spells'" class="choosable-items-list"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+          <p>{{cls.class.name}} Spells:</p>
+        </choosable-items-list>
+      </div>
     </div>
 
     <saver-loader class="saver-loader">Saving/Loading</saver-loader>
@@ -37,14 +41,12 @@
 </template>
 
 <script>
-import SaverLoader from './SaverLoader.vue'
-
+import ChoosableItemsList from './items/ChoosableItemsList.vue'
 import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
+import SaverLoader from './SaverLoader.vue'
 
-import ChoosableItemsList from './items/ChoosableItemsList.vue'
-import items from '../store/modules/items.js'
-
+import {mapState} from 'vuex'
 
 export default {
   name: 'CharacterPlanner',
@@ -61,30 +63,14 @@ export default {
     }
   },
 
-
-  created() {
-    this.$store.registerModule(['character/classAbilities'], items)
-    this.$store.registerModule(['character/subclassAbilities'], items)
-    this.$store.registerModule(['character/feats'], items)
-    this.$store.registerModule(['character/cantrips'], items)
-    this.$store.registerModule(['character/spells'], items)
-
-    this.$store.commit('character/classAbilities/setType', 'classAbilities')
-    this.$store.commit('character/subclassAbilities/setType', 'subclassAbilities')
-    this.$store.commit('character/feats/setType', 'feats')
-    this.$store.commit('character/cantrips/setType', 'cantrips')
-    this.$store.commit('character/spells/setType', 'spells')
-    
-
-    this.$store.dispatch('character/initializeModule')
+  computed: {
+    ...mapState('character', [
+      'classes'
+    ])
   },
 
-  destroyed() {
-    this.$store.unregisterModule('character/classAbilities')
-    this.$store.unregisterModule('character/subclassAbilities')
-    this.$store.unregisterModule('character/feats')
-    this.$store.unregisterModule('character/cantrips')
-    this.$store.unregisterModule('character/spells')
+  created() {
+    this.$store.dispatch('database/load')
   }
 }
 </script>

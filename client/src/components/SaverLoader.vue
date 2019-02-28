@@ -10,9 +10,17 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
+
+function idToItem(id, array) {
+  if (id === -1) return {id: -1}
+
+  let item = array.find(s => s.id === id)
+
+  return item
+}
 
 export default {
   name: 'SaverLoader',
@@ -24,46 +32,19 @@ export default {
   },
 
   computed: {
-    ...mapGetters('character/race', {
-      getRace: 'firstItem'
-    }),
+    ...mapState('character', [
+      'race',
+      'stats',
+      'feats',
+      'classes'
+    ]),
 
-    ...mapGetters('character/class', {
-      getClass: 'firstItem'
-    }),
-
-    ...mapGetters('character/subclass', {
-      getSubclass: 'firstItem'
-    }),
-
-    ...mapState('character', {
-      getLevel: 'level'
-    }),
-
-
-     ...mapState('character/stats', {
-      getStats: 'baseStats'
-    }),
-    
-
-    ...mapState('character/classAbilities', {
-      getClassAbilities: 'choosableItems'
-    }),
-
-    ...mapState('character/subclassAbilities', {
-      getSubclassAbilities: 'choosableItems'
-    }),
-
-    ...mapState('character/feats', {
-      getFeats: 'choosableItems'
-    }),
-
-    ...mapState('character/cantrips', {
-      getCantrips: 'choosableItems'
-    }),
-    
-    ...mapState('character/spells', {
-      getSpells: 'choosableItems'
+    ...mapState('database', {
+      racesDb: 'races',
+      featsDb: 'feats',
+      classesDb: 'classes',
+      subclassesDb: 'subclasses',
+      spellsDb: 'spells'
     })
   },
 
@@ -74,22 +55,22 @@ export default {
 
 
     saveHandler() {
-      let char = {
-        race: this.getRace.id,
-        class: this.getClass.id,
-        subclass: this.getSubclass.id,
-        level: this.getLevel,
+      let character = {
+        raceId: this.race.id,
+        stats: this.stats,
+        feats: this.feats.map(feat => feat.id),
 
-        stats: this.getStats,
-        
-        classAbilities: this.getClassAbilities,
-        subclassAbilities: this.getSubclassAbilities,
-        feats: this.getFeats,
-        cantrips: this.getCantrips,
-        spells: this.getSpells
+        classes: this.classes.map(c => {
+          return {
+            classId: c.class.id,
+            level: c.level,
+            subclassId: c.subclass.id,
+            spells: c.spells.map(spell => spell.id)
+          }
+        })
       }
 
-      api.saveCharacter(char)
+      api.saveCharacter(character)
       .then(id => {
         this.characterId = id
       })
@@ -97,7 +78,24 @@ export default {
 
     loadHandler() {
       api.getCharacter(this.characterId)
-      .then(char => this.setCharacter(char))
+      .then(char => {
+          let character = {
+          race: idToItem(char.raceId, this.racesDb),
+          stats: char.stats,
+          feats: char.feats.map(id => idToItem(id, this.featsDb)),
+
+          classes: char.classes.map(c => {
+            return {
+              class: idToItem(c.classId, this.classesDb),
+              level: c.level,
+              subclass: idToItem(c.subclassId, this.subclassesDb),
+              spells: c.spells.map(id => idToItem(id, this.spellsDb))
+            }
+          })
+        }
+
+        this.setCharacter(character)
+      })
     }
   }
 }

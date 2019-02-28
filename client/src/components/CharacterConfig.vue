@@ -9,29 +9,30 @@
     <base-stats class="base-stats" />
     
     <div style="display:flex;direction:row;justify-content:space-between;">
-      <p>Character Level:</p><p>{{level}}</p>
+      <p>Character Level:</p><p>{{totalLevel}}</p>
     </div>
 
-    <div style="background:olive;margin: 1vmin 0 1vmin 0;" v-for="num in [0,1]" :key="num">
+    <div style="background:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, index) in classes" :key="index">
       <div style="display:flex;direction:row;justify-content:space-between;">
         <p>Class</p>
-        <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+        <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single" :classListIndex="index"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
       </div>
 
       <div style="display:flex;direction:row;justify-content:space-between;margin: 1vmin 0 1vmin 0;">
         <p>Class Level</p>
-        <select :value="level" @change="levelChangedHandler($event)" style="margin: 0.5vmin">
-          <option v-for="lvl in levels" :key="lvl" :value="lvl">
+        <select :value="classes[index].level" @change="levelChangedHandler(index, $event)" style="margin: 0.5vmin">
+          <option v-for="lvl in possibleLevels(index)" :key="lvl" :value="lvl">
             {{lvl}}
           </option>
         </select>
       </div>
 
-      <div style="display:flex;direction:row;justify-content:space-between;">
+      <div v-show="showSubclass(index)"
+        style="display:flex;direction:row;justify-content:space-between;">
         <p>Subclass</p>
-        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single" :classListIndex="index"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
       </div>
     </div>
   </div>
@@ -39,11 +40,8 @@
 
 <script>
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
-import items from '../store/modules/items.js'
-
 import BaseStats from './BaseStats.vue'
-
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'CharacterConfig',
@@ -58,14 +56,27 @@ export default {
 
   data() {
     return {
-      levels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+      levelsList: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     }
   },
 
   computed: {
     ...mapState('character', [
-      'level'
-    ])
+      'classes'
+    ]),
+
+    ...mapGetters('database', [
+      'filteredSubclasses'
+    ]),
+
+    totalLevel() {
+      let sum = 0
+      this.classes.forEach(c => {
+        sum = sum + c.level
+      })
+
+      return sum
+    }
   },
 
   methods: {
@@ -73,25 +84,19 @@ export default {
       'setLevel'
     ]),
 
-    levelChangedHandler(event) {
-      this.setLevel(event.target.value)
+    levelChangedHandler(index, event) {
+      this.setLevel({classListIndex: index, level: Number(event.target.value)})
+    },
+
+    showSubclass(index) {
+      if (this.filteredSubclasses(index).length === 0) return false
+
+      return true
+    },
+
+    possibleLevels(index) {
+      return this.levelsList.filter(lvl => this.totalLevel + lvl - this.classes[index].level <= 20)
     }
-  },
-  
-  created() {
-    this.$store.registerModule(['character/race'], items)
-    this.$store.registerModule(['character/class'], items)
-    this.$store.registerModule(['character/subclass'], items)
-
-    this.$store.commit('character/race/setType', 'race')
-    this.$store.commit('character/class/setType', 'class')
-    this.$store.commit('character/subclass/setType', 'subclass')
-  },
-
-  destroyed() {
-    this.$store.unregisterModule('character/race')
-    this.$store.unregisterModule('character/class')
-    this.$store.unregisterModule('character/subclass')
   }
 }
 </script>

@@ -5,7 +5,22 @@
 </template>
 
 <script>
-import {statName} from '../../store/modules/stats.js'
+function statName(index) {
+  switch(index) {
+    case 0:
+      return 'str'
+    case 1:
+      return 'agi'
+    case 2:
+      return 'con'
+    case 3:
+      return 'wis'
+    case 4:
+      return 'int'
+    case 5:
+      return 'cha'
+  }
+}
 
 export default {
   name: 'ItemTooltip',

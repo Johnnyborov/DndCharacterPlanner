@@ -1,9 +1,8 @@
 <template>
   <div @mouseenter="$emit('enter-child')">
     <ul class="scrollable-list" ref='scrollable-ul'>
-      <li v-if="moduleType !== 'race' && moduleType !== 'class' && moduleType !== 'subclass'"
-        @click="itemChosenHandler(-1)" class="remove-option">Remove</li>
-      <available-item v-for="item in filteredAvailableItems" :key="item.id" :item="item" :moduleType="moduleType"
+      <li @click="itemChosenHandler(-1)" class="remove-option">Remove</li>
+      <available-item v-for="item in itemsList" :key="item.id" :item="item" :moduleType="moduleType"
         @item-chosen="itemChosenHandler" class="available-item" />
     </ul>
   </div> 
@@ -11,6 +10,8 @@
 
 <script>
 import AvailableItem from './AvailableItem.vue'
+
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'AvailableItemsList',
@@ -20,18 +21,42 @@ export default {
 
   props: {
     moduleType: String,
-    slotId: Number
+    slotId: Number,
+    classListIndex: Number
   },
 
   computed: {  
-    filteredAvailableItems() {
-      return this.$store.getters['character/' + this.moduleType + '/filteredAvailableItems']
+    ...mapGetters('database', [
+      'filteredRaces',
+      'filteredFeats',
+      'filteredClasses',
+      'filteredSubclasses',
+      'filteredSpells'
+    ]),
+
+    itemsList() {
+      switch(this.moduleType) {
+        case 'race':
+          return this.filteredRaces
+        case 'feats':
+          return this.filteredFeats
+        case 'class':
+          return this.filteredClasses(this.classListIndex)
+        case 'subclass':
+          return this.filteredSubclasses(this.classListIndex)
+        case 'spells':
+          return this.filteredSpells(this.classListIndex)
+      }
     }
   },
   
   methods: {
+    ...mapActions('character', [
+      'setItem'
+    ]),
+
     itemChosenHandler(itemId) {
-      return this.$store.dispatch('character/' + this.moduleType + '/setChoosableItemId', {slotId: this.slotId, itemId: itemId})
+      this.setItem({type: this.moduleType, classListIndex: this.classListIndex, slotId: this.slotId, itemId: itemId})
     }
   }
 }

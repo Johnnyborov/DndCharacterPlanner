@@ -78,14 +78,18 @@ pre {
 }
 
 .choosable-items-list {
+  background-color: goldenrod;
   position: relative;
   width: 21vmin;
-  margin: 0 0 5vmin 0;
+  margin: 0.5vmin 0.5vmin 4.5vmin 0.5vmin;
+  padding: 0.5vmin;
 }
 
 .list-single {
-  margin: 0 0 0 0;
+  background-color: inherit;
   width: auto;
+  margin: 0 0 0 0;
+  padding: 0;
 }
 
 .choosable-item {

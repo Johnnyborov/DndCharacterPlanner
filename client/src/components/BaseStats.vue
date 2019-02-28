@@ -3,9 +3,9 @@
     <div>
       <p>Base Stat Scores:</p>
       <ul>
-        <li v-for="(stat, index) in baseStats" :key="index" class="stat">
+        <li v-for="(stat, index) in stats" :key="index" class="stat">
           {{statName(index)}}
-          <select :value="baseStats[index]" @change="updateBaseStatValue(index, $event)">
+          <select :value="stats[index]" @change="changeStatValue(index, $event)">
             <option v-for="val in values" :key="val" :value="val">
               {{val}}
             </option>
@@ -17,9 +17,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
-import {statName as statNameImported} from '../store/modules/stats.js'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   name: 'BaseStats',
@@ -31,18 +29,35 @@ export default {
   },
 
   computed: {
-    ...mapState('character/stats', [
-      'baseStats'
+    ...mapState('character', [
+      'stats'
     ])
   },
 
   methods: {
+    ...mapMutations('character', [
+      'setStat'
+    ]),
+
     statName(index) {
-      return statNameImported(index)
+      switch(index) {
+        case 0:
+          return 'str'
+        case 1:
+          return 'agi'
+        case 2:
+          return 'con'
+        case 3:
+          return 'wis'
+        case 4:
+          return 'int'
+        case 5:
+          return 'cha'
+      }
     },
 
-    updateBaseStatValue(index, event) {
-      this.$store.commit('character/stats/setBaseStatValue', {index: index, value: Number(event.target.value)})
+    changeStatValue(index, event) {
+      this.setStat({index: index, value: Number(event.target.value)})
     }
   }
 }

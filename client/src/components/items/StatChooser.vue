@@ -32,7 +32,22 @@
 const stats1x2Id = 110
 const stats2x1Id = 160
 
-import {statIndex} from '../../store/modules/stats.js'
+function statIndex(name) {
+  switch(name) {
+    case 'str':
+      return 0
+    case 'agi':
+      return 1
+    case 'con':
+      return 2
+    case 'wis':
+      return 3
+    case 'int':
+      return 4
+    case 'cha':
+      return 5
+  }
+}
 
 function calculateId(id, s1, s2) {
   let i1 = statIndex(s1)
