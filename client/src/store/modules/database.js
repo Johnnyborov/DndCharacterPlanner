@@ -96,10 +96,13 @@ export default {
 
   state: {
     races: [],
+    feats: [],
+
     classes: [],
     subclasses: [],
-    feats: [],
+    cantrips: [],
     spells: [],
+
     amounts: {}
   },
 
@@ -139,6 +142,15 @@ export default {
       })
     },
 
+    filteredCantrips: (state, getters, rootState, rootGetters) => (index) => {
+      return state.cantrips.filter(cantrip => {
+        let alreadyChosen = rootState['character'].classes[index].cantrips.findIndex(c => c.id === cantrip.id) !== -1
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cantrip, 'cantrip', index)
+
+        return satisfiesCharacterConfig && !alreadyChosen
+      })
+    },
+
     filteredSpells: (state, getters, rootState, rootGetters) => (index) => {
       return state.spells.filter(spell => {
         let alreadyChosen = rootState['character'].classes[index].spells.findIndex(s => s.id === spell.id) !== -1
@@ -156,6 +168,7 @@ export default {
 
       state.classes = database.classes
       state.subclasses = database.subclasses
+      state.cantrips = database.cantrips
       state.spells = database.spells
 
       state.amounts = database.amounts
@@ -166,8 +179,12 @@ export default {
     load({commit}) {
       api.getSpellsList()
       .then(spells => {
-        db.spells = spells
-        commit('setDatabase', db)
+        api.getCantripsList()
+        .then(cantrips => {
+          db.cantrips = cantrips
+          db.spells = spells
+          commit('setDatabase', db)
+        })
       })
     }
   }

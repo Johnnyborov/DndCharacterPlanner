@@ -57,11 +57,12 @@ export default {
         case 'subclass':
           return [this.classes[this.classListIndex].subclass]
         case 'cantrips':
+          return this.classes[this.classListIndex].cantrips
+        case 'spells':
+          return this.classes[this.classListIndex].spells
         case 'classAbilities':
         case 'subclassAbilities':
           return []
-        case 'spells':
-          return this.classes[this.classListIndex].spells
       }
     },
 

@@ -44,6 +44,7 @@ export default {
       featsDb: 'feats',
       classesDb: 'classes',
       subclassesDb: 'subclasses',
+      cantripsDb: 'cantrips',
       spellsDb: 'spells'
     })
   },
@@ -65,6 +66,7 @@ export default {
             classId: c.class.id,
             subclassId: c.subclass.id,
             level: c.level,
+            cantrips: c.cantrips.map(cantrip => cantrip.id),
             spells: c.spells.map(spell => spell.id)
           }
         })
@@ -89,6 +91,7 @@ export default {
               class: idToItem(c.classId, this.classesDb),
               subclass: idToItem(c.subclassId, this.subclassesDb),
               level: c.level,
+              cantrips: c.cantrips.map(id => idToItem(id, this.cantripsDb)),
               spells: c.spells.map(id => idToItem(id, this.spellsDb))
             }
           })

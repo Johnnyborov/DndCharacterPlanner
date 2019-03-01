@@ -31,6 +31,7 @@ export default {
       'filteredFeats',
       'filteredClasses',
       'filteredSubclasses',
+      'filteredCantrips',
       'filteredSpells'
     ]),
 
@@ -44,6 +45,8 @@ export default {
           return this.filteredClasses(this.classListIndex)
         case 'subclass':
           return this.filteredSubclasses(this.classListIndex)
+        case 'cantrips':
+          return this.filteredCantrips(this.classListIndex)
         case 'spells':
           return this.filteredSpells(this.classListIndex)
       }

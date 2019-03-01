@@ -14,6 +14,7 @@ namespace server.Models
     public int SubclassId { get; set; }
     public int Level { get; set; }
 
+    public List<int> Cantrips { get; set; }
     public List<int> Spells { get; set; }
   }
 

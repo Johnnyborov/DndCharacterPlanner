@@ -22,16 +22,16 @@
           <p>Chosen Feats</p>
         </choosable-items-list>
 
-        <choosable-items-list :moduleType="'cantrips'" class="choosable-items-list"
+        <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'cantrips'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>Chosen Cantrips</p>
+          <p>{{smartClassName(cls, index)}} Cantrips:</p>
         </choosable-items-list>
       </div>
 
       <div>
         <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'spells'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>{{cls.class.id === -1 ? 'Class' + (index + 1) : cls.class.name}} Spells:</p>
+          <p>{{smartClassName(cls, index)}} Spells:</p>
         </choosable-items-list>
       </div>
     </div>
@@ -67,6 +67,12 @@ export default {
     ...mapState('character', [
       'classes'
     ])
+  },
+
+  methods: {
+    smartClassName(cls, index) {
+      return cls.class.id === -1 ? 'Class' + (index + 1) : cls.class.name
+    }
   },
 
   created() {

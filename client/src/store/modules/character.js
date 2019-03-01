@@ -14,6 +14,10 @@ function makeNewList(amount, state, getters, type, index) {
       oldList = state.feats
       itemType = 'feat'
       break
+    case 'cantrips':
+      oldList = state.classes[index].cantrips
+      itemType = 'cantrip'
+      break
     case 'spells':
       oldList = state.classes[index].spells
       itemType = 'spell'
@@ -41,6 +45,13 @@ function getListAmount(state, i, listAmounts) {
   return start + increases.length
 }
 
+const emptyClass = {
+  class: {id: -1},
+  subclass: {},
+  level: 1,
+  cantrips: [],
+  spells: []
+}
 
 export default {
   namespaced: true,
@@ -50,12 +61,7 @@ export default {
     stats: [13,13,13,12,12,12],
     feats: [],
 
-    classes: [{
-      class: {id: -1},
-      subclass: {},
-      level: 1,
-      spells: []
-    }]
+    classes: [emptyClass]
   },
 
   getters: {
@@ -91,6 +97,7 @@ export default {
 
           return isForCurrentClass && enoughLevel
         }
+        case 'cantrip':
         case 'spell': {
           if (item.id === -1) return true
 
@@ -113,18 +120,15 @@ export default {
       state.feats = feats
     },
 
+    setCantripsList(state, {classListIndex, cantrips}) {
+      state.classes[classListIndex].cantrips = cantrips
+    },
+
     setSpellsList(state, {classListIndex, spells}) {
       state.classes[classListIndex].spells = spells
     },
 
     addClass(state) {
-      let emptyClass = {
-        class: {id: -1},
-        subclass: {},
-        level: 1,
-        spells: []
-      }
-
       state.classes.push(emptyClass)
     },
 
@@ -166,6 +170,10 @@ export default {
       state.classes[classListIndex].level = level
     },
 
+    setCantrip(state, {classListIndex, pos, cantrip}) {
+      state.classes[classListIndex].cantrips.splice(pos, 1, cantrip)
+    },
+
     setSpell(state, {classListIndex, pos, spell}) {
       state.classes[classListIndex].spells.splice(pos, 1, spell)
     },
@@ -204,6 +212,10 @@ export default {
           commit('setSubclass', {classListIndex: classListIndex, subclass: subclass})
           dispatch('setAmounts')
           break
+        case 'cantrips':
+          let cantrip = idToItem(itemId, rootState['database'].cantrips)
+          commit('setCantrip', {classListIndex: classListIndex, pos: slotId, cantrip: cantrip})
+          break
         case 'spells':
           let spell = idToItem(itemId, rootState['database'].spells)
           commit('setSpell', {classListIndex: classListIndex, pos: slotId, spell: spell})
@@ -225,6 +237,7 @@ export default {
 
       for (let i = 0; i < state.classes.length; i++) {
         let featsAmount = getListAmount(state, i, rootState['database'].amounts.feats)
+        let cantripsAmount = getListAmount(state, i, rootState['database'].amounts.cantrips)
         let spellsAmount = getListAmount(state, i, rootState['database'].amounts.spells)
 
         if (state.classes[i].class.name === 'Sorcerer') {
@@ -234,6 +247,7 @@ export default {
         }
         totalFeatsAmount += featsAmount
 
+        commit('setCantripsList', {classListIndex: i, cantrips: makeNewList(cantripsAmount, state, getters, 'cantrips', i)})
         commit('setSpellsList', {classListIndex: i, spells: makeNewList(spellsAmount, state, getters, 'spells', i)})
       }
 
