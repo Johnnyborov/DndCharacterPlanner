@@ -61,7 +61,7 @@ export default {
         case 'subclassAbilities':
           return []
         case 'spells':
-          return typeof(this.classes[this.classListIndex].spells) === 'undefined' ? [] : this.classes[this.classListIndex].spells
+          return this.classes[this.classListIndex].spells
       }
     },
 

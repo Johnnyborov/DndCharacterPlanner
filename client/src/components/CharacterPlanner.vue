@@ -31,7 +31,7 @@
       <div>
         <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'spells'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>{{cls.class.name}} Spells:</p>
+          <p>{{cls.class.id === -1 ? 'Class' + (index + 1) : cls.class.name}} Spells:</p>
         </choosable-items-list>
       </div>
     </div>

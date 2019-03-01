@@ -63,8 +63,8 @@ export default {
         classes: this.classes.map(c => {
           return {
             classId: c.class.id,
-            level: c.level,
             subclassId: c.subclass.id,
+            level: c.level,
             spells: c.spells.map(spell => spell.id)
           }
         })
@@ -87,8 +87,8 @@ export default {
           classes: char.classes.map(c => {
             return {
               class: idToItem(c.classId, this.classesDb),
-              level: c.level,
               subclass: idToItem(c.subclassId, this.subclassesDb),
+              level: c.level,
               spells: c.spells.map(id => idToItem(id, this.spellsDb))
             }
           })

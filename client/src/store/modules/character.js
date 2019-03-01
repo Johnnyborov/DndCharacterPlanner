@@ -52,13 +52,30 @@ export default {
 
     classes: [{
       class: {id: -1},
-      level: 1,
       subclass: {},
+      level: 1,
       spells: []
     }]
   },
 
   getters: {
+    totalLevel(state) {
+      let sum = 0
+      state.classes.forEach(c => {
+        sum = sum + c.level
+      })
+
+      return sum
+    },
+
+    canAddClass(state, getters, rootState) {
+      return getters.totalLevel < 20 && state.classes.length < rootState['database'].classes.length
+    },
+
+    canRemoveClass(state) {
+      return state.classes.length > 1
+    },
+
     satisfiesCharacterConfig: (state) => (item, type, index) => {
       switch(type) {
         case 'feat': {
@@ -100,6 +117,21 @@ export default {
       state.classes[classListIndex].spells = spells
     },
 
+    addClass(state) {
+      let emptyClass = {
+        class: {id: -1},
+        subclass: {},
+        level: 1,
+        spells: []
+      }
+
+      state.classes.push(emptyClass)
+    },
+
+    removeClass(state, classListIndex) {
+      state.classes.splice(classListIndex, 1)
+    },
+
     setCharacter(state, character) {
       state.race = character.race
       state.stats = character.stats
@@ -126,12 +158,12 @@ export default {
       state.classes[classListIndex].class = cls
     },
 
-    setLevel(state, {classListIndex, level}) {
-      state.classes[classListIndex].level = level
-    },
-
     setSubclass(state, {classListIndex, subclass}) {
       state.classes[classListIndex].subclass = subclass
+    },
+
+    setLevel(state, {classListIndex, level}) {
+      state.classes[classListIndex].level = level
     },
 
     setSpell(state, {classListIndex, pos, spell}) {
@@ -213,6 +245,22 @@ export default {
         if (!getters.satisfiesCharacterConfig(state.classes[i].subclass, 'subclass', i)) {
           commit('setSubclass', {classListIndex: i, subclass: {id: -1}})
         }
+      }
+    },
+
+    addClass({getters, commit, dispatch}) {
+      if (getters.canAddClass) {
+        commit('addClass')
+
+        dispatch('setAmounts')
+      }
+    },
+
+    removeClass({getters, commit, dispatch}, classListIndex) {
+      if (getters.canRemoveClass){
+        commit('removeClass', classListIndex)
+
+        dispatch('setAmounts')
       }
     }
   }

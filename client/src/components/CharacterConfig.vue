@@ -12,10 +12,17 @@
       <p>Character Level:</p><p>{{totalLevel}}</p>
     </div>
 
-    <div style="background:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, index) in classes" :key="index">
+    <div style="background-color:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, index) in classes" :key="index">
       <div style="display:flex;direction:row;justify-content:space-between;">
         <p>Class</p>
         <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single" :classListIndex="index"
+          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
+      </div>
+
+      <div v-show="showSubclass(index)"
+        style="display:flex;direction:row;justify-content:space-between;">
+        <p>Subclass</p>
+        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single" :classListIndex="index"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
       </div>
 
@@ -28,13 +35,10 @@
         </select>
       </div>
 
-      <div v-show="showSubclass(index)"
-        style="display:flex;direction:row;justify-content:space-between;">
-        <p>Subclass</p>
-        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single" :classListIndex="index"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
-      </div>
+      <button v-show="canRemoveClass" @click="removeClass(index)" style="background-color:red;width:100%">Remove Class</button>
     </div>
+
+    <button v-show="canAddClass" @click="addClass" style="background-color:green;">Add New Class</button>
   </div>
 </template>
 
@@ -65,23 +69,22 @@ export default {
       'classes'
     ]),
 
-    ...mapGetters('database', [
-      'filteredSubclasses'
+    ...mapGetters('character', [
+      'totalLevel',
+      'canAddClass',
+      'canRemoveClass'
     ]),
 
-    totalLevel() {
-      let sum = 0
-      this.classes.forEach(c => {
-        sum = sum + c.level
-      })
-
-      return sum
-    }
+    ...mapGetters('database', [
+      'filteredSubclasses'
+    ])
   },
 
   methods: {
     ...mapActions('character', [
-      'setLevel'
+      'setLevel',
+      'addClass',
+      'removeClass'
     ]),
 
     levelChangedHandler(index, event) {

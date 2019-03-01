@@ -11,8 +11,8 @@ namespace server.Models
   public class Class
   {
     public int ClassId { get; set; }
-    public int Level { get; set; }
     public int SubclassId { get; set; }
+    public int Level { get; set; }
 
     public List<int> Spells { get; set; }
   }

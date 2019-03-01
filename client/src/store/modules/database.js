@@ -141,8 +141,6 @@ export default {
 
     filteredSpells: (state, getters, rootState, rootGetters) => (index) => {
       return state.spells.filter(spell => {
-        if (typeof(rootState['character'].classes[index].spells) === 'undefined') return false
-
         let alreadyChosen = rootState['character'].classes[index].spells.findIndex(s => s.id === spell.id) !== -1
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](spell, 'spell', index)
 
