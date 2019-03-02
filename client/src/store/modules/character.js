@@ -61,7 +61,7 @@ export default {
     stats: [13,13,13,12,12,12],
     feats: [],
 
-    classes: [emptyClass]
+    classes: [JSON.parse(JSON.stringify(emptyClass))]
   },
 
   getters: {
@@ -129,7 +129,7 @@ export default {
     },
 
     addClass(state) {
-      state.classes.push(emptyClass)
+      state.classes.push(JSON.parse(JSON.stringify(emptyClass)))
     },
 
     removeClass(state, classListIndex) {
