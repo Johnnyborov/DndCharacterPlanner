@@ -65,6 +65,12 @@ pre {
 }
 
 
+.container-single {
+  display: flex;
+  direction: row;
+  justify-content: space-between;
+}
+
 .remove-option {
   background-color: crimson;
   margin: 0.5vmin;

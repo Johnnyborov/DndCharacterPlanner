@@ -88,7 +88,7 @@ export default {
 
   computed: {
     ...mapState('database', [
-      'feats'
+      'database'
     ]),
 
     statTypesMinusSelected1() {
@@ -121,7 +121,7 @@ export default {
       let newId = calculateId(this.item.id, this.selected1, this.selected2)
   
       if (newId !== this.item.id) {
-        let newItem = this.feats.find(f => f.id === newId)
+        let newItem = this.database.feats.find(f => f.id === newId)
         this.$emit('id-changed', newItem)
       }
     }

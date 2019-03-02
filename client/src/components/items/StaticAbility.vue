@@ -9,9 +9,9 @@
     </div>
   
 
-    <div v-if="typeof(options[item.name]) !== 'undefined'">
+    <div v-if="typeof(character.options[item.name]) !== 'undefined'">
       <choosable-items-list :moduleType="'options'" :moduleId="'options'+item.name"
-        :choosableSource="options[item.name]" :availableSource="filteredOptions(item.name)"
+        :choosableSource="character.options[item.name]" :availableSource="filteredOptions(item.name)"
         @item-chosen="setOption({pos: $event.slotId, abilityName: item.name, option: $event.item})"
         :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-options" />
     </div>
@@ -38,7 +38,7 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'options'
+      'character'
     ]),
 
     ...mapGetters('database', [

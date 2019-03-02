@@ -47,22 +47,23 @@ namespace server.Controllers
     {     
       Response.ContentType = "application/json";
 
-      var cs = db.Characters.FirstOrDefault(c => c.Id == id);
-      if (cs == null) return NotFound("Character with this guid doesn't exits!");
+      var dbChar = db.Characters.FirstOrDefault(c => c.Id == id);
+      if (dbChar == null) return NotFound("Character with this guid doesn't exits!");
 
-      return new Character(cs);
+      return dbChar.Character;
     }
 
 
     [HttpPost]
     public ActionResult<long> SaveCharacter(Character character)
     {
-      var cs = new CharacterSerialized(character);
-      db.Characters.Add(cs);
+      var dbChar = new CharacterDbRepresentation();
+      dbChar.Character = character;
+      db.Characters.Add(dbChar);
       db.SaveChanges();
 
       Response.ContentType = "application/json";
-      return cs.Id;
+      return dbChar.Id;
     }
   }
 }

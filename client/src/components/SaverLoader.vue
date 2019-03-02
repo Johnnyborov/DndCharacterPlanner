@@ -17,7 +17,13 @@ import api from '../api/planner.js'
 function idToItem(id, array) {
   if (id === -1) return {id: -1}
 
-  let item = array.find(s => s.id === id)
+  let item = array.find(el => el.id == id)
+
+  return item
+}
+
+function nameToItem(name, array) {
+  let item = array.find(el => el.name === name)
 
   return item
 }
@@ -33,20 +39,12 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'race',
-      'stats',
-      'feats',
-      'classes'
+      'character'
     ]),
 
-    ...mapState('database', {
-      racesDb: 'races',
-      featsDb: 'feats',
-      classesDb: 'classes',
-      subclassesDb: 'subclasses',
-      cantripsDb: 'cantrips',
-      spellsDb: 'spells'
-    })
+    ...mapState('database', [
+      'database'
+    ])
   },
 
   methods: {
@@ -56,12 +54,19 @@ export default {
 
 
     saveHandler() {
-      let character = {
-        raceId: this.race.id,
-        stats: this.stats,
-        feats: this.feats.map(feat => feat.id),
+      let options = {}
+      Object.keys(this.character.options).forEach(abilityName => {
+        let abilityId = nameToItem(abilityName, this.database.abilities).id
+        options[abilityId] = this.character.options[abilityName].map(option => option.id)
+      })
 
-        classes: this.classes.map(c => {
+      let char = {
+        raceId: this.character.race.id,
+        stats: this.character.stats,
+        feats: this.character.feats.map(feat => feat.id),
+        options: options,
+
+        classes: this.character.classes.map(c => {
           return {
             classId: c.class.id,
             subclassId: c.subclass.id,
@@ -72,7 +77,7 @@ export default {
         })
       }
 
-      api.saveCharacter(character)
+      api.saveCharacter(char)
       .then(id => {
         this.characterId = id
       })
@@ -81,18 +86,25 @@ export default {
     loadHandler() {
       api.getCharacter(this.characterId)
       .then(char => {
+          let options = {}
+          Object.keys(char.options).forEach(abilityId => {
+            let abilityName = idToItem(abilityId, this.database.abilities).name
+            options[abilityName] = char.options[abilityId].map(optionId => idToItem(optionId, this.database.options[abilityName]))
+          })
+
           let character = {
-          race: idToItem(char.raceId, this.racesDb),
+          race: idToItem(char.raceId, this.database.races),
           stats: char.stats,
-          feats: char.feats.map(id => idToItem(id, this.featsDb)),
+          feats: char.feats.map(id => idToItem(id, this.database.feats)),
+          options: options,
 
           classes: char.classes.map(c => {
             return {
-              class: idToItem(c.classId, this.classesDb),
-              subclass: idToItem(c.subclassId, this.subclassesDb),
+              class: idToItem(c.classId, this.database.classes),
+              subclass: idToItem(c.subclassId, this.database.subclasses),
               level: c.level,
-              cantrips: c.cantrips.map(id => idToItem(id, this.cantripsDb)),
-              spells: c.spells.map(id => idToItem(id, this.spellsDb))
+              cantrips: c.cantrips.map(id => idToItem(id, this.database.cantrips)),
+              spells: c.spells.map(id => idToItem(id, this.database.spells))
             }
           })
         }

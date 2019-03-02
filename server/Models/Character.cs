@@ -20,73 +20,31 @@ namespace server.Models
 
   public class Character
   {
-    public Character() {}
-    public Character(Character c)
-    {
-      RaceId = c.RaceId;
-      Stats = c.Stats;
-      Feats = c.Feats;
-
-      Classes = c.Classes;
-    }
-
     public int RaceId { get; set; }
-
-    [NotMapped]
     public List<int> Stats { get; set; }
-
-    [NotMapped]
     public List<int> Feats { get; set; }
-
-    [NotMapped]
+    public Dictionary<int, List<int>> Options { get; set; }
     public List<Class> Classes { get; set; }
   }
 
-  public class CharacterSerialized: Character
+  public class CharacterDbRepresentation
   {
-    public CharacterSerialized() {}
-    public CharacterSerialized(Character c) : base(c) {}
-
     [Key]
-    public long Id { get; set; } 
+    public long Id { get; set; }
 
+    [NotMapped]
+    public Character Character { get; set; }
 
-    [Column("Stats")]
+    [Column("Character")]
     public string StatsSerialized
     {
       get
       {
-        return JsonConvert.SerializeObject(Stats);
+        return JsonConvert.SerializeObject(Character);
       }
       set
       {
-        Stats = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
-      }
-    }
-
-    [Column("Feats")]
-    public string FeatsSerialized
-    {
-      get
-      {
-        return JsonConvert.SerializeObject(Feats);
-      }
-      set
-      {
-        Feats = string.IsNullOrEmpty(value) ? new List<int>() : JsonConvert.DeserializeObject<List<int>>(value);
-      }
-    }
-
-    [Column("Classes")]
-    public string SpellsSerialized
-    {
-      get
-      {
-        return JsonConvert.SerializeObject(Classes);
-      }
-      set
-      {
-        Classes = string.IsNullOrEmpty(value) ? new List<Class>() : JsonConvert.DeserializeObject<List<Class>>(value);
+        Character = string.IsNullOrEmpty(value) ? new Character() : JsonConvert.DeserializeObject<Character>(value);
       }
     }
   }

@@ -3,7 +3,7 @@
     <div>
       <p>Real Stat Scores:</p>  
       <ul>
-        <li v-for="(stat, index) in stats" :key="index" class="stat">
+        <li v-for="(stat, index) in character.stats" :key="index" class="stat">
           {{statName(index)}}
           {{realStatValues[index]}}
         </li>
@@ -40,22 +40,21 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'stats',
-      'feats'
+      'character'
     ]),
 
     bonusValues() {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
-      modifyBonusValuesFrom(this.feats, bonusValues)
+      modifyBonusValuesFrom(this.character.feats, bonusValues)
 
       return bonusValues
     },
 
     realStatValues() {
       let res = []
-      for (let i = 0; i < this.stats.length; i++) {
-        res[i] = this.stats[i] + this.bonusValues[i]
+      for (let i = 0; i < this.character.stats.length; i++) {
+        res[i] = Math.min(this.character.stats[i] + this.bonusValues[i], 20)
       }
 
       return res

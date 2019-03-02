@@ -5,7 +5,7 @@
 
     <div class="spell-lists-area">
       <div>
-        <div v-for="(cls, classIndex) in classes" :key="classIndex" class="choosable-items-list">
+        <div v-for="(cls, classIndex) in character.classes" :key="classIndex" class="choosable-items-list">
           <p>{{smartClassName(cls, classIndex)}} Abilities</p>
           <ul>
             <static-ability v-for="(item, itemIndex) in filteredAbilities(classIndex)" :key="itemIndex" :item="item" :moduleType="'abilities'"
@@ -16,14 +16,14 @@
 
       <div>
         <choosable-items-list :moduleType="'feats'" :moduleId="'feats'"
-          :choosableSource="feats" :availableSource="filteredFeats"
+          :choosableSource="character.feats" :availableSource="filteredFeats"
           @item-chosen="setFeat({pos: $event.slotId, feat: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
           <p>Feats</p>
         </choosable-items-list>
 
-        <choosable-items-list v-for="(cls, classIndex) in classes" :key="classIndex" :moduleType="'cantrips'" :moduleId="'cantrips' + classIndex"
-          :choosableSource="classes[classIndex].cantrips" :availableSource="filteredCantrips(classIndex)"
+        <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex" :moduleType="'cantrips'" :moduleId="'cantrips' + classIndex"
+          :choosableSource="character.classes[classIndex].cantrips" :availableSource="filteredCantrips(classIndex)"
           @item-chosen="setCantrip({classIndex: classIndex, pos: $event.slotId, cantrip: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
           <p>{{smartClassName(cls, classIndex)}} Cantrips:</p>
@@ -31,8 +31,8 @@
       </div>
 
       <div>
-        <choosable-items-list v-for="(cls, classIndex) in classes" :key="classIndex" :moduleType="'spells'" :moduleId="'spells' + classIndex"
-          :choosableSource="classes[classIndex].spells" :availableSource="filteredSpells(classIndex)"
+        <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex" :moduleType="'spells'" :moduleId="'spells' + classIndex"
+          :choosableSource="character.classes[classIndex].spells" :availableSource="filteredSpells(classIndex)"
           @item-chosen="setSpell({classIndex: classIndex, pos: $event.slotId, spell: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
           <p>{{smartClassName(cls, classIndex)}} Spells:</p>
@@ -71,8 +71,7 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'feats',
-      'classes'
+      'character'
     ]),
 
     ...mapGetters('database', [

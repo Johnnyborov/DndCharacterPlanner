@@ -3,9 +3,9 @@
     <div>
       <p>Base Stat Scores:</p>
       <ul>
-        <li v-for="(stat, index) in stats" :key="index" class="stat">
+        <li v-for="(stat, index) in character.stats" :key="index" class="stat">
           {{statName(index)}}
-          <select :value="stats[index]" @change="changeStatValue(index, $event)">
+          <select :value="character.stats[index]" @change="changeStatValue(index, $event)">
             <option v-for="val in values" :key="val" :value="val">
               {{val}}
             </option>
@@ -30,7 +30,7 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'stats'
+      'character'
     ])
   },
 

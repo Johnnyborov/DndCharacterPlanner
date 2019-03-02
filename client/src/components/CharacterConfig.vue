@@ -1,40 +1,39 @@
 <template>
   <div>
-    <div style="display:flex;direction:row;justify-content:space-between;">
+    <div class="container-single">
       <p>Race</p>
       <choosable-items-list :moduleType="'race'" :moduleId="'race'"
-        :choosableSource="[race]" :availableSource="filteredRaces"
+        :choosableSource="[character.race]" :availableSource="filteredRaces"
         @item-chosen="setRace($event.item)"
         :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
     </div>
 
     <base-stats class="base-stats" />
     
-    <div style="display:flex;direction:row;justify-content:space-between;">
+    <div class="container-single">
       <p>Character Level:</p><p>{{totalLevel}}</p>
     </div>
 
-    <div style="background-color:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, classIndex) in classes" :key="classIndex">
-      <div style="display:flex;direction:row;justify-content:space-between;">
+    <div style="background-color:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, classIndex) in character.classes" :key="classIndex">
+      <div class="container-single">
         <p>Class</p>
         <choosable-items-list :moduleType="'class'" :moduleId="'class'+classIndex"
-          :choosableSource="[classes[classIndex].class]" :availableSource="filteredClasses"
+          :choosableSource="[character.classes[classIndex].class]" :availableSource="filteredClasses"
           @item-chosen="setClass({classIndex: classIndex, cls: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
       </div>
 
-      <div v-show="showSubclass(classIndex)"
-        style="display:flex;direction:row;justify-content:space-between;">
+      <div v-show="showSubclass(classIndex)" class="container-single">
         <p>Subclass</p>
         <choosable-items-list :moduleType="'subclass'" :moduleId="'subclass'+classIndex"
-          :choosableSource="[classes[classIndex].subclass]" :availableSource="filteredSubclasses(classIndex)"
+          :choosableSource="[character.classes[classIndex].subclass]" :availableSource="filteredSubclasses(classIndex)"
           @item-chosen="setSubclass({classIndex: classIndex, subclass: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
       </div>
 
-      <div style="display:flex;direction:row;justify-content:space-between;margin: 1vmin 0 1vmin 0;">
+      <div class="container-single" style="margin: 1vmin 0 1vmin 0;">
         <p>Class Level</p>
-        <select :value="classes[classIndex].level" @change="levelChangedHandler(classIndex, $event)" style="margin: 0.5vmin">
+        <select :value="character.classes[classIndex].level" @change="levelChangedHandler(classIndex, $event)" style="margin: 0.5vmin">
           <option v-for="lvl in possibleLevels(classIndex)" :key="lvl" :value="lvl">
             {{lvl}}
           </option>
@@ -72,8 +71,7 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'race',
-      'classes',
+      'character'
     ]),
 
     ...mapGetters('character', [
@@ -110,7 +108,7 @@ export default {
     },
 
     possibleLevels(index) {
-      return this.levelsList.filter(lvl => this.totalLevel + lvl - this.classes[index].level <= 20)
+      return this.levelsList.filter(lvl => this.totalLevel + lvl - this.character.classes[index].level <= 20)
     }
   }
 }

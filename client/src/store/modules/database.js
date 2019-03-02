@@ -10,7 +10,8 @@ const racesList = [
 ]
 const classesList = [
   {id: 2000, name: 'Fighter'},
-  {id: 2001, name: 'Sorcerer'}
+  {id: 2001, name: 'Sorcerer'},
+  {id: 2002, name: 'Wizard'}
 ]
 const subclassesList = [
   {id: 3000, name: 'Champion', classId: 2000, level: 3},
@@ -55,14 +56,17 @@ const amounts = {
   },
   feats: {
     'Sorcerer': [4,8,12,16,19],
+    'Wizard': [4,8,12,16,19],
     'Fighter': [4,6,8,12,14,16,19]
   },
   cantrips: {
     'Sorcerer': [1,1,1,1,4,10],
+    'Wizard': [1,1,1,1,4,10],
     'Fighter': []
   },
   spells: {
     'Sorcerer': [1,1,2,3,4,5,6,7,8,9,10,11,13,15,17],
+    'Wizard': [1,1,2,3,4,5,6,7,8,9,10,11,13,15,17],
     'Fighter': []
   }
 }
@@ -128,31 +132,33 @@ export default {
   namespaced: true,
 
   state: {
-    races: [],
-    feats: [],
-    abilities: [],
-    options: [],
-
-    classes: [],
-    subclasses: [],
-    cantrips: [],
-    spells: [],
-
-    amounts: {}
+    database: {
+      races: [],
+      feats: [],
+      abilities: [],
+      options: [],
+  
+      classes: [],
+      subclasses: [],
+      cantrips: [],
+      spells: [],
+  
+      amounts: {}
+    }
   },
 
   getters: {
     filteredRaces: (state, getters, rootState, rootGetters) => {
-      return state.races.filter(race => {
-        let alreadyChosen = rootState['character'].race.id === race.id
+      return state.database.races.filter(race => {
+        let alreadyChosen = rootState['character'].character.race.id === race.id
 
         return !alreadyChosen
       })
     },
 
     filteredFeats: (state, getters, rootState, rootGetters) => {
-      return state.feats.filter(feat => {
-        let alreadyChosen = rootState['character'].feats.findIndex(f => f.id === feat.id) !== -1
+      return state.database.feats.filter(feat => {
+        let alreadyChosen = rootState['character'].character.feats.findIndex(f => f.id === feat.id) !== -1
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](feat, 'feat')
 
         return !isVariation(feat.id) && satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.id))
@@ -160,7 +166,7 @@ export default {
     },
 
     filteredAbilities: (state, getters, rootState, rootGetters) => (index) => {
-      return state.abilities.filter(ability => {
+      return state.database.abilities.filter(ability => {
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'ability', index)
 
         return satisfiesCharacterConfig
@@ -168,16 +174,16 @@ export default {
     },
 
     filteredOptions: (state, getters, rootState, rootGetters) => (abilityName) => {
-      return state.options[abilityName].filter(option => {
-        let alreadyChosen = rootState['character'].options[abilityName].findIndex(o => o.id === option.id) !== -1
+      return state.database.options[abilityName].filter(option => {
+        let alreadyChosen = rootState['character'].character.options[abilityName].findIndex(o => o.id === option.id) !== -1
 
         return !alreadyChosen
       })
     },
 
     filteredClasses: (state, getters, rootState, rootGetters) => {
-      return state.classes.filter(cls => {
-        let alreadyChosen = rootState['character'].classes.findIndex(c => c.class.id === cls.id) !== -1
+      return state.database.classes.filter(cls => {
+        let alreadyChosen = rootState['character'].character.classes.findIndex(c => c.class.id === cls.id) !== -1
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cls, 'class')
         
         return satisfiesCharacterConfig && !alreadyChosen
@@ -185,8 +191,8 @@ export default {
     },
 
     filteredSubclasses: (state, getters, rootState, rootGetters) => (index) => {
-      return state.subclasses.filter(subclass => {
-        let alreadyChosen = rootState['character'].classes[index].subclass.id === subclass.id
+      return state.database.subclasses.filter(subclass => {
+        let alreadyChosen = rootState['character'].character.classes[index].subclass.id === subclass.id
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](subclass, 'subclass', index)
 
         return satisfiesCharacterConfig && !alreadyChosen
@@ -194,8 +200,14 @@ export default {
     },
 
     filteredCantrips: (state, getters, rootState, rootGetters) => (index) => {
-      return state.cantrips.filter(cantrip => {
-        let alreadyChosen = rootState['character'].classes[index].cantrips.findIndex(c => c.id === cantrip.id) !== -1
+      return state.database.cantrips.filter(cantrip => {
+        let alreadyChosen = false
+        for (let i = 0; i < rootState['character'].character.classes.length; i++) {
+          let alreadyChosenByClass = rootState['character'].character.classes[i].cantrips.findIndex(c => c.id === cantrip.id) !== -1
+
+          if (alreadyChosenByClass) alreadyChosen = true
+        }
+
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cantrip, 'cantrip', index)
 
         return satisfiesCharacterConfig && !alreadyChosen
@@ -203,8 +215,14 @@ export default {
     },
 
     filteredSpells: (state, getters, rootState, rootGetters) => (index) => {
-      return state.spells.filter(spell => {
-        let alreadyChosen = rootState['character'].classes[index].spells.findIndex(s => s.id === spell.id) !== -1
+      return state.database.spells.filter(spell => {
+        let alreadyChosen = false
+        for (let i = 0; i < rootState['character'].character.classes.length; i++) {
+          let alreadyChosenByClass = rootState['character'].character.classes[i].spells.findIndex(s => s.id === spell.id) !== -1
+
+          if (alreadyChosenByClass) alreadyChosen = true
+        }
+
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](spell, 'spell', index)
 
         return satisfiesCharacterConfig && !alreadyChosen
@@ -214,17 +232,7 @@ export default {
 
   mutations: {
     setDatabase(state, database) {
-      state.races = database.races
-      state.feats = database.feats
-      state.abilities = database.abilities
-      state.options = database.options
-
-      state.classes = database.classes
-      state.subclasses = database.subclasses
-      state.cantrips = database.cantrips
-      state.spells = database.spells
-
-      state.amounts = database.amounts
+      state.database = database
     }
   },
 

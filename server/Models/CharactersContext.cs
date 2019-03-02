@@ -8,7 +8,7 @@ namespace server.Models
 {
   public class CharactersContext : DbContext
   {
-    public DbSet<CharacterSerialized> Characters { get; set; }
+    public DbSet<CharacterDbRepresentation> Characters { get; set; }
 
     public CharactersContext(DbContextOptions<CharactersContext> options) : base(options)
     {
