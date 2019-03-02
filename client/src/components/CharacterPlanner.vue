@@ -1,6 +1,6 @@
 <template>
   <div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
-    <character-config class="character-config" :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event" />
+    <character-config class="character-config" :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" />
     <real-stats class="real-stats" />
 
     <div class="spell-lists-area">
@@ -8,28 +8,34 @@
         <div v-for="(cls, classIndex) in classes" :key="classIndex" class="choosable-items-list">
           <p>{{smartClassName(cls, classIndex)}} Abilities</p>
           <ul>
-            <static-ability v-for="item in filteredAbilities(classIndex)" :key="item.id" :item="item" :moduleType="'abilities'" :classListIndex="classIndex"
-              :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event" />
+            <static-ability v-for="(item, itemIndex) in filteredAbilities(classIndex)" :key="itemIndex" :item="item" :moduleType="'abilities'"
+              :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" />
           </ul>
         </div>
       </div>
 
       <div>
-        <choosable-items-list :moduleType="'feats'" class="choosable-items-list"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
+        <choosable-items-list :moduleType="'feats'" :moduleId="'feats'"
+          :choosableSource="feats" :availableSource="filteredFeats"
+          @item-chosen="setFeat({pos: $event.slotId, feat: $event.item})"
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
           <p>Feats</p>
         </choosable-items-list>
 
-        <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'cantrips'" class="choosable-items-list"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>{{smartClassName(cls, index)}} Cantrips:</p>
+        <choosable-items-list v-for="(cls, classIndex) in classes" :key="classIndex" :moduleType="'cantrips'" :moduleId="'cantrips' + classIndex"
+          :choosableSource="classes[classIndex].cantrips" :availableSource="filteredCantrips(classIndex)"
+          @item-chosen="setCantrip({classIndex: classIndex, pos: $event.slotId, cantrip: $event.item})"
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+          <p>{{smartClassName(cls, classIndex)}} Cantrips:</p>
         </choosable-items-list>
       </div>
 
       <div>
-        <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'spells'" class="choosable-items-list"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>{{smartClassName(cls, index)}} Spells:</p>
+        <choosable-items-list v-for="(cls, classIndex) in classes" :key="classIndex" :moduleType="'spells'" :moduleId="'spells' + classIndex"
+          :choosableSource="classes[classIndex].spells" :availableSource="filteredSpells(classIndex)"
+          @item-chosen="setSpell({classIndex: classIndex, pos: $event.slotId, spell: $event.item})"
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+          <p>{{smartClassName(cls, classIndex)}} Spells:</p>
         </choosable-items-list>
       </div>
     </div>
@@ -45,7 +51,7 @@ import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
 import SaverLoader from './SaverLoader.vue'
 
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'CharacterPlanner',
@@ -65,15 +71,25 @@ export default {
 
   computed: {
     ...mapState('character', [
+      'feats',
       'classes'
     ]),
 
     ...mapGetters('database', [
-      'filteredAbilities'
+      'filteredAbilities',
+      'filteredFeats',
+      'filteredCantrips',
+      'filteredSpells'
     ])
   },
 
   methods: {
+    ...mapActions('character', [
+      'setFeat',
+      'setCantrip',
+      'setSpell'
+    ]),
+
     smartClassName(cls, index) {
       return cls.class.id === -1 ? 'Class' + (index + 1) : cls.class.name
     }

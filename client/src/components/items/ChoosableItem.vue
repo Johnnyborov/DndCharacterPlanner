@@ -1,5 +1,5 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler"
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="$emit('slot-clicked', {slotId: slotId, posY: posY})"
     class="item-slot" :class="{'selected-item': currentlyClickedSlotId === slotId}">
     {{levelText}}{{item.name}}
 
@@ -19,14 +19,6 @@ export default {
   props: {
     slotId: Number,
     currentlyClickedSlotId: Number
-  },
-
-  methods: {
-    clickHandler() {
-      if (this.moduleType !== 'abilities') {
-        this.$emit('clicked-item', {slotId: this.slotId, posY: this.posY})
-      }
-    }
   }
 }
 </script>

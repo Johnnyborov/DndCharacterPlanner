@@ -2,13 +2,13 @@
   <div>
     <slot></slot>
     <ul>
-      <choosable-item v-for="(item, index) in itemsList" :key="index" :slotId="index" :item="item" :currentlyClickedSlotId="currentlyClickedSlotId"
-        @clicked-item="clickedSlotHandler" :moduleType="moduleType" class="choosable-item" />
+      <choosable-item v-for="(item, index) in choosableSource" :key="index" :slotId="index" :item="item" :currentlyClickedSlotId="currentlyClickedSlotId"
+        @slot-clicked="slotClickedHandler" :moduleType="moduleType" class="choosable-item" />
     </ul>
     
     <div :style="{'top': avaliableItemsPosY + 'px', 'position': 'absolute'}">
-      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :classListIndex="classListIndex" :abilityName="abilityName"
-        :slotId="currentlyClickedSlotId" :moduleType="moduleType" class="available-items-list" />
+      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :availableSource="availableSource" :slotId="currentlyClickedSlotId"
+        :moduleType="moduleType" @item-chosen="$emit('item-chosen', $event)" class="available-items-list" />
     </div>
   </div>
 </template>
@@ -16,8 +16,6 @@
 <script>
 import ChoosableItem from './ChoosableItem.vue'
 import AvailableItemsList from './AvailableItemsList.vue'
-
-import {mapState} from 'vuex'
 
 export default {
   name: 'ChoosableItemsList',
@@ -28,65 +26,39 @@ export default {
 
   props: {
     moduleType: String,
+
+    moduleId: String,
     lastModuleToClickItem: String,
-    classListIndex: Number,
-    abilityName: String
+    
+    choosableSource: Array,
+    availableSource: Array
   },
 
   data() {
     return {
-      currentlyClickedSlotIdData: -1,
+      lastClickedSlotId: -1,
       avaliableItemsPosY: 0
     }
   },
 
   computed: {
-    ...mapState('character', [
-      'race',
-      'feats',
-      'classes',
-      'options'
-    ]),
-
-    itemsList() {
-      switch(this.moduleType) {
-        case 'race':
-          return [this.race]
-        case 'feats':
-          return this.feats
-        case 'class':
-          return [this.classes[this.classListIndex].class]
-        case 'subclass':
-          return [this.classes[this.classListIndex].subclass]
-        case 'cantrips':
-          return this.classes[this.classListIndex].cantrips
-        case 'spells':
-          return this.classes[this.classListIndex].spells
-        case 'options':
-          return this.options[this.abilityName]
-      }
-    },
-
     currentlyClickedSlotId() {
-      if (this.lastModuleToClickItem !== this.moduleType
-          && this.lastModuleToClickItem !== this.moduleType + this.classListIndex
-          && this.lastModuleToClickItem !== this.moduleType + this.abilityName)
-        this.currentlyClickedSlotIdData = -1
+      if (this.lastModuleToClickItem !== this.moduleId) return -1
         
-      return this.currentlyClickedSlotIdData
+      return this.lastClickedSlotId
     }
   },
 
   methods: {
-    clickedSlotHandler({slotId, posY}) {
-      this.currentlyClickedSlotIdData = slotId
+    slotClickedHandler({slotId, posY}) {
+      this.lastClickedSlotId = slotId
       this.avaliableItemsPosY = posY
 
       this.$nextTick(function() { // wait for display change back to visible
         this.$refs['available-items'].$refs['scrollable-ul'].scrollTop = 0
       })
 
-      this.$emit('item-clicked', this.moduleType)
+      this.$emit('slot-clicked', this.moduleId)
     }
   }
 }

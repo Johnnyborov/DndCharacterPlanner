@@ -2,8 +2,10 @@
   <div>
     <div style="display:flex;direction:row;justify-content:space-between;">
       <p>Race</p>
-      <choosable-items-list :moduleType="'race'" class="choosable-items-list list-single"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event)" />
+      <choosable-items-list :moduleType="'race'" :moduleId="'race'"
+        :choosableSource="[race]" :availableSource="filteredRaces"
+        @item-chosen="setRace($event.item)"
+        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
     </div>
 
     <base-stats class="base-stats" />
@@ -12,30 +14,34 @@
       <p>Character Level:</p><p>{{totalLevel}}</p>
     </div>
 
-    <div style="background-color:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, index) in classes" :key="index">
+    <div style="background-color:olive;margin: 1vmin 0 1vmin 0;" v-for="(cls, classIndex) in classes" :key="classIndex">
       <div style="display:flex;direction:row;justify-content:space-between;">
         <p>Class</p>
-        <choosable-items-list :moduleType="'class'" class="choosable-items-list list-single" :classListIndex="index"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
+        <choosable-items-list :moduleType="'class'" :moduleId="'class'+classIndex"
+          :choosableSource="[classes[classIndex].class]" :availableSource="filteredClasses"
+          @item-chosen="setClass({classIndex: classIndex, cls: $event.item})"
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
       </div>
 
-      <div v-show="showSubclass(index)"
+      <div v-show="showSubclass(classIndex)"
         style="display:flex;direction:row;justify-content:space-between;">
         <p>Subclass</p>
-        <choosable-items-list :moduleType="'subclass'" class="choosable-items-list list-single" :classListIndex="index"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event+index)" />
+        <choosable-items-list :moduleType="'subclass'" :moduleId="'subclass'+classIndex"
+          :choosableSource="[classes[classIndex].subclass]" :availableSource="filteredSubclasses(classIndex)"
+          @item-chosen="setSubclass({classIndex: classIndex, subclass: $event.item})"
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
       </div>
 
       <div style="display:flex;direction:row;justify-content:space-between;margin: 1vmin 0 1vmin 0;">
         <p>Class Level</p>
-        <select :value="classes[index].level" @change="levelChangedHandler(index, $event)" style="margin: 0.5vmin">
-          <option v-for="lvl in possibleLevels(index)" :key="lvl" :value="lvl">
+        <select :value="classes[classIndex].level" @change="levelChangedHandler(classIndex, $event)" style="margin: 0.5vmin">
+          <option v-for="lvl in possibleLevels(classIndex)" :key="lvl" :value="lvl">
             {{lvl}}
           </option>
         </select>
       </div>
 
-      <button v-show="canRemoveClass" @click="removeClass(index)" style="background-color:red;width:100%">Remove Class</button>
+      <button v-show="canRemoveClass" @click="removeClass(classIndex)" style="background-color:red;width:100%">Remove Class</button>
     </div>
 
     <button v-show="canAddClass" @click="addClass" style="background-color:green;">Add New Class</button>
@@ -66,7 +72,8 @@ export default {
 
   computed: {
     ...mapState('character', [
-      'classes'
+      'race',
+      'classes',
     ]),
 
     ...mapGetters('character', [
@@ -76,19 +83,24 @@ export default {
     ]),
 
     ...mapGetters('database', [
-      'filteredSubclasses'
+      'filteredRaces',
+      'filteredClasses',
+      'filteredSubclasses',
     ])
   },
 
   methods: {
     ...mapActions('character', [
+      'setRace',
+      'setClass',
+      'setSubclass',
       'setLevel',
       'addClass',
       'removeClass'
     ]),
 
     levelChangedHandler(index, event) {
-      this.setLevel({classListIndex: index, level: Number(event.target.value)})
+      this.setLevel({classIndex: index, level: Number(event.target.value)})
     },
 
     showSubclass(index) {

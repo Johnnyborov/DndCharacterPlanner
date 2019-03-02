@@ -155,30 +155,6 @@ export default {
   },
 
   mutations: {
-    setFeatsList(state, feats) {
-      state.feats = feats
-    },
-
-    setOptionsObject(state, options) {
-      state.options = options
-    },
-
-    setCantripsList(state, {classListIndex, cantrips}) {
-      state.classes[classListIndex].cantrips = cantrips
-    },
-
-    setSpellsList(state, {classListIndex, spells}) {
-      state.classes[classListIndex].spells = spells
-    },
-
-    addClass(state) {
-      state.classes.push(JSON.parse(JSON.stringify(emptyClass)))
-    },
-
-    removeClass(state, classListIndex) {
-      state.classes.splice(classListIndex, 1)
-    },
-
     setCharacter(state, character) {
       state.race = character.race
       state.stats = character.stats
@@ -186,7 +162,6 @@ export default {
 
       state.classes = character.classes
     },
-
 
     setRace(state, race) {
       state.race = race
@@ -200,86 +175,98 @@ export default {
       state.feats.splice(pos, 1, feat)
     },
 
-
-    setClass(state, {classListIndex, cls}) {
-      state.classes[classListIndex].class = cls
+    setClass(state, {classIndex, cls}) {
+      state.classes[classIndex].class = cls
     },
 
-    setSubclass(state, {classListIndex, subclass}) {
-      state.classes[classListIndex].subclass = subclass
+    setSubclass(state, {classIndex, subclass}) {
+      state.classes[classIndex].subclass = subclass
     },
 
-    setLevel(state, {classListIndex, level}) {
-      state.classes[classListIndex].level = level
+    setLevel(state, {classIndex, level}) {
+      state.classes[classIndex].level = level
     },
 
-    setCantrip(state, {classListIndex, pos, cantrip}) {
-      state.classes[classListIndex].cantrips.splice(pos, 1, cantrip)
+    setCantrip(state, {classIndex, pos, cantrip}) {
+      state.classes[classIndex].cantrips.splice(pos, 1, cantrip)
     },
 
-    setSpell(state, {classListIndex, pos, spell}) {
-      state.classes[classListIndex].spells.splice(pos, 1, spell)
+    setSpell(state, {classIndex, pos, spell}) {
+      state.classes[classIndex].spells.splice(pos, 1, spell)
     },
 
     setOption(state, {pos, abilityName, option}) {
       state.options[abilityName].splice(pos, 1, option)
+    },
+
+    setFeatsList(state, feats) {
+      state.feats = feats
+    },
+
+    setOptionsObject(state, options) {
+      state.options = options
+    },
+
+    setCantripsList(state, {classIndex, cantrips}) {
+      state.classes[classIndex].cantrips = cantrips
+    },
+
+    setSpellsList(state, {classIndex, spells}) {
+      state.classes[classIndex].spells = spells
+    },
+
+    addClass(state) {
+      state.classes.push(JSON.parse(JSON.stringify(emptyClass)))
+    },
+
+    removeClass(state, classIndex) {
+      state.classes.splice(classIndex, 1)
     }
   },
 
   actions: {
     setCharacter({commit, dispatch}, character) {
       commit('setCharacter', character)
-
       dispatch('checkSubclass')
-
       dispatch('setAmounts')
     },
 
-    setItem({rootState, commit, dispatch}, {type, classListIndex, slotId, itemId, abilityName}) {
-      switch(type) {
-        case 'race':
-          let race = idToItem(itemId, rootState['database'].races)
-          commit('setRace', race)
-          dispatch('setAmounts')
-          break
-        case 'feats':
-          let feat = idToItem(itemId, rootState['database'].feats)
-          commit('setFeat', {pos: slotId, feat: feat})
-          dispatch('setAmounts')
-          break
+    setRace({commit, dispatch}, arg) {
+      commit('setRace', arg)
+      dispatch('setAmounts')
+    },
 
-        case 'class':
-          let cls = idToItem(itemId, rootState['database'].classes)
-          commit('setClass', {classListIndex: classListIndex, cls: cls})
-          dispatch('checkSubclass')
-          dispatch('setAmounts')
-          break
-        case 'subclass':
-          let subclass = idToItem(itemId, rootState['database'].subclasses)
-          commit('setSubclass', {classListIndex: classListIndex, subclass: subclass})
-          dispatch('setAmounts')
-          break
-        case 'cantrips':
-          let cantrip = idToItem(itemId, rootState['database'].cantrips)
-          commit('setCantrip', {classListIndex: classListIndex, pos: slotId, cantrip: cantrip})
-          break
-        case 'spells':
-          let spell = idToItem(itemId, rootState['database'].spells)
-          commit('setSpell', {classListIndex: classListIndex, pos: slotId, spell: spell})
-          break
+    setFeat({commit, dispatch}, arg) {
+      commit('setFeat', arg)
+      dispatch('setAmounts')
+    },
 
-        case 'options':
-          let option = idToItem(itemId, rootState['database'].options[abilityName])
-          commit('setOption', {pos: slotId, abilityName: abilityName, option: option})
-          break
-      }
+    setClass({commit, dispatch}, arg) {
+      commit('setClass', arg)
+      dispatch('checkSubclass')
+      dispatch('setAmounts')
+    },
+
+    setSubclass({commit, dispatch}, arg) {
+      commit('setSubclass', arg)
+      dispatch('setAmounts')
+    },
+
+    setCantrip({commit}, arg) {
+      commit('setCantrip', arg)
+    },
+
+    setSpell({commit}, arg) {
+      commit('setSpell', arg)
+    },
+
+    setOption({commit}, arg) {
+      commit('setOption', arg)
     },
 
     setLevel({commit, dispatch}, arg) {
       commit('setLevel', arg)
-
       dispatch('checkSubclass')
-
       dispatch('setAmounts')
     },
 
@@ -299,8 +286,8 @@ export default {
         }
         totalFeatsAmount += featsAmount
 
-        commit('setCantripsList', {classListIndex: i, cantrips: makeNewList(cantripsAmount, state, getters, 'cantrips', i)})
-        commit('setSpellsList', {classListIndex: i, spells: makeNewList(spellsAmount, state, getters, 'spells', i)})
+        commit('setCantripsList', {classIndex: i, cantrips: makeNewList(cantripsAmount, state, getters, 'cantrips', i)})
+        commit('setSpellsList', {classIndex: i, spells: makeNewList(spellsAmount, state, getters, 'spells', i)})
       }
 
       commit('setFeatsList', makeNewList(totalFeatsAmount, state, getters, 'feats'))
@@ -311,7 +298,7 @@ export default {
     checkSubclass({state, getters, commit}) {
       for (let i = 0; i < state.classes.length; i++) {
         if (!getters.satisfiesCharacterConfig(state.classes[i].subclass, 'subclass', i)) {
-          commit('setSubclass', {classListIndex: i, subclass: {id: -1}})
+          commit('setSubclass', {classIndex: i, subclass: {id: -1}})
         }
       }
     },
@@ -319,15 +306,13 @@ export default {
     addClass({getters, commit, dispatch}) {
       if (getters.canAddClass) {
         commit('addClass')
-
         dispatch('setAmounts')
       }
     },
 
-    removeClass({getters, commit, dispatch}, classListIndex) {
+    removeClass({getters, commit, dispatch}, classIndex) {
       if (getters.canRemoveClass){
-        commit('removeClass', classListIndex)
-
+        commit('removeClass', classIndex)
         dispatch('setAmounts')
       }
     }

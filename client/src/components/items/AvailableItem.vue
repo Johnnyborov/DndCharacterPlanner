@@ -1,8 +1,8 @@
 <template>
-  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="clickHandler" class="item-slot">
+  <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="$emit('item-clicked', realItem)" class="item-slot">
     {{levelText}}{{item.name}}
 
-    <stat-chooser :itemId="item.id" @id-changed="idChangedHandler" />
+    <stat-chooser :item="item" @id-changed="idChangedHandler" />
 
     <div :style="{'position': 'absolute', 'top': posY + 'px'}">
       <item-tooltip v-if="mouseOver" :item="item" :moduleType="moduleType" :posX="posX" class="item-tooltip" />
@@ -24,17 +24,13 @@ export default {
 
   data() {
     return {
-      realItemId: this.item.id
+      realItem: this.item
     }
   },
 
   methods: {
-    clickHandler() {
-      this.$emit('item-chosen', this.realItemId)
-    },
-
-    idChangedHandler(id) {
-      this.realItemId = id
+    idChangedHandler(item) {
+      this.realItem = item
     }
   }
 }

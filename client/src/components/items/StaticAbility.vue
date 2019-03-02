@@ -10,9 +10,10 @@
   
 
     <div v-if="typeof(options[item.name]) !== 'undefined'">
-      <choosable-items-list :moduleType="'options'" :abilityName="item.name" :classListIndex="classListIndex"
-        :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="$emit('item-clicked', $event + item.name)" class="choosable-items-list list-options">
-      </choosable-items-list>
+      <choosable-items-list :moduleType="'options'" :moduleId="'options'+item.name"
+        :choosableSource="options[item.name]" :availableSource="filteredOptions(item.name)"
+        @item-chosen="setOption({pos: $event.slotId, abilityName: item.name, option: $event.item})"
+        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-options" />
     </div>
   </li>
 </template>
@@ -22,7 +23,7 @@ import ChoosableItemsList from './ChoosableItemsList.vue'
 
 import itemSlot from '../../mixins/itemSlot.js'
 
-import {mapState} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'StaticAbility',
@@ -32,13 +33,22 @@ export default {
   },
 
   props: {
-    lastModuleToClickItem: String,
-    classListIndex: Number
+    lastModuleToClickItem: String
   },
 
   computed: {
     ...mapState('character', [
       'options'
+    ]),
+
+    ...mapGetters('database', [
+      'filteredOptions'
+    ])
+  },
+
+  methods: {
+    ...mapActions('character', [
+      'setOption'
     ])
   }
 }
