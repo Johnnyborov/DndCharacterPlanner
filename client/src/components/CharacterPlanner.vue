@@ -5,21 +5,19 @@
 
     <div class="spell-lists-area">
       <div>
-        <choosable-items-list :moduleType="'classAbilities'" class="choosable-items-list"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>Class Abilities</p>
-        </choosable-items-list>
-
-        <choosable-items-list :moduleType="'subclassAbilities'" class="choosable-items-list"
-          :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>Subclass Abilities</p>
-        </choosable-items-list>
+        <div v-for="(cls, classIndex) in classes" :key="classIndex" class="choosable-items-list">
+          <p>{{smartClassName(cls, classIndex)}} Abilities</p>
+          <ul>
+            <static-ability v-for="item in filteredAbilities(classIndex)" :key="item.id" :item="item" :moduleType="'abilities'" :classListIndex="classIndex"
+              :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event" />
+          </ul>
+        </div>
       </div>
 
       <div>
         <choosable-items-list :moduleType="'feats'" class="choosable-items-list"
           :lastModuleToClickItem="lastModuleToClickItem" @item-clicked="lastModuleToClickItem=$event">
-          <p>Chosen Feats</p>
+          <p>Feats</p>
         </choosable-items-list>
 
         <choosable-items-list v-for="(cls, index) in classes" :key="index" :classListIndex="index" :moduleType="'cantrips'" class="choosable-items-list"
@@ -42,11 +40,12 @@
 
 <script>
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
+import StaticAbility from './items/StaticAbility.vue'
 import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
 import SaverLoader from './SaverLoader.vue'
 
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 
 export default {
   name: 'CharacterPlanner',
@@ -54,7 +53,8 @@ export default {
     'saver-loader': SaverLoader,
     'character-config': CharacterConfig,
     'real-stats': RealStats,
-    'choosable-items-list': ChoosableItemsList
+    'choosable-items-list': ChoosableItemsList,
+    'static-ability': StaticAbility
   },
 
   data() {
@@ -66,6 +66,10 @@ export default {
   computed: {
     ...mapState('character', [
       'classes'
+    ]),
+
+    ...mapGetters('database', [
+      'filteredAbilities'
     ])
   },
 

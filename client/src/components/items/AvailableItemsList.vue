@@ -22,17 +22,19 @@ export default {
   props: {
     moduleType: String,
     slotId: Number,
-    classListIndex: Number
+    classListIndex: Number,
+    abilityName: String
   },
 
-  computed: {  
+  computed: {
     ...mapGetters('database', [
       'filteredRaces',
       'filteredFeats',
       'filteredClasses',
       'filteredSubclasses',
       'filteredCantrips',
-      'filteredSpells'
+      'filteredSpells',
+      'filteredOptions'
     ]),
 
     itemsList() {
@@ -42,13 +44,15 @@ export default {
         case 'feats':
           return this.filteredFeats
         case 'class':
-          return this.filteredClasses(this.classListIndex)
+          return this.filteredClasses
         case 'subclass':
           return this.filteredSubclasses(this.classListIndex)
         case 'cantrips':
           return this.filteredCantrips(this.classListIndex)
         case 'spells':
           return this.filteredSpells(this.classListIndex)
+        case 'options':
+          return this.filteredOptions(this.abilityName)
       }
     }
   },
@@ -59,7 +63,7 @@ export default {
     ]),
 
     itemChosenHandler(itemId) {
-      this.setItem({type: this.moduleType, classListIndex: this.classListIndex, slotId: this.slotId, itemId: itemId})
+      this.setItem({type: this.moduleType, classListIndex: this.classListIndex, slotId: this.slotId, itemId: itemId, abilityName: this.abilityName})
     }
   }
 }

@@ -36,13 +36,43 @@ function makeNewList(amount, state, getters, type, index) {
   return newList
 }
 
+function setNewOptions(state, rootState, rootGetters, commit) {
+  let options = {}
+
+  for (let i = 0; i < state.classes.length; i++) {
+    let abilities = rootGetters['database/filteredAbilities'](i)
+    
+    abilities.forEach(a => {
+      let increases = rootState['database'].amounts.options[a.name]
+      if (typeof(increases) !== 'undefined') {
+        let amount = increases.filter(lvl => lvl <= state.classes[i].level).length
+  
+        let oldList = state.options[a.name]
+        if (typeof(oldList) === 'undefined') oldList = []
+  
+        let newList = Array(amount)
+        for (let i = 0; i < newList.length; i++) {
+          if (i < oldList.length) {
+            newList[i] = oldList[i]
+          } else {
+            newList[i] = {id: - 1}
+          }
+        }
+  
+        options[a.name] = newList
+      }
+    })
+  }
+
+  commit('setOptionsObject', options)
+}
+
 function getListAmount(state, i, listAmounts) {
   if (state.classes[i].class.id === -1) return 0
 
-  let start = listAmounts[state.classes[i].class.name].start
-  let increases = listAmounts[state.classes[i].class.name].increases.filter(lvl => lvl <= state.classes[i].level)
+  let increases = listAmounts[state.classes[i].class.name].filter(lvl => lvl <= state.classes[i].level)
 
-  return start + increases.length
+  return increases.length
 }
 
 const emptyClass = {
@@ -60,6 +90,7 @@ export default {
     race: {id: -1},
     stats: [13,13,13,12,12,12],
     feats: [],
+    options: {},
 
     classes: [JSON.parse(JSON.stringify(emptyClass))]
   },
@@ -86,6 +117,14 @@ export default {
       switch(type) {
         case 'feat': {
           return true
+        }
+        case 'ability': {
+          let className = state.classes[index].class.name
+          let isForCurrentClass = item.classes.findIndex(c => c === className) !== -1
+
+          let enoughLevel = item.level <= state.classes[index].level
+
+          return isForCurrentClass && enoughLevel
         }
         case 'class': {
           return true
@@ -118,6 +157,10 @@ export default {
   mutations: {
     setFeatsList(state, feats) {
       state.feats = feats
+    },
+
+    setOptionsObject(state, options) {
+      state.options = options
     },
 
     setCantripsList(state, {classListIndex, cantrips}) {
@@ -177,6 +220,10 @@ export default {
     setSpell(state, {classListIndex, pos, spell}) {
       state.classes[classListIndex].spells.splice(pos, 1, spell)
     },
+
+    setOption(state, {pos, abilityName, option}) {
+      state.options[abilityName].splice(pos, 1, option)
+    }
   },
 
   actions: {
@@ -188,7 +235,7 @@ export default {
       dispatch('setAmounts')
     },
 
-    setItem({rootState, commit, dispatch}, {type, classListIndex, slotId, itemId}) {
+    setItem({rootState, commit, dispatch}, {type, classListIndex, slotId, itemId, abilityName}) {
       switch(type) {
         case 'race':
           let race = idToItem(itemId, rootState['database'].races)
@@ -220,6 +267,11 @@ export default {
           let spell = idToItem(itemId, rootState['database'].spells)
           commit('setSpell', {classListIndex: classListIndex, pos: slotId, spell: spell})
           break
+
+        case 'options':
+          let option = idToItem(itemId, rootState['database'].options[abilityName])
+          commit('setOption', {pos: slotId, abilityName: abilityName, option: option})
+          break
       }
     },
 
@@ -231,7 +283,7 @@ export default {
       dispatch('setAmounts')
     },
 
-    setAmounts({state, getters, rootState, commit}) {
+    setAmounts({state, getters, rootState, rootGetters, commit}) {
       let totalFeatsAmount = 0
       if (state.race.id === 1001) totalFeatsAmount += 1 // Human +1x2 + 1 feat
 
@@ -252,6 +304,8 @@ export default {
       }
 
       commit('setFeatsList', makeNewList(totalFeatsAmount, state, getters, 'feats'))
+
+      setNewOptions(state, rootState, rootGetters, commit)
     },
 
     checkSubclass({state, getters, commit}) {

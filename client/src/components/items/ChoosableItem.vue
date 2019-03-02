@@ -23,7 +23,7 @@ export default {
 
   methods: {
     clickHandler() {
-      if (this.moduleType !== 'classAbilities' && this.moduleType !== 'subclassAbilities') {
+      if (this.moduleType !== 'abilities') {
         this.$emit('clicked-item', {slotId: this.slotId, posY: this.posY})
       }
     }

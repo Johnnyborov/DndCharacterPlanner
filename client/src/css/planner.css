@@ -92,6 +92,12 @@ pre {
   padding: 0;
 }
 
+.list-options {
+  width: auto;
+  margin: 0 0 0 1.5vmin;
+  padding: 0;
+}
+
 .choosable-item {
   background-color: black;
   color: darkorange;
@@ -101,6 +107,11 @@ pre {
 
 .selected-item {
   background-image: url("../assets/selected-slot.png");
+}
+
+.disabled-item {
+  background-color: grey;
+  background-blend-mode: difference;
 }
 
 .scrollable-list {

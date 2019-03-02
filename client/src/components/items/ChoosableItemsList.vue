@@ -7,7 +7,7 @@
     </ul>
     
     <div :style="{'top': avaliableItemsPosY + 'px', 'position': 'absolute'}">
-      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :classListIndex="classListIndex"
+      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :classListIndex="classListIndex" :abilityName="abilityName"
         :slotId="currentlyClickedSlotId" :moduleType="moduleType" class="available-items-list" />
     </div>
   </div>
@@ -29,7 +29,8 @@ export default {
   props: {
     moduleType: String,
     lastModuleToClickItem: String,
-    classListIndex: Number
+    classListIndex: Number,
+    abilityName: String
   },
 
   data() {
@@ -44,6 +45,7 @@ export default {
       'race',
       'feats',
       'classes',
+      'options'
     ]),
 
     itemsList() {
@@ -60,14 +62,15 @@ export default {
           return this.classes[this.classListIndex].cantrips
         case 'spells':
           return this.classes[this.classListIndex].spells
-        case 'classAbilities':
-        case 'subclassAbilities':
-          return []
+        case 'options':
+          return this.options[this.abilityName]
       }
     },
 
     currentlyClickedSlotId() {
-      if (this.lastModuleToClickItem !== this.moduleType && this.lastModuleToClickItem !== this.moduleType + this.classListIndex)
+      if (this.lastModuleToClickItem !== this.moduleType
+          && this.lastModuleToClickItem !== this.moduleType + this.classListIndex
+          && this.lastModuleToClickItem !== this.moduleType + this.abilityName)
         this.currentlyClickedSlotIdData = -1
         
       return this.currentlyClickedSlotIdData

@@ -20,19 +20,50 @@ const subclassesList = [
   {id: 3012, name: 'Divine Soul', classId: 2001}
 ]
 
+const abilities = [
+  {id: 4000, name: 'Spellcasting', classes: ['Sorcerer'], level: 1},
+  {id: 4001, name: 'Sorcerous Origin', classes: ['Sorcerer'], level: 1},
+  {id: 4002, name: 'Font of Magic', classes: ['Sorcerer'], level: 2},
+  {id: 4010, name: 'Metamagic', classes: ['Sorcerer'], level: 3,},
+  {id: 4030, name: 'Sorcerous Restoration', classes: ['Sorcerer'], level: 20},
+
+  {id: 4100, name: 'Fighting Style', classes: ['Fighter'], level: 1},
+  {id: 4101, name: 'Second Wind', classes: ['Fighter'], level: 1},
+  {id: 4102, name: 'Action Surge', classes: ['Fighter'], level: 2},
+  {id: 4110, name: 'Martial Archetype', classes: ['Fighter'], level: 3},
+  {id: 4120, name: 'Extra Attack', classes: ['Fighter'], level: 5},
+  {id: 4130, name: 'Indomitable', classes: ['Fighter'], level: 9},
+]
+
+const options = {
+  'Metamagic': [
+    {id: 5000, name: 'Empowered'},
+    {id: 5001, name: 'Twinned'},
+    {id: 5002, name: 'Hastened'}
+  ],
+  'Fighting Style': [
+    {id: 5000, name: 'Armor Class'},
+    {id: 5001, name: 'One Hand'},
+    {id: 5002, name: 'Two Hand'}
+  ],
+}
 
 const amounts = {
+  options: {
+    'Metamagic': [3,3,10,17],
+    'Fighting Style': [1]
+  },
   feats: {
-    'Sorcerer': {start: 0, increases: [4,8,12,16,19]},
-    'Fighter': {start: 0, increases: [4,6,8,12,14,16,19]}
+    'Sorcerer': [4,8,12,16,19],
+    'Fighter': [4,6,8,12,14,16,19]
   },
   cantrips: {
-    'Sorcerer': {start: 4, increases: [4,10]},
-    'Fighter': {start: 0, increases: []}
+    'Sorcerer': [1,1,1,1,4,10],
+    'Fighter': []
   },
   spells: {
-    'Sorcerer': {start: 2, increases: [2,3,4,5,6,7,8,9,10,11,13,15,17]},
-    'Fighter': {start: 0, increases: []}
+    'Sorcerer': [1,1,2,3,4,5,6,7,8,9,10,11,13,15,17],
+    'Fighter': []
   }
 }
 
@@ -72,6 +103,8 @@ const db = {
   classes: classesList,
   subclasses: subclassesList,
   feats: featsList,
+  abilities: abilities,
+  options: options,
   amounts: amounts
 }
 
@@ -97,6 +130,8 @@ export default {
   state: {
     races: [],
     feats: [],
+    abilities: [],
+    options: [],
 
     classes: [],
     subclasses: [],
@@ -124,10 +159,26 @@ export default {
       })
     },
 
-    filteredClasses: (state, getters, rootState, rootGetters) => (index) => {
+    filteredAbilities: (state, getters, rootState, rootGetters) => (index) => {
+      return state.abilities.filter(ability => {
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'ability', index)
+
+        return satisfiesCharacterConfig
+      })
+    },
+
+    filteredOptions: (state, getters, rootState, rootGetters) => (abilityName) => {
+      return state.options[abilityName].filter(option => {
+        let alreadyChosen = rootState['character'].options[abilityName].findIndex(o => o.id === option.id) !== -1
+
+        return !alreadyChosen
+      })
+    },
+
+    filteredClasses: (state, getters, rootState, rootGetters) => {
       return state.classes.filter(cls => {
         let alreadyChosen = rootState['character'].classes.findIndex(c => c.class.id === cls.id) !== -1
-        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cls, 'class', index)
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cls, 'class')
         
         return satisfiesCharacterConfig && !alreadyChosen
       })
@@ -165,6 +216,8 @@ export default {
     setDatabase(state, database) {
       state.races = database.races
       state.feats = database.feats
+      state.abilities = database.abilities
+      state.options = database.options
 
       state.classes = database.classes
       state.subclasses = database.subclasses
