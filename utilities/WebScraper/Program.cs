@@ -24,10 +24,10 @@ namespace WebScraper
 
 
 
-      if (args[0] == "--scrape-url")
+      if (args[0] == "--scrape-url") // fandom site ist kaput
       {
-        List<Spell> spells = Parser.ScrapeUrl();
-        SaveSpells(spells);
+        //List<Spell> spells = Parser.ScrapeUrl();
+        //SaveSpells(spells);
       }
       if (args[0] == "--scrape-files")
       {
