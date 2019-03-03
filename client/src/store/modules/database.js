@@ -1,5 +1,42 @@
 import api from '../../api/planner.js'
 
+const statsTwice = [
+  {id: 5110, name: 'stats+1x2', bonusStats: []},
+  {id: 5111, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}]},
+  {id: 5112, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 2, value: 1}]},
+  {id: 5113, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 3, value: 1}]},
+  {id: 5114, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 4, value: 1}]},
+  {id: 5115, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 5, value: 1}]},
+  {id: 5122, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 2, value: 1}]},
+  {id: 5123, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 3, value: 1}]},
+  {id: 5124, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 4, value: 1}]},
+  {id: 5125, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 5, value: 1}]},
+  {id: 5133, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 3, value: 1}]},
+  {id: 5134, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 4, value: 1}]},
+  {id: 5135, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 5, value: 1}]},
+  {id: 5144, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 4, value: 1}]},
+  {id: 5145, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 5, value: 1}]},
+  {id: 5155, name: 'stats+1x2', bonusStats: [{index: 4, value: 1}, {index: 5, value: 1}]}
+]
+
+const statsOnce = [
+  {id: 160, name: 'stats+2', bonusStats: []},
+  {id: 161, name: 'stats+2', bonusStats: [{index: 0, value: 2}]},
+  {id: 162, name: 'stats+2', bonusStats: [{index: 1, value: 2}]},
+  {id: 163, name: 'stats+2', bonusStats: [{index: 2, value: 2}]},
+  {id: 164, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
+  {id: 165, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
+  {id: 166, name: 'stats+2', bonusStats: [{index: 5, value: 2}]}
+]
+
+const featsList = [
+  {id: 200, name: 'feat1'},
+  {id: 201, name: 'feat2'},
+  {id: 202, name: 'feat3'},
+  {id: 203, name: 'feat4'},
+  {id: 204, name: 'feat5'}
+]
+
 
 const racesList = [
   {id: 1000, name: 'Human'},
@@ -34,6 +71,15 @@ const abilities = [
   {id: 4110, name: 'Martial Archetype', classes: ['Fighter'], level: 3},
   {id: 4120, name: 'Extra Attack', classes: ['Fighter'], level: 5},
   {id: 4130, name: 'Indomitable', classes: ['Fighter'], level: 9},
+
+  {
+    id: 6000, name: 'Ability Score Increase', races: [1000],
+    bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]
+  },
+  {id: 6011, name: 'Variant Human', races: [1001]},
+  {id: 6012, name: 'Variant Human Feat', races: [1001], optionOnly: true},
+  {id: 6013, name: 'Variant Human Background', races: [1001], optionOnly: true},
+  {id: 6014, name: 'Variant Human Language', races: [1001], optionOnly: true}
 ]
 
 const options = {
@@ -43,16 +89,28 @@ const options = {
     {id: 5002, name: 'Hastened'}
   ],
   'Fighting Style': [
-    {id: 5000, name: 'Armor Class'},
-    {id: 5001, name: 'One Hand'},
-    {id: 5002, name: 'Two Hand'}
+    {id: 5010, name: 'Armor Class'},
+    {id: 5011, name: 'One Hand'},
+    {id: 5012, name: 'Two Hand'}
   ],
+  'Variant Human': statsTwice,
+  'Variant Human Feat': featsList,
+  'Variant Human Background': [
+    {id: 5210, name: 'BackgroundChooser'}
+  ],
+  'Variant Human Language': [
+    {id: 5270, name: 'LangueageChooser'}
+  ]
 }
 
 const amounts = {
   options: {
     'Metamagic': [3,3,10,17],
-    'Fighting Style': [1]
+    'Fighting Style': [1],
+    'Variant Human': [1],
+    'Variant Human Feat': [1],
+    'Variant Human Background': [1],
+    'Variant Human Language': [1]
   },
   feats: {
     'Sorcerer': [4,8,12,16,19],
@@ -72,41 +130,11 @@ const amounts = {
 }
 
 
-const featsList = [
-  {id: 100, name: 'stats+1x6', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1}, {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}]},
-
-  {id: 110, name: 'stats+1x2', bonusStats: []},
-  {id: 111, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}]},
-  {id: 112, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 2, value: 1}]},
-  {id: 113, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 3, value: 1}]},
-  {id: 114, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 4, value: 1}]},
-  {id: 115, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 5, value: 1}]},
-  {id: 122, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 2, value: 1}]},
-  {id: 123, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 3, value: 1}]},
-  {id: 124, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 4, value: 1}]},
-  {id: 125, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 5, value: 1}]},
-  {id: 133, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 3, value: 1}]},
-  {id: 134, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 4, value: 1}]},
-  {id: 135, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 5, value: 1}]},
-  {id: 144, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 4, value: 1}]},
-  {id: 145, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 5, value: 1}]},
-  {id: 155, name: 'stats+1x2', bonusStats: [{index: 4, value: 1}, {index: 5, value: 1}]},
-
-  {id: 160, name: 'stats+2', bonusStats: []},
-  {id: 161, name: 'stats+2', bonusStats: [{index: 0, value: 2}]},
-  {id: 162, name: 'stats+2', bonusStats: [{index: 1, value: 2}]},
-  {id: 163, name: 'stats+2', bonusStats: [{index: 2, value: 2}]},
-  {id: 164, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
-  {id: 165, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
-  {id: 166, name: 'stats+2', bonusStats: [{index: 5, value: 2}]},
-]
-
-
 const db = {
   races: racesList,
   classes: classesList,
   subclasses: subclassesList,
-  feats: featsList,
+  feats: statsTwice.concat(statsOnce, featsList),
   abilities: abilities,
   options: options,
   amounts: amounts
@@ -114,6 +142,7 @@ const db = {
 
 function isVariation(id) {
   if (id >= 111 && id <= 155 || id >= 161 && id <= 166) return true
+  if (id >= 5111 && id <= 5155) return true
 
   return false
 }
@@ -165,9 +194,17 @@ export default {
       })
     },
 
-    filteredAbilities: (state, getters, rootState, rootGetters) => (index) => {
+    filteredClassAbilities: (state, getters, rootState, rootGetters) => (index) => {
       return state.database.abilities.filter(ability => {
-        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'ability', index)
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'classAbility', index)
+
+        return satisfiesCharacterConfig
+      })
+    },
+
+    filteredRaceAbilities: (state, getters, rootState, rootGetters) => {
+      return state.database.abilities.filter(ability => {
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'raceAbility')
 
         return satisfiesCharacterConfig
       })
@@ -177,7 +214,7 @@ export default {
       return state.database.options[abilityName].filter(option => {
         let alreadyChosen = rootState['character'].character.options[abilityName].findIndex(o => o.id === option.id) !== -1
 
-        return !alreadyChosen
+        return !isVariation(option.id) && !alreadyChosen
       })
     },
 

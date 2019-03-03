@@ -23,7 +23,7 @@
 
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 
 function modifyBonusValuesFrom(items, bonusValues) {
   items.forEach(item => {
@@ -43,10 +43,18 @@ export default {
       'character'
     ]),
 
+    ...mapGetters('database', [
+      'filteredRaceAbilities'
+    ]),
+
     bonusValues() {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
       modifyBonusValuesFrom(this.character.feats, bonusValues)
+      modifyBonusValuesFrom(this.filteredRaceAbilities, bonusValues)
+      Object.keys(this.character.options).forEach(abilityName => {
+        modifyBonusValuesFrom(this.character.options[abilityName], bonusValues)
+      })
 
       return bonusValues
     },

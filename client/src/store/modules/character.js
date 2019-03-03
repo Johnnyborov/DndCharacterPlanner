@@ -31,8 +31,31 @@ function makeNewList(amount, state, getters, type, index) {
 function setNewOptions(state, rootState, rootGetters, commit) {
   let options = {}
 
+  let specials = rootGetters['database/filteredRaceAbilities']
+    
+  specials.forEach(s => {
+    let increases = rootState['database'].database.amounts.options[s.name]
+    if (typeof(increases) !== 'undefined') {
+      let amount = increases.length
+
+      let oldList = state.character.options[s.name]
+      if (typeof(oldList) === 'undefined') oldList = []
+
+      let newList = Array(amount)
+      for (let i = 0; i < newList.length; i++) {
+        if (i < oldList.length) {
+          newList[i] = oldList[i]
+        } else {
+          newList[i] = {id: - 1}
+        }
+      }
+
+      options[s.name] = newList
+    }
+  })
+
   for (let i = 0; i < state.character.classes.length; i++) {
-    let abilities = rootGetters['database/filteredAbilities'](i)
+    let abilities = rootGetters['database/filteredClassAbilities'](i)
     
     abilities.forEach(a => {
       let increases = rootState['database'].database.amounts.options[a.name]
@@ -111,13 +134,23 @@ export default {
         case 'feat': {
           return true
         }
-        case 'ability': {
+        case 'classAbility': {
+          if (typeof(item.classes) === 'undefined') return false
+
           let className = state.character.classes[index].class.name
           let isForCurrentClass = item.classes.findIndex(c => c === className) !== -1
 
           let enoughLevel = item.level <= state.character.classes[index].level
 
           return isForCurrentClass && enoughLevel
+        }
+        case 'raceAbility': {
+          if (typeof(item.races) === 'undefined') return false
+
+          let raceId = state.character.race.id
+          let isForCurrentRace = item.races.findIndex(r => r === raceId) !== -1
+
+          return isForCurrentRace
         }
         case 'class': {
           return true
@@ -131,7 +164,7 @@ export default {
         }
         case 'cantrip':
         case 'spell': {
-          if (item.id === -1) return true
+          if (item.id === -1) return false // oldList value when called from makeNewList
 
           let className = state.character.classes[index].class.name
           let isDivineSoul = state.character.classes[index].subclass.name === 'Divine Soul'
@@ -259,8 +292,7 @@ export default {
 
     setAmounts({state, getters, rootState, rootGetters, commit}) {
       let totalFeatsAmount = 0
-      if (state.character.race.id === 1001) totalFeatsAmount += 1 // Human +1x2 + 1 feat
-
+      
       for (let i = 0; i < state.character.classes.length; i++) {
         let featsAmount = getListAmount(state, i, rootState['database'].database.amounts.feats)
         let cantripsAmount = getListAmount(state, i, rootState['database'].database.amounts.cantrips)

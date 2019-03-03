@@ -5,12 +5,16 @@
 
     <div class="spell-lists-area">
       <div>
-        <div v-for="(cls, classIndex) in character.classes" :key="classIndex" class="choosable-items-list">
-          <p>{{smartClassName(cls, classIndex)}} Abilities</p>
-          <ul>
-            <static-ability v-for="(item, itemIndex) in filteredAbilities(classIndex)" :key="itemIndex" :item="item" :moduleType="'abilities'"
-              :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" />
-          </ul>
+        <static-list :source="filteredRaceAbilities" :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+          <p>Race Abilities</p>
+        </static-list>
+
+        
+        <div v-for="(cls, classIndex) in character.classes" :key="classIndex">
+          <static-list :source="filteredClassAbilities(classIndex)" :lastModuleToClickItem="lastModuleToClickItem"
+            @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+            <p>{{smartClassName(cls, classIndex)}} Abilities</p>
+          </static-list>
         </div>
       </div>
 
@@ -46,7 +50,7 @@
 
 <script>
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
-import StaticAbility from './items/StaticAbility.vue'
+import StaticList from './items/StaticList.vue'
 import CharacterConfig from './CharacterConfig.vue'
 import RealStats from './RealStats.vue'
 import SaverLoader from './SaverLoader.vue'
@@ -60,7 +64,7 @@ export default {
     'character-config': CharacterConfig,
     'real-stats': RealStats,
     'choosable-items-list': ChoosableItemsList,
-    'static-ability': StaticAbility
+    'static-list': StaticList
   },
 
   data() {
@@ -75,7 +79,8 @@ export default {
     ]),
 
     ...mapGetters('database', [
-      'filteredAbilities',
+      'filteredRaceAbilities',
+      'filteredClassAbilities',
       'filteredFeats',
       'filteredCantrips',
       'filteredSpells'

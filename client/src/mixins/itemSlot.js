@@ -29,6 +29,7 @@ export default {
     enterHandler() {
       this.mouseOver = true
       this.posY = this.$el.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top
+      
       if (this.moduleType === 'race' || this.moduleType === 'class' || this.moduleType === 'subclass'
           || this.moduleType === 'abilities' || this.moduleType === 'options') {
 
