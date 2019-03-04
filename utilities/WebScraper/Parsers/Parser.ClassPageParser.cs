@@ -36,82 +36,135 @@ namespace WebScraper.Parsers
         FillAbilitiesDescriptions(abilitiesList, mainDiv);
 
 
-        return new Class { name = className, description = description, requirement = requirement, feats = featsIncreases, abilities = abilitiesList};
-      }
-    }
-
-
-    private static (string, List<int>, string, List<int>, List<Ability>) ReadClassTable(AngleSharp.Dom.IElement table)
-    {
-      string className = table.Children[0].Children[0].TextContent.Trim();
-
-
-
-      int featuresColNum = 0;
-      foreach (var col in table.Children[1].Children)
-      {
-        if (col.TextContent.Trim() != "Features")
-          ++featuresColNum;
-        else
-          break;
+        return new Class { name = className, description = description, requirement = requirement, feats = featsIncreases,
+          subclassAbilityName = subclassAbilityName, subclassAbilityLevels = subclassAbilityLevels, abilities = abilitiesList};
       }
 
 
-
-      var featsIncreases = new List<int>();
-      string subclassAbilityName = "";
-      var subclassAbilityLevels = new List<int>();
-      var abilitiesList = new List<Ability>();
-      for (int rowNum = 2; rowNum < table.Children.Length; ++rowNum)
+      private static (string, List<int>, string, List<int>, List<Ability>) ReadClassTable(AngleSharp.Dom.IElement table)
       {
-        int level = rowNum - 1;
+        string className = table.Children[0].Children[0].TextContent.Trim();
 
-        string featureNamesString = table.Children[rowNum].Children[featuresColNum].TextContent.Trim();
-        string[] featureNames = featureNamesString.Split(',');
-        foreach (var initialName in featureNames)
+
+
+        int featuresColNum = 0;
+        foreach (var col in table.Children[1].Children)
         {
-          string[] nameParts = initialName.Split('(');
-          string name = nameParts[0].Trim();
-          if (name == "Ability Score Improvement")
+          if (col.TextContent.Trim() != "Features")
+            ++featuresColNum;
+          else
+            break;
+        }
+
+
+
+        var featsIncreases = new List<int>();
+        string subclassAbilityName = "";
+        var subclassAbilityLevels = new List<int>();
+        var abilitiesList = new List<Ability>();
+        for (int rowNum = 2; rowNum < table.Children.Length; ++rowNum)
+        {
+          int level = rowNum - 1;
+
+          string featureNamesString = table.Children[rowNum].Children[featuresColNum].TextContent.Trim();
+          string[] featureNames = featureNamesString.Split(',');
+          foreach (var initialName in featureNames)
           {
-            featsIncreases.Add(level);
+            string[] nameParts = initialName.Split('(');
+            string name = nameParts[0].Trim();
+            if (name == "Rune Master") name = "Rune Mastery"; // misstype on site
+
+
+            if (name == "Ability Score Improvement")
+            {
+              featsIncreases.Add(level);
+            }
+            else if (name.Contains(" feature"))
+            {
+              subclassAbilityName = name.Replace(" feature", "");
+              if (subclassAbilityName == "Path") subclassAbilityName = "Primal Path"; // exception for barbarian table
+              subclassAbilityLevels.Add(level);
+            }
+            else if (name.Contains(" improvement")) continue; // not a separate ability
+            else if (name != "" && name != "-" && !abilitiesList.Exists(a => a.name == name))
+            {
+              abilitiesList.Add(new Ability { level = level, name = name });
+            }
           }
-          else if (name.Contains(" feature"))
+        }
+
+        return (className, featsIncreases, subclassAbilityName, subclassAbilityLevels, abilitiesList);
+      }
+
+
+      private static void FillAbilitiesDescriptions(List<Ability> abilitiesList, AngleSharp.Dom.IElement mainDiv)
+      {
+        var abilitiesHeaders = mainDiv.QuerySelectorAll("h3");
+
+        foreach (var header in abilitiesHeaders)
+        {
+          string abilityName = header.TextContent.Trim();
+          if (abilityName == "Beast Shapes") abilityName = "Beast Spells"; // misstype on site
+
+          var ability = abilitiesList.Find(a => a.name == abilityName);
+          if (ability == null) continue;
+
+          string description = "";
+          var elem = header.NextElementSibling;
+          while (elem != null && elem.NodeName != "H3")
           {
-            subclassAbilityName = name.Replace(" feature", "");
-            subclassAbilityLevels.Add(level);
+            description = description + elem.TextContent.Trim();
+
+            elem = elem.NextElementSibling;
           }
-          else if (name != "" && !abilitiesList.Exists(a => a.name == name))
-          {
-            abilitiesList.Add(new Ability { level = level, name = name });
-          }
+
+          ability.description = description;
+
+          FillOptions(ability, header);
         }
       }
 
-      return (className, featsIncreases, subclassAbilityName, subclassAbilityLevels, abilitiesList);
-    }
 
-
-    private static void FillAbilitiesDescriptions(List<Ability> abilitiesList, AngleSharp.Dom.IElement mainDiv)
-    {
-      var abilitiesHeaders = mainDiv.QuerySelectorAll("h3");
-
-      foreach (var header in abilitiesHeaders)
+      public static void FillOptions(Ability ability, AngleSharp.Dom.IElement header)
       {
-        string abilityName = header.TextContent.Trim();
+        var options = new List<Option>();
+        ability.options = options;
 
-        var ability = abilitiesList.Find(a => a.name == abilityName);
-        if (ability == null) continue;
+        if (ability.name != "Metamagic" && ability.name != "Fighting Style") return;
+
+
 
         string description = "";
+        string optionName = "";
+        string optionDescription = "";
         var elem = header.NextElementSibling;
+        bool textBeforeOptions = true;
         while (elem != null && elem.NodeName != "H3")
         {
-          description = description + elem.TextContent.Trim();
+          if (elem.NodeName != "P") // header with option name
+          {
+            if (textBeforeOptions)
+              textBeforeOptions = false;
+            else
+              options.Add(new Option { name = optionName, description = optionDescription }); // write previous one
+
+            optionName = elem.TextContent.Trim();
+            optionDescription = "";
+          }
+          else // just description
+          {
+            if (textBeforeOptions)
+              description = description + elem.TextContent.Trim();
+            else
+              optionDescription = optionDescription + elem.TextContent.Trim();
+          }
+
 
           elem = elem.NextElementSibling;
         }
+        options.Add(new Option { name = optionName, description = optionDescription }); // write last one
 
+        // replace old one with new one without options text
         ability.description = description;
       }
     }

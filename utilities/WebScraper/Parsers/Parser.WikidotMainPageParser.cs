@@ -148,6 +148,7 @@ namespace WebScraper.Parsers
           if (mode == Mode.ScrapeFiles)
           {
             classes.Add(cls);
+            cls.subclasses = new List<Subclass>();
           }
 
           if (i == 14) continue; // no subclasses for Rune Scribe (UA)
@@ -157,9 +158,17 @@ namespace WebScraper.Parsers
           for (int k = 0; k < anchors.Count(); k++)
           {
             url = ((IHtmlAnchorElement)anchors[k]).Href;
-            var subclassFileName = classFileName + "__" + anchors[k].TextContent.Trim();
+            string subclassName = anchors[k].TextContent.Trim();
+            var subclassFileName = classFileName + "__" + subclassName;
 
-            HandleLink(url, subclassFileName, mode, Type.Subclass);  
+            var Subclass = HandleLink(url, subclassFileName, mode, Type.Subclass);
+            Subclass.name = subclassName;
+            cls.subclasses.Add(Subclass);
+          }
+
+          if (mode == Mode.ScrapeFiles)
+          {
+            cls.FillSubclassAbilitiesLevels();
           }
         }
 
@@ -303,7 +312,7 @@ namespace WebScraper.Parsers
             case Type.Class:
               return ClassPageParser.ParseClassPage(html);
             case Type.Subclass:
-              return null;
+              return SubclassPageParser.ParseSubclassPage(html);
             case Type.Feat:
               return null;
             default:

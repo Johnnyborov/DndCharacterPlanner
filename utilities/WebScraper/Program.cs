@@ -31,35 +31,7 @@ namespace WebScraper
         Database db = Parser.ScrapeFiles();
         //SaveSpells(db.Spells);
 
-        foreach (var cls in db.Classes)
-        {
-          Console.WriteLine("-----------------------------------------");
-
-          Console.WriteLine("Class Name: " + cls.name);
-          Console.WriteLine("Description: " + cls.description);
-          Console.WriteLine("Requirement: " + cls.requirement);
-
-          Console.Write("Feats Increases: [");
-          bool first = true;
-          foreach (var lvl in cls.feats)
-          {
-            if (first) first = false; else Console.Write(",");
-            Console.Write(lvl);
-          }
-          Console.WriteLine("]");
-
-          foreach (var ability in cls.abilities)
-          {
-            Console.WriteLine();
-            Console.WriteLine("Ability: " + ability.name + " (" + ability.level + ")");
-            Console.WriteLine(ability.description);
-          }
-
-          Console.WriteLine("-----------------------------------------");
-          Console.WriteLine();
-          Console.WriteLine();
-        }
-        Console.ReadLine();
+        PrintClasses(db);
       }
       else if (args[0] == "--download-pages")
       {
@@ -68,6 +40,69 @@ namespace WebScraper
       else if (args[0] == "--print")
       {
         PrintSpells();
+      }
+    }
+
+
+    private static void PrintClasses(Database db)
+    {
+      foreach (var cls in db.Classes)
+      {
+        Console.WriteLine("=======================================================================");
+
+        Console.WriteLine("Class Name: " + cls.name);
+        Console.WriteLine("Description: " + cls.description);
+        Console.WriteLine("Requirement: " + cls.requirement);
+
+        Console.Write("Feats Increases: [");
+        bool first = true;
+        foreach (var lvl in cls.feats)
+        {
+          if (first) first = false; else Console.Write(",");
+          Console.Write(lvl);
+        }
+        Console.WriteLine("]");
+
+        foreach (var ability in cls.abilities)
+        {
+          Console.WriteLine();
+          Console.WriteLine("Ability: " + ability.name + " (" + ability.level + ")");
+          Console.WriteLine(ability.description);
+
+          foreach (var option in ability.options)
+          {
+            Console.WriteLine("Option: " + option.name);
+            Console.WriteLine(option.description);
+          }
+        }
+
+        foreach (var subclass in cls.subclasses)
+        {
+          Console.WriteLine("------------------------------------------------------------------");
+
+          Console.WriteLine("Subclass Name: " + subclass.name);
+          Console.WriteLine("Subclass Description: " + subclass.description);
+
+          foreach (var ability in subclass.abilities)
+          {
+            Console.WriteLine();
+            Console.WriteLine("Subclass Ability: " + ability.name + " (" + ability.level + ")");
+            Console.WriteLine(ability.description);
+
+            foreach (var option in ability.options)
+            {
+              Console.WriteLine("Option: " + option.name);
+              Console.WriteLine(option.description);
+            }
+          }
+
+          Console.WriteLine("------------------------------------------------------------------");
+          Console.WriteLine();
+        }
+
+        Console.WriteLine("=======================================================================");
+        Console.WriteLine();
+        Console.WriteLine();
       }
     }
 
