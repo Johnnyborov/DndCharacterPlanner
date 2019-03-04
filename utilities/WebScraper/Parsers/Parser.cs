@@ -5,15 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
+using WebScraper.Models;
 
-namespace WebScraper
+namespace WebScraper.Parsers
 {
   static partial class Parser
   {
     private enum Mode : byte
     {
       Download,
-      ScrapeUrl,
       ScrapeFiles
     }
 
@@ -25,7 +25,7 @@ namespace WebScraper
       //WikidotMainPageParser.ScrapeAll(Mode.Download);
 
 
-
+ 
 
       // var httpClient = new HttpClient();
       // var request = httpClient.GetAsync("http://gdnd.wikidot.com/feats");
@@ -44,9 +44,13 @@ namespace WebScraper
 
 
     // create List<Spell> by walking through downloaded pages(with Download mode)
-    public static List<Spell> ScrapeFiles()
+    public static Database ScrapeFiles()
     {
-      return SpellListPageParser.ScrapeAllSpells(Mode.ScrapeFiles);
+      //var spells = SpellListPageParser.ScrapeAllSpells(Mode.ScrapeFiles);
+
+      var classes = WikidotMainPageParser.ScrapeAll(Mode.ScrapeFiles);
+
+      return new Database { Spells = new List<Spell>(), Classes = classes };
     }
   }
 }

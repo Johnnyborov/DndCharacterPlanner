@@ -5,14 +5,25 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
+using WebScraper.Models;
 
-namespace WebScraper
+namespace WebScraper.Parsers
 {
   static partial class Parser
   {
     private static class WikidotMainPageParser
     {
-      public static void ScrapeAll(Mode mode)
+      private enum Type : byte
+      {
+        Race,
+        Background,
+        Class,
+        Subclass,
+        Feat
+      }
+
+
+      public static List<Class> ScrapeAll(Mode mode)
       {
         string mainPageHtml = GetMainPageHtml(mode);
         
@@ -31,18 +42,19 @@ namespace WebScraper
         var document = parser.Parse(mainPageHtml);
 
 
+        DoRaces(document, mode);
 
-        doRaces(document, mode);
+        DoBackgrounds(document, mode);
 
-        doBackgrounds(document, mode);
+        var classes = DoClassesSubclasses(document, mode);
 
-        doClassesSubclasses(document, mode);  
+        //DoFeats(document, mode);
 
-        //doFeats(document, mode);     
+        return classes;
       }
 
 
-      private static void doRaces(IHtmlDocument document, Mode mode)
+      private static void DoRaces(IHtmlDocument document, Mode mode)
       {
         //List<Class> classes = null;
         if (mode == Mode.ScrapeFiles)
@@ -66,7 +78,7 @@ namespace WebScraper
             string url = ((IHtmlAnchorElement)anchors[k]).Href;
             var raceFileName = raceType + "__" + anchors[k].TextContent.Trim();
 
-            handleLink(url, raceFileName, mode, "race_pages");  
+            HandleLink(url, raceFileName, mode, Type.Race);  
           }
         }
 
@@ -74,7 +86,7 @@ namespace WebScraper
         //return classes;
       }
 
-      private static void doBackgrounds(IHtmlDocument document, Mode mode)
+      private static void DoBackgrounds(IHtmlDocument document, Mode mode)
       {
         //List<Class> classes = null;
         if (mode == Mode.ScrapeFiles)
@@ -93,7 +105,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "background_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Background);  
         }
 
 
@@ -105,19 +117,19 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "background_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Background);  
         }
 
 
         //return classes;
       }
 
-      private static void doClassesSubclasses(IHtmlDocument document, Mode mode)
+      private static List<Class> DoClassesSubclasses(IHtmlDocument document, Mode mode)
       {
-        //List<Class> classes = null;
+        List<Class> classes = null;
         if (mode == Mode.ScrapeFiles)
         {
-          //classes = new List<Class>();
+          classes = new List<Class>();
         }
 
 
@@ -131,7 +143,12 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[0]).Href;
           string classFileName = anchors[0].TextContent.Trim();
 
-          handleLink(url, classFileName, mode, "class_pages");
+          Class cls = HandleLink(url, classFileName, mode, Type.Class);
+
+          if (mode == Mode.ScrapeFiles)
+          {
+            classes.Add(cls);
+          }
 
           if (i == 14) continue; // no subclasses for Rune Scribe (UA)
           header = header.NextElementSibling.NextElementSibling;
@@ -142,15 +159,15 @@ namespace WebScraper
             url = ((IHtmlAnchorElement)anchors[k]).Href;
             var subclassFileName = classFileName + "__" + anchors[k].TextContent.Trim();
 
-            handleLink(url, subclassFileName, mode, "subclass_pages");  
+            HandleLink(url, subclassFileName, mode, Type.Subclass);  
           }
         }
 
 
-        //return classes;
+        return classes;
       }
 
-      private static void doFeats(IHtmlDocument document, Mode mode)
+      private static void DoFeats(IHtmlDocument document, Mode mode)
       {
         //List<Class> classes = null;
         if (mode == Mode.ScrapeFiles)
@@ -170,7 +187,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = featsType + "__" + anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "feat_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Feat);  
         }
 
 
@@ -182,7 +199,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = featsType + "__" + anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "feat_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Feat);  
         }
 
 
@@ -194,7 +211,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = featsType + "__" + anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "feat_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Feat);  
         }
 
 
@@ -212,7 +229,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = featsType + "__" + anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "feat_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Feat);  
         }
 
 
@@ -224,7 +241,7 @@ namespace WebScraper
           string url = ((IHtmlAnchorElement)anchors[k]).Href;
           var backgroundFileName = featsType + "__" + anchors[k].TextContent.Trim();
 
-          handleLink(url, backgroundFileName, mode, "feat_pages");  
+          HandleLink(url, backgroundFileName, mode, Type.Feat);  
         }
 
 
@@ -232,8 +249,30 @@ namespace WebScraper
       }
 
 
-      private static void handleLink(string url, string fileName, Mode mode, string subDirectory)
+      private static dynamic HandleLink(string url, string fileName, Mode mode, Type type)
       {
+        string subDirectory;
+        switch (type)
+        {
+          case Type.Race:
+            subDirectory = "race_pages";
+            break;
+          case Type.Background:
+            subDirectory = "background_pages";
+            break;
+          case Type.Class:
+            subDirectory = "class_pages";
+            break;
+          case Type.Subclass:
+            subDirectory = "subclass_pages";
+            break;
+          case Type.Feat:
+            subDirectory = "feat_pages";
+            break;
+          default:
+            throw new Exception("Invalid Type");
+        }
+
         if (fileName.Contains('/')) fileName = fileName.Replace("/", "");
         if (fileName.Contains(' ')) fileName = fileName.Replace(" ", "_");
 
@@ -250,10 +289,26 @@ namespace WebScraper
           html = GetHtml(url);
         }
 
+
         if (mode == Mode.ScrapeFiles)
         {
-          //if (!Config.Silent) Console.WriteLine("parsing: " + url);
-          //class = RacePageParser.ParseRacePage(html);
+          if (!Config.Silent) Console.WriteLine("parsing: " + url);
+
+          switch (type)
+          {
+            case Type.Race:
+              return null;
+            case Type.Background:
+              return null;
+            case Type.Class:
+              return ClassPageParser.ParseClassPage(html);
+            case Type.Subclass:
+              return null;
+            case Type.Feat:
+              return null;
+            default:
+              throw new Exception("Invalid Type");
+          }
         }
         else
         {
@@ -262,10 +317,7 @@ namespace WebScraper
         }
 
 
-        if (mode == Mode.ScrapeFiles)
-        {
-          //races.Add(race);
-        }
+        return null;
       }
 
 

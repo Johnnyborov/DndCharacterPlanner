@@ -4,9 +4,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using WebScraper.Models;
 
 
-namespace WebScraper
+namespace WebScraper.Parsers
 {
   static partial class Parser
   {

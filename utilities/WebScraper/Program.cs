@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using WebScraper.Models;
+using WebScraper.Parsers;
 
 namespace WebScraper
 {
@@ -24,15 +26,40 @@ namespace WebScraper
 
 
 
-      if (args[0] == "--scrape-url") // fandom site ist kaput
-      {
-        //List<Spell> spells = Parser.ScrapeUrl();
-        //SaveSpells(spells);
-      }
       if (args[0] == "--scrape-files")
       {
-        List<Spell> spells = Parser.ScrapeFiles();
-        SaveSpells(spells);
+        Database db = Parser.ScrapeFiles();
+        //SaveSpells(db.Spells);
+
+        foreach (var cls in db.Classes)
+        {
+          Console.WriteLine("-----------------------------------------");
+
+          Console.WriteLine("Class Name: " + cls.name);
+          Console.WriteLine("Description: " + cls.description);
+          Console.WriteLine("Requirement: " + cls.requirement);
+
+          Console.Write("Feats Increases: [");
+          bool first = true;
+          foreach (var lvl in cls.feats)
+          {
+            if (first) first = false; else Console.Write(",");
+            Console.Write(lvl);
+          }
+          Console.WriteLine("]");
+
+          foreach (var ability in cls.abilities)
+          {
+            Console.WriteLine();
+            Console.WriteLine("Ability: " + ability.name + " (" + ability.level + ")");
+            Console.WriteLine(ability.description);
+          }
+
+          Console.WriteLine("-----------------------------------------");
+          Console.WriteLine();
+          Console.WriteLine();
+        }
+        Console.ReadLine();
       }
       else if (args[0] == "--download-pages")
       {

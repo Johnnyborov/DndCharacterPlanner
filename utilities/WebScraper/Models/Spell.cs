@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-public class Spell
+namespace WebScraper.Models
+{
+  public class Spell
   {
     public string name { get; set; }
 
@@ -18,3 +20,4 @@ public class Spell
     public bool ritual { get; set; }
     public bool concentration { get; set; }
   }
+}

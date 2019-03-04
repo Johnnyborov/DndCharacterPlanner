@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
+using WebScraper.Models;
 
-namespace WebScraper
+namespace WebScraper.Parsers
 {
   static partial class Parser
   {
@@ -24,7 +25,7 @@ namespace WebScraper
 
 
         List<Spell> spells = null;
-        if (mode == Mode.ScrapeUrl || mode == Mode.ScrapeFiles)
+        if (mode == Mode.ScrapeFiles)
         {
           spells = new List<Spell>();
         }
@@ -52,7 +53,7 @@ namespace WebScraper
             Spell spell = HandleRow(row, anchor, mode);
 
 
-            if (mode == Mode.ScrapeUrl || mode == Mode.ScrapeFiles)
+            if (mode == Mode.ScrapeFiles)
             {
               spells.Add(spell);
             }
@@ -108,7 +109,7 @@ namespace WebScraper
           }           
 
 
-          if (mode == Mode.ScrapeUrl || mode == Mode.ScrapeFiles)
+          if (mode == Mode.ScrapeFiles)
           {
             HandleOtherItems(i, row.Children.Length, itemText, spell);
           }
@@ -143,7 +144,7 @@ namespace WebScraper
 
 
         Spell spell = null;
-        if (mode == Mode.ScrapeUrl || mode == Mode.ScrapeFiles)
+        if (mode == Mode.ScrapeFiles)
         {
           if (!Config.Silent) Console.WriteLine("parsing: " + url);
           spell = SpellPageParser.ParseSpellPage(html);
