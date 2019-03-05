@@ -165,11 +165,6 @@ namespace WebScraper.Parsers
             Subclass.name = subclassName;
             cls.subclasses.Add(Subclass);
           }
-
-          if (mode == Mode.ScrapeFiles)
-          {
-            cls.FillSubclassAbilitiesLevels();
-          }
         }
 
 

@@ -14,56 +14,45 @@ namespace server.Controllers
   [ApiController]
   public class PlannerController : ControllerBase
   {
-    CharactersContext db;
-    List<Spell> cantripsList;
-    List<Spell> spellList;
+    private CharactersContext _db;
+    private readonly DndDatabase _dndDb;
 
-    public PlannerController(CharactersContext context, SpellList list)
+    public PlannerController(CharactersContext context, DndDatabase dndDb)
     {
-      db = context;
-      
-      cantripsList = list.GetCantripsList;
-      spellList = list.GetSpellsList;
+      _db = context;
+      _dndDb = dndDb;
     }
 
 
     [HttpGet]
-    public ActionResult<List<Spell>> CantripsList()
+    public ActionResult<string> GetDndDatabase()
     {
-      Response.ContentType = "application/json";
-      return cantripsList;
-    }
-
-    [HttpGet]
-    public ActionResult<List<Spell>> SpellsList()
-    {
-      Response.ContentType = "application/json";
-      return spellList;
+      Response.ContentType = "text/plain";
+      return _dndDb.Data;
     }
 
 
     [HttpGet]
-    public ActionResult<Character> GetCharacter(long id)
+    public ActionResult<string> GetCharacter(long id)
     {     
-      Response.ContentType = "application/json";
+      Response.ContentType = "text/plain";
 
-      var dbChar = db.Characters.FirstOrDefault(c => c.Id == id);
-      if (dbChar == null) return NotFound("Character with this guid doesn't exits!");
+      var character = _db.Characters.FirstOrDefault(c => c.Id == id);
+      if (character == null) return NotFound("Character with this guid doesn't exits!");
 
-      return dbChar.Character;
+      return character.Config;
     }
 
 
     [HttpPost]
-    public ActionResult<long> SaveCharacter(Character character)
+    public ActionResult<long> SaveCharacter([FromBody]string config)
     {
-      var dbChar = new CharacterDbRepresentation();
-      dbChar.Character = character;
-      db.Characters.Add(dbChar);
-      db.SaveChanges();
+      var character = new Character { Config = config };
+      _db.Characters.Add(character);
+      _db.SaveChanges();
 
       Response.ContentType = "application/json";
-      return dbChar.Id;
+      return character.Id;
     }
   }
 }

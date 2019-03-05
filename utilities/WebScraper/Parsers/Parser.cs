@@ -46,11 +46,13 @@ namespace WebScraper.Parsers
     // create List<Spell> by walking through downloaded pages(with Download mode)
     public static Database ScrapeFiles()
     {
-      //var spells = SpellListPageParser.ScrapeAllSpells(Mode.ScrapeFiles);
-
+      var spellsAndCantrips = SpellListPageParser.ScrapeAllSpells(Mode.ScrapeFiles);
       var classes = WikidotMainPageParser.ScrapeAll(Mode.ScrapeFiles);
 
-      return new Database { Spells = new List<Spell>(), Classes = classes };
+      var db = new Database { spellsAndCantrips = spellsAndCantrips, classes = classes };
+      db.DoPostParsing();
+
+      return db;
     }
   }
 }

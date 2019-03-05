@@ -131,7 +131,7 @@ const amounts = {
 }
 
 
-const db = {
+const database = {
   races: racesList,
   classes: classesList,
   subclasses: subclassesList,
@@ -276,14 +276,12 @@ export default {
 
   actions: {
     load({commit}) {
-      api.getSpellsList()
-      .then(spells => {
-        api.getCantripsList()
-        .then(cantrips => {
-          db.cantrips = cantrips
-          db.spells = spells
-          commit('setDatabase', db)
-        })
+      api.getDndDatabase()
+      .then(db => {
+        console.log(db)
+        database.cantrips = db.cantrips
+        database.spells = db.spells
+        commit('setDatabase', database)
       })
     }
   }

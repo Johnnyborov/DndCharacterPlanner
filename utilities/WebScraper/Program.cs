@@ -28,10 +28,16 @@ namespace WebScraper
 
       if (args[0] == "--scrape-files")
       {
-        Database db = Parser.ScrapeFiles();
-        //SaveSpells(db.Spells);
+        Directory.CreateDirectory(Config.ServerDataDir);
 
-        PrintClasses(db);
+        Database db = Parser.ScrapeFiles();
+        SaveObject(db, "database.json");
+
+        SaveObject(db.cantrips, "cantrips.json");
+        SaveObject(db.spells, "spells.json");
+        SaveObject(db.classes, "classes.json");
+
+        //PrintClasses(db.classes);
       }
       else if (args[0] == "--download-pages")
       {
@@ -44,9 +50,56 @@ namespace WebScraper
     }
 
 
-    private static void PrintClasses(Database db)
+    private static void SaveObject(dynamic obj, string fileName)
     {
-      foreach (var cls in db.Classes)
+      using (var fs = File.CreateText(Config.ServerDataDir + "/" + fileName))
+      {
+        var serializer = new JsonSerializer();
+        serializer.Serialize(fs, obj);
+      }
+    }
+
+
+    private static void PrintSpells()
+    {
+      using (var fs = File.OpenText(Config.ServerDataDir + "/spells.json"))
+      {
+        var serializer = new JsonSerializer();
+        var spellList = (List<Spell>)serializer.Deserialize(fs, typeof(List<Spell>));
+
+
+        foreach (var spell in spellList)
+        {
+          Console.WriteLine("Name: " + spell.name);
+
+          foreach (var category in spell.categories)
+          {
+            Console.WriteLine("Category: " + category);
+          }
+
+          Console.WriteLine("Time: " + spell.time);
+          Console.WriteLine("Range: " + spell.range);
+          Console.WriteLine("Components: " + spell.components);
+          Console.WriteLine("Duration: " + spell.duration);
+
+          Console.WriteLine("Description: " + spell.description);
+
+          Console.WriteLine("Save: " + spell.save);
+          Console.WriteLine("Ritual: " + spell.ritual);
+          Console.WriteLine("Concentration: " + spell.concentration);
+
+          Console.WriteLine();
+        }
+      }
+
+
+      Console.WriteLine("END");
+    }
+
+
+    private static void PrintClasses(List<Class> classes)
+    {
+      foreach (var cls in classes)
       {
         Console.WriteLine("=======================================================================");
 
@@ -104,53 +157,6 @@ namespace WebScraper
         Console.WriteLine();
         Console.WriteLine();
       }
-    }
-
-
-    private static void SaveSpells(List<Spell> spells)
-    {
-      using (var fs = File.CreateText(Config.ServerDataDir + "/spells.json"))
-      {
-        var serializer = new JsonSerializer();
-        serializer.Serialize(fs, spells);
-      }
-    }
-
-
-    private static void PrintSpells()
-    {
-      using (var fs = File.OpenText(Config.ServerDataDir + "/spells.json"))
-      {
-        var serializer = new JsonSerializer();
-        var spellList = (List<Spell>)serializer.Deserialize(fs, typeof(List<Spell>));
-
-
-        foreach (var spell in spellList)
-        {
-          Console.WriteLine("Name: " + spell.name);
-
-          foreach (var category in spell.categories)
-          {
-            Console.WriteLine("Category: " + category);
-          }
-
-          Console.WriteLine("Time: " + spell.time);
-          Console.WriteLine("Range: " + spell.range);
-          Console.WriteLine("Components: " + spell.components);
-          Console.WriteLine("Duration: " + spell.duration);
-
-          Console.WriteLine("Description: " + spell.description);
-
-          Console.WriteLine("Save: " + spell.save);
-          Console.WriteLine("Ritual: " + spell.ritual);
-          Console.WriteLine("Concentration: " + spell.concentration);
-
-          Console.WriteLine();
-        }
-      }
-
-
-      Console.WriteLine("END");
     }
   }
 }

@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using server.Models;
 using server.Services;
+using server.Formatters;
 
 namespace server
 {
@@ -26,11 +27,15 @@ namespace server
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddSingleton<SpellList>();
+      services.AddSingleton<DndDatabase>();
 
       services.AddDbContext<CharactersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-      services.AddMvc();
+      services.AddMvc(options =>
+      {
+        options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter());
+      });
+
       services.AddCors();
     }
 

@@ -16,6 +16,10 @@ pre {
   white-space: pre-wrap;
 }
 
+select {
+  font-size: 1.6vmin;
+}
+
 
 .character-planner {
   background-color: white;

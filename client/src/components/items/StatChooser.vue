@@ -1,29 +1,34 @@
 <template>
   <div>
     <div v-if="item.id === stats1x2Id || item.id === stats1x2HumanId">
-      +1 
-      <select @click.stop :value="selected1" @change="selected1Changed($event)">
-        <option v-for="stat in statTypesMinusSelected2" :key="stat" :value="stat">
-          {{stat}}
-        </option>
-      </select>
-      <br />
-      +1
-      <select @click.stop :value="selected2" @change="selected2Changed($event)">
-        <option v-for="stat in statTypesMinusSelected1" :key="stat" :value="stat">
-          {{stat}}
-        </option>
-      </select>   
+      <div style="display:flex;direction:row;">
+        <p>+1</p>
+        <select @click.stop :value="selected1" @change="selected1Changed($event)">
+          <option v-for="stat in statTypesMinusSelected2" :key="stat" :value="stat">
+            {{stat}}
+          </option>
+        </select>
+      </div>
+      <div style="display:flex;direction:row;">
+        <p>+1</p>
+        <select @click.stop :value="selected2" @change="selected2Changed($event)">
+          <option v-for="stat in statTypesMinusSelected1" :key="stat" :value="stat">
+            {{stat}}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div v-if="item.id === stats2x1Id">
-      +2
-      <select @click.stop :value="selected1" @change="selected1Changed($event)">
-        <option v-for="stat in statTypes" :key="stat" :value="stat">
-          {{stat}}
-        </option>
-      </select>
-      <br />
+      <div style="display:flex;direction:row;">
+        <p>+2</p>
+        <select @click.stop :value="selected1" @change="selected1Changed($event)">
+          <option v-for="stat in statTypes" :key="stat" :value="stat">
+            {{stat}}
+          </option>
+        </select>
+        <br />
+      </div>
     </div>
   </div>
 </template>

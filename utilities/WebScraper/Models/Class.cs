@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
 
 namespace WebScraper.Models
 {
   public class Class
   {
+    public int id;
+
     public string name;
     public string description;
     public string requirement;
     public List<int> feats;
 
     public string subclassAbilityName;
-    public List<int> subclassAbilityLevels;
 
     public List<Ability> abilities;
     public List<Subclass> subclasses;
+
+
+    [JsonIgnore]
+    public List<int> subclassAbilityLevels;
+
 
     public void FillSubclassAbilitiesLevels()
     {

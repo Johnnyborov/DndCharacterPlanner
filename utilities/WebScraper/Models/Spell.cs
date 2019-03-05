@@ -1,23 +1,63 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
 
 namespace WebScraper.Models
 {
   public class Spell
   {
-    public string name { get; set; }
+    public int id;
 
-    public List<string> categories { get; set; }
+    public string name;
 
-    public string time { get; set; }
-    public string range { get; set; }
-    public string components { get; set; }
-    public string duration { get; set; }
+    public int level;
+    public List<string> classes;
 
-    public string description { get; set; }
+    public string time;
+    public string range;
+    public string components;
+    public string duration;
 
-    public string save { get; set; }
-    public bool ritual { get; set; }
-    public bool concentration { get; set; }
+    public string description;
+
+    public string save;
+    public bool ritual;
+    public bool concentration;
+
+
+    [JsonIgnore]
+    public List<string> categories;
+
+
+    public void SetLevel()
+    {
+      string levelStr = categories.Find(s => s.Contains("Level "));
+
+      if (levelStr != null)
+      {
+        string subString = levelStr.Substring(6, 1);
+        Int32.TryParse(subString, out level);
+      }
+      else // cantrip
+      {
+        level = 0;
+      }
+    }
+
+    public void SetClasses()
+    {
+      classes = new List<string>();
+
+      List<string> strings = categories.FindAll(s => s.Contains(" Spells"));
+      foreach (var str in strings)
+      {
+        if (str != null)
+        {
+          string className = str.Substring(0, str.Length - 7);
+          classes.Add(className);
+        }
+      }
+    }
   }
 }
