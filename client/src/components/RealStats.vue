@@ -44,17 +44,32 @@ export default {
     ]),
 
     ...mapGetters('database', [
-      'filteredRaceAbilities'
+      'filteredRaceAbilities',
+      'filteredClassAbilities'
     ]),
 
     bonusValues() {
       let bonusValues = [0, 0, 0, 0, 0, 0]
 
       modifyBonusValuesFrom(this.character.feats, bonusValues)
-      modifyBonusValuesFrom(this.filteredRaceAbilities, bonusValues)
-      Object.keys(this.character.options).forEach(abilityName => {
-        modifyBonusValuesFrom(this.character.options[abilityName], bonusValues)
-      })
+
+      {
+        modifyBonusValuesFrom(this.filteredRaceAbilities, bonusValues)
+
+        let options = this.character.raceOptions
+        Object.keys(options).forEach(abilityName => {
+          modifyBonusValuesFrom(options[abilityName], bonusValues)
+        })
+      }
+
+      for (let i = 0; i < this.character.classes.length; i++) {
+        modifyBonusValuesFrom(this.filteredClassAbilities(i), bonusValues)
+
+        let options = this.character.classes[i].options
+        Object.keys(options).forEach(abilityName => {
+          modifyBonusValuesFrom(options[abilityName], bonusValues)
+        })
+      }
 
       return bonusValues
     },

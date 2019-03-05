@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="item.id === stats1x2Id || item.id === stats1x2HumanId">
+    <div v-if="item.id === stats1x2Id">
       <div style="display:flex;direction:row;">
         <p>+1</p>
         <select @click.stop :value="selected1" @change="selected1Changed($event)">
@@ -36,7 +36,6 @@
 <script>
 import {mapState} from 'vuex'
 
-const stats1x2HumanId = 5110
 const stats1x2Id = 110
 const stats2x1Id = 160
 
@@ -61,7 +60,7 @@ function calculateId(id, s1, s2) {
   let i1 = statIndex(s1)
   let i2 = statIndex(s2)
 
-  if (id === stats1x2Id || id === stats1x2HumanId) {
+  if (id === stats1x2Id) {
     if (i1 < i2) {
       return id + 10 * i1 + i2
     } else {
@@ -87,7 +86,6 @@ export default {
       selected1: 'str',
       selected2: 'agi',
 
-      stats1x2HumanId: stats1x2HumanId,
       stats1x2Id: stats1x2Id,
       stats2x1Id: stats2x1Id
     }
@@ -129,12 +127,6 @@ export default {
       let newItem
 
       switch(this.item.id) {
-        case stats1x2HumanId:
-          Object.keys(this.database.options).forEach(abilityName => {
-            let findResult = this.database.options[abilityName].find(o => o.id === newId)
-            if (typeof(findResult) !== 'undefined') newItem = findResult
-          })
-          break
         case stats1x2Id:
         case stats2x1Id:
           newItem = this.database.feats.find(f => f.id === newId)

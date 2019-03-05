@@ -5,15 +5,27 @@
 
     <div class="spell-lists-area">
       <div>
-        <static-list :source="filteredRaceAbilities" :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+        <static-list :abilitiesSource="filteredRaceAbilities" :lastModuleToClickItem="lastModuleToClickItem"
+          :options="character.raceOptions" :baseModuleId="'options'+'race'"
+          @item-chosen="setRaceOption($event)"
+          @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
           <p>Race Abilities</p>
         </static-list>
 
         
         <div v-for="(cls, classIndex) in character.classes" :key="classIndex">
-          <static-list :source="filteredClassAbilities(classIndex)" :lastModuleToClickItem="lastModuleToClickItem"
+          <static-list :abilitiesSource="filteredClassAbilities(classIndex)" :lastModuleToClickItem="lastModuleToClickItem"
+            :options="character.classes[classIndex].options" :baseModuleId="'options'+classIndex"
+            @item-chosen="setClassOption({classIndex: classIndex, pos: $event.pos, abilityName: $event.abilityName, option: $event.option})"
             @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
             <p>{{smartClassName(cls, classIndex)}} Abilities</p>
+          </static-list>
+
+          <static-list :abilitiesSource="filteredSubclassAbilities(classIndex)" :lastModuleToClickItem="lastModuleToClickItem"
+            :options="character.classes[classIndex].options" :baseModuleId="'options'+classIndex"
+            @item-chosen="setClassOption({classIndex: classIndex, pos: $event.pos, abilityName: $event.abilityName, option: $event.option})"
+            @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list">
+            <p>{{smartClassName(cls, classIndex)}} Subclass Abilities</p>
           </static-list>
         </div>
       </div>
@@ -81,6 +93,7 @@ export default {
     ...mapGetters('database', [
       'filteredRaceAbilities',
       'filteredClassAbilities',
+      'filteredSubclassAbilities',
       'filteredFeats',
       'filteredCantrips',
       'filteredSpells'
@@ -91,7 +104,9 @@ export default {
     ...mapActions('character', [
       'setFeat',
       'setCantrip',
-      'setSpell'
+      'setSpell',
+      'setRaceOption',
+      'setClassOption'
     ]),
 
     smartClassName(cls, index) {

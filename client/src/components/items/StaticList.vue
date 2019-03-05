@@ -2,7 +2,9 @@
   <div>
     <slot></slot>
     <ul>
-      <static-ability v-for="(item, itemIndex) in source" :key="itemIndex" :item="item" :moduleType="'abilities'"
+      <static-ability v-for="(item, itemIndex) in abilitiesSource" :key="itemIndex" :item="item"
+        :moduleType="'abilities'" :options="options" :moduleId="baseModuleId + item.name"
+        @item-chosen="$emit('item-chosen', $event)"
         :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" />
     </ul>
   </div>
@@ -19,7 +21,9 @@ export default {
 
   props: {
     lastModuleToClickItem: String,
-    source: Array,
+    abilitiesSource: Array,
+    options: Object,
+    baseModuleId: String
   }
 }
 </script>

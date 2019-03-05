@@ -32,12 +32,6 @@ namespace WebScraper
 
         Database db = Parser.ScrapeFiles();
         SaveObject(db, "database.json");
-
-        SaveObject(db.cantrips, "cantrips.json");
-        SaveObject(db.spells, "spells.json");
-        SaveObject(db.classes, "classes.json");
-
-        //PrintClasses(db.classes);
       }
       else if (args[0] == "--download-pages")
       {
@@ -45,7 +39,10 @@ namespace WebScraper
       }
       else if (args[0] == "--print")
       {
-        PrintSpells();
+        Database db = Parser.ScrapeFiles();
+
+        PrintSpells(db.spells);
+        PrintClasses(db.classes);
       }
     }
 
@@ -60,40 +57,30 @@ namespace WebScraper
     }
 
 
-    private static void PrintSpells()
+    private static void PrintSpells(List<Spell> spells)
     {
-      using (var fs = File.OpenText(Config.ServerDataDir + "/spells.json"))
+      foreach (var spell in spells)
       {
-        var serializer = new JsonSerializer();
-        var spellList = (List<Spell>)serializer.Deserialize(fs, typeof(List<Spell>));
+        Console.WriteLine("Name: " + spell.name);
 
-
-        foreach (var spell in spellList)
+        foreach (var category in spell.categories)
         {
-          Console.WriteLine("Name: " + spell.name);
-
-          foreach (var category in spell.categories)
-          {
-            Console.WriteLine("Category: " + category);
-          }
-
-          Console.WriteLine("Time: " + spell.time);
-          Console.WriteLine("Range: " + spell.range);
-          Console.WriteLine("Components: " + spell.components);
-          Console.WriteLine("Duration: " + spell.duration);
-
-          Console.WriteLine("Description: " + spell.description);
-
-          Console.WriteLine("Save: " + spell.save);
-          Console.WriteLine("Ritual: " + spell.ritual);
-          Console.WriteLine("Concentration: " + spell.concentration);
-
-          Console.WriteLine();
+          Console.WriteLine("Category: " + category);
         }
+
+        Console.WriteLine("Time: " + spell.time);
+        Console.WriteLine("Range: " + spell.range);
+        Console.WriteLine("Components: " + spell.components);
+        Console.WriteLine("Duration: " + spell.duration);
+
+        Console.WriteLine("Description: " + spell.description);
+
+        Console.WriteLine("Save: " + spell.save);
+        Console.WriteLine("Ritual: " + spell.ritual);
+        Console.WriteLine("Concentration: " + spell.concentration);
+
+        Console.WriteLine();
       }
-
-
-      Console.WriteLine("END");
     }
 
 

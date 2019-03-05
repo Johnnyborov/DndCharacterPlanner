@@ -28,17 +28,37 @@ function makeNewList(amount, state, getters, type, index) {
   return newList
 }
 
-function setNewOptions(state, rootState, rootGetters, commit) {
-  let options = {}
+function setNewOptions(state, commit) {
+  {
+    let newOptions = {}
+    let oldOptions = state.character.raceOptions
+  
+    addOptions(newOptions, oldOptions, 1, state.character.race.abilities)
 
-  let specials = rootGetters['database/filteredRaceAbilities']
-    
-  specials.forEach(s => {
-    let increases = rootState['database'].database.amounts.options[s.name]
-    if (typeof(increases) !== 'undefined') {
-      let amount = increases.length
+    commit('setRaceOptionsObject', newOptions)
+  }
 
-      let oldList = state.character.options[s.name]
+
+  for (let i = 0; i < state.character.classes.length; i++) {
+    let newOptions = {}
+    let oldOptions = state.character.classes[i].options
+
+    let classLvl = state.character.classes[i].level
+    addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].class.abilities)
+    addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].subclass.abilities)
+
+    commit('setClassOptionsObject', {classIndex: i, options: newOptions})
+  }
+}
+
+function addOptions(newOptions, oldOptions, classLvl, abilities) {
+  if (!abilities) return
+
+  abilities.forEach(a => {
+    if (a.increases.length > 0) {
+      let amount = a.increases.filter(lvl => lvl <= classLvl).length
+
+      let oldList = oldOptions[a.name]
       if (typeof(oldList) === 'undefined') oldList = []
 
       let newList = Array(amount)
@@ -50,52 +70,40 @@ function setNewOptions(state, rootState, rootGetters, commit) {
         }
       }
 
-      options[s.name] = newList
+      newOptions[a.name] = newList
     }
   })
-
-  for (let i = 0; i < state.character.classes.length; i++) {
-    let abilities = rootGetters['database/filteredClassAbilities'](i)
-    
-    abilities.forEach(a => {
-      let increases = rootState['database'].database.amounts.options[a.name]
-      if (typeof(increases) !== 'undefined') {
-        let amount = increases.filter(lvl => lvl <= state.character.classes[i].level).length
-  
-        let oldList = state.character.options[a.name]
-        if (typeof(oldList) === 'undefined') oldList = []
-  
-        let newList = Array(amount)
-        for (let i = 0; i < newList.length; i++) {
-          if (i < oldList.length) {
-            newList[i] = oldList[i]
-          } else {
-            newList[i] = {id: - 1}
-          }
-        }
-  
-        options[a.name] = newList
-      }
-    })
-  }
-
-  commit('setOptionsObject', options)
 }
 
-function getListAmount(state, i, listAmounts) {
+function getListAmount(state, i, type) {
   if (state.character.classes[i].class.id === -1) return 0
 
-  let increases = listAmounts[state.character.classes[i].class.name].filter(lvl => lvl <= state.character.classes[i].level)
+  let increases
+  switch(type) {
+    case 'feats':
+      let feats = state.character.classes[i].class.feats
+      increases = feats.filter(lvl => lvl <= state.character.classes[i].level)
+      break
+    case 'cantrips':
+      let cantrips = state.character.classes[i].class.cantrips
+      increases = cantrips.filter(lvl => lvl <= state.character.classes[i].level)
+      break
+    case 'spells':
+      let spells = state.character.classes[i].class.spells
+      increases = spells.filter(lvl => lvl <= state.character.classes[i].level)
+      break
+  }
 
   return increases.length
 }
 
 const emptyClass = {
   class: {id: -1},
-  subclass: {},
   level: 1,
+  subclass: {},
   cantrips: [],
-  spells: []
+  spells: [],
+  options: {}
 }
 
 export default {
@@ -104,9 +112,9 @@ export default {
   state: {
     character: {
       race: {id: -1},
+      raceOptions: {},
       stats: [13,13,13,12,12,12],
       feats: [],
-      options: {},
       classes: [JSON.parse(JSON.stringify(emptyClass))]
     }
   },
@@ -134,31 +142,27 @@ export default {
         case 'feat': {
           return true
         }
+        case 'raceAbility': {
+          return true
+        }
         case 'classAbility': {
-          if (typeof(item.classes) === 'undefined') return false
-
-          let className = state.character.classes[index].class.name
-          let isForCurrentClass = item.classes.findIndex(c => c === className) !== -1
-
           let enoughLevel = item.level <= state.character.classes[index].level
 
-          return isForCurrentClass && enoughLevel
-        }
-        case 'raceAbility': {
-          if (typeof(item.races) === 'undefined') return false
-
-          let raceId = state.character.race.id
-          let isForCurrentRace = item.races.findIndex(r => r === raceId) !== -1
-
-          return isForCurrentRace
+          return enoughLevel
         }
         case 'class': {
           return true
         }
         case 'subclass': {
-          let isForCurrentClass = item.classId === state.character.classes[index].class.id
+          // check isForCurrentClass in case of class/level change
+          let isForCurrentClass = false
+          if (state.character.classes[index].class.subclasses) {
+            isForCurrentClass = state.character.classes[index].class.subclasses
+              .findIndex(sub => sub.id === item.id) !== -1
+          }
+          
 
-          let enoughLevel = typeof(item.level) === 'undefined' ? true : item.level <= state.character.classes[index].level
+          let enoughLevel = item.level <= state.character.classes[index].level
 
           return isForCurrentClass && enoughLevel
         }
@@ -215,16 +219,24 @@ export default {
       state.character.classes[classIndex].spells.splice(pos, 1, spell)
     },
 
-    setOption(state, {pos, abilityName, option}) {
-      state.character.options[abilityName].splice(pos, 1, option)
+    setRaceOption(state, {pos, abilityName, option}) {
+      state.character.raceOptions[abilityName].splice(pos, 1, option)
+    },
+
+    setClassOption(state, {classIndex, pos, abilityName, option}) {
+      state.character.classes[classIndex].options[abilityName].splice(pos, 1, option)
     },
 
     setFeatsList(state, feats) {
       state.character.feats = feats
     },
 
-    setOptionsObject(state, options) {
-      state.character.options = options
+    setRaceOptionsObject(state, options) {
+      state.character.raceOptions = options
+    },
+
+    setClassOptionsObject(state, {classIndex, options}) {
+      state.character.classes[classIndex].options = options
     },
 
     setCantripsList(state, {classIndex, cantrips}) {
@@ -232,7 +244,9 @@ export default {
     },
 
     setSpellsList(state, {classIndex, spells}) {
+      let start = Date.now()
       state.character.classes[classIndex].spells = spells
+      console.log(Date.now() - start)
     },
 
     addClass(state) {
@@ -280,8 +294,12 @@ export default {
       commit('setSpell', arg)
     },
 
-    setOption({commit}, arg) {
-      commit('setOption', arg)
+    setRaceOption({commit}, arg) {
+      commit('setRaceOption', arg)
+    },
+
+    setClassOption({commit}, arg) {
+      commit('setClassOption', arg)
     },
 
     setLevel({commit, dispatch}, arg) {
@@ -292,17 +310,12 @@ export default {
 
     setAmounts({state, getters, rootState, rootGetters, commit}) {
       let totalFeatsAmount = 0
-      
-      for (let i = 0; i < state.character.classes.length; i++) {
-        let featsAmount = getListAmount(state, i, rootState['database'].database.amounts.feats)
-        let cantripsAmount = getListAmount(state, i, rootState['database'].database.amounts.cantrips)
-        let spellsAmount = getListAmount(state, i, rootState['database'].database.amounts.spells)
 
-        if (state.character.classes[i].class.name === 'Sorcerer') {
-          if (state.character.classes[i].subclass.name === 'Divine Soul') {
-            spellsAmount += 1
-          }
-        }
+      for (let i = 0; i < state.character.classes.length; i++) {
+        let featsAmount = getListAmount(state, i, 'feats')
+        let cantripsAmount = getListAmount(state, i, 'cantrips')
+        let spellsAmount = getListAmount(state, i, 'spells')
+
         totalFeatsAmount += featsAmount
 
         commit('setCantripsList', {classIndex: i, cantrips: makeNewList(cantripsAmount, state, getters, 'cantrips', i)})
@@ -311,7 +324,7 @@ export default {
 
       commit('setFeatsList', makeNewList(totalFeatsAmount, state, getters, 'feats'))
 
-      setNewOptions(state, rootState, rootGetters, commit)
+      setNewOptions(state, commit)
     },
 
     checkSubclass({state, getters, commit}) {

@@ -44,7 +44,7 @@ namespace WebScraper.Parsers
       private static (string, List<int>, string, List<int>, List<Ability>) ReadClassTable(AngleSharp.Dom.IElement table)
       {
         string className = table.Children[0].Children[0].TextContent.Trim();
-
+        className = className.Replace("The ", "");
 
 
         int featuresColNum = 0;
@@ -130,7 +130,9 @@ namespace WebScraper.Parsers
         var options = new List<Option>();
         ability.options = options;
 
-        if (ability.name != "Metamagic" && ability.name != "Fighting Style") return;
+        if (ability.name != "Metamagic" &&
+            ability.name != "Fighting Style" &&
+            ability.name != "Additional Fighting Style") return;
 
 
 

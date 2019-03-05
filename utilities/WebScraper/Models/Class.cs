@@ -13,6 +13,8 @@ namespace WebScraper.Models
     public string description;
     public string requirement;
     public List<int> feats;
+    public List<int> cantrips;
+    public List<int> spells;
 
     public string subclassAbilityName;
 

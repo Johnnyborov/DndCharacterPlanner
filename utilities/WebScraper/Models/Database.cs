@@ -19,10 +19,10 @@ namespace WebScraper.Models
 
     public void DoPostParsing()
     {
-      int i = 300;
+      int spellIdCounter = 400;
       foreach (var spell in spellsAndCantrips)
       {
-        spell.id = i++;
+        spell.id = spellIdCounter++;
         spell.SetLevel();
         spell.SetClasses();
       }
@@ -31,11 +31,79 @@ namespace WebScraper.Models
       spells = (from s in spellsAndCantrips where s.level > 0 select s).ToList();
 
 
-      i = 1000;
+      int classIdCounter = 1500;
+      int subclassIdCounter = 1600;
+      int abilityIdCounter = 2000;
+      int optionIdCounter = 5000;
       foreach (var cls in classes)
       {
-        cls.id = i++;
+        cls.id = classIdCounter++;
         cls.FillSubclassAbilitiesLevels();
+
+        cls.cantrips = new List<int>();
+        cls.cantrips.Add(1);
+        cls.cantrips.Add(1);
+        cls.cantrips.Add(1);
+        cls.cantrips.Add(5);
+
+        cls.spells = new List<int>();
+        cls.spells.Add(2);
+        cls.spells.Add(5);
+        cls.spells.Add(11);
+
+        foreach (var a in cls.abilities)
+        {
+          a.id = abilityIdCounter++;
+
+          a.increases = new List<int>();
+          switch (a.name)
+          {
+            case "Metamagic":
+              a.increases.AddRange(new int[] { 0, 0, 10, 17 });
+              break;
+            case "Fighting Style":
+              a.increases.AddRange(new int[] { 0 });
+              break;
+            default:
+              break;
+          }
+
+          foreach (var o in a.options)
+          {
+            o.id = optionIdCounter++;
+          }
+        }
+
+        foreach (var sub in cls.subclasses)
+        {
+          sub.id = subclassIdCounter++;
+
+          var subAbility = cls.abilities.Find(a => a.name == cls.subclassAbilityName);
+          sub.level = subAbility.level;
+
+          foreach (var a in sub.abilities)
+          {
+            a.id = abilityIdCounter++;
+
+            a.increases = new List<int>();
+            switch (a.name)
+            {
+              case "Fighting Style":
+                a.increases.AddRange(new int[] { 0 });
+                break;
+              case "Additional Fighting Style":
+                a.increases.AddRange(new int[] { 0 });
+                break;
+              default:
+                break;
+            }
+
+            foreach (var o in a.options)
+            {
+              o.id = optionIdCounter++;
+            }
+          }
+        }
       }
     }
   }
