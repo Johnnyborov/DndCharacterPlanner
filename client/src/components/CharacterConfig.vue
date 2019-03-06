@@ -9,6 +9,15 @@
         class="choosable-items-list list-single" :popups="'right'"/>
     </div>
 
+    <div class="container-single">
+      <p>Subrace</p>
+      <choosable-items-list :moduleType="'subrace'" :moduleId="'subrace'"
+        :choosableSource="[character.subrace]" :availableSource="filteredSubraces"
+        @item-chosen="setSubrace($event.item)"
+        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)"
+        class="choosable-items-list list-single" :popups="'right'"/>
+    </div>
+
     <base-stats class="base-stats" />
     
     <div class="container-single">
@@ -86,6 +95,7 @@ export default {
 
     ...mapGetters('database', [
       'filteredRaces',
+      'filteredSubraces',
       'filteredClasses',
       'filteredSubclasses',
     ])
@@ -94,6 +104,7 @@ export default {
   methods: {
     ...mapActions('character', [
       'setRace',
+      'setSubrace',
       'setClass',
       'setSubclass',
       'setLevel',

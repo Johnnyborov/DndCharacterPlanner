@@ -5,44 +5,8 @@ const scoreImprovement = [
   {id: 160, name: 'stats+2'}
 ]
 
-const featsList = [
-  {id: 200, name: 'feat1'},
-  {id: 201, name: 'feat2'},
-  {id: 202, name: 'feat3'},
-  {id: 203, name: 'feat4'},
-  {id: 204, name: 'feat5'}
-]
+const scoreIncreaseVariant = [{id: 5400, name: 'stats+1x2'}]
 
-
-const racesList = [
-  {id: 1000, name: 'Human (Normal)', abilities: [
-    {
-      id: 4000, name: 'Ability Score Increase',
-      bonusStats: [{i:0,v:1},{i:1,v:1},{i:2,v:1},{i:3,v:1},{i:4,v:1},{i:5,v:1}],
-      increases: []
-    }
-  ]},
-
-  {id: 1001, name: 'Human (Variant)', abilities: [
-    {id: 4011, name: 'Ability Score Increase', increases: []},
-    {id: 4022, name: 'Variant Human Stats',
-      optionOnly: true, options: [{id: 5400, name: 'stats+1x2'}], increases: [1]},
-    {id: 4033, name: 'Variant Human Feat',
-      optionOnly: true, options: featsList, increases: [1]},
-    {id: 4044, name: 'Variant Human Skill',
-      optionOnly: true, options: [{id: 5300, name: 'SkillChooser'}], increases: [1]}
-  ]},
-
-  {id: 1010, name: 'Dwarf', abilities: []},
-  {id: 1011, name: 'Hill Dwarf', abilities: []},
-  {id: 1012, name: 'Mountain Dwarf', abilities: []}
-]
-
-
-const database = {
-  races: racesList,
-  feats: scoreImprovement.concat(featsList)
-}
 
 function canHaveMultiple(id) {
   switch(id) {
@@ -78,6 +42,17 @@ export default {
       })
     },
 
+    filteredSubraces: (state, getters, rootState, rootGetters) => {
+      let subraces = rootState['character'].character.race.subraces
+      if (!subraces) return []
+
+      return subraces.filter(subrace => {
+        let alreadyChosen = rootState['character'].character.subrace.id === subrace.id
+
+        return !alreadyChosen
+      })
+    },
+
     filteredFeats: (state, getters, rootState, rootGetters) => {
       return state.database.feats.filter(feat => {
         let alreadyChosen = rootState['character'].character.feats.findIndex(f => f.id === feat.id) !== -1
@@ -100,6 +75,17 @@ export default {
       if (!raceAbilities) return []
 
       return raceAbilities.filter(ability => {
+        let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'raceAbility')
+
+        return satisfiesCharacterConfig
+      })
+    },
+
+    filteredSubraceAbilities: (state, getters, rootState, rootGetters) => {
+      let subraceAbilities = rootState['character'].character.subrace.abilities
+      if (!subraceAbilities) return []
+
+      return subraceAbilities.filter(ability => {
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](ability, 'raceAbility')
 
         return satisfiesCharacterConfig
@@ -239,9 +225,20 @@ export default {
     load({commit}) {
       api.getDndDatabase()
       .then(db => {
+        let database = {}
         database.cantrips = db.cantrips
         database.spells = db.spells
         database.classes = db.classes
+        database.feats = scoreImprovement.concat(db.feats)
+        database.races = db.races
+
+
+        database.races.find(r => r.name === 'Human').subraces
+          .find(s => s.name === 'Variant Human').abilities
+          .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
+        database.races.find(r => r.name === 'Human').subraces
+          .find(s => s.name === 'Variant Human').abilities
+          .find(a => a.name === 'Feat').options = db.feats
 
         let dm = database.classes.find(c => c.name === 'Sorcerer').subclasses
           .find(sc => sc.name === 'Divine Soul').abilities.find(a => a.name === 'Divine Magic')
@@ -252,6 +249,7 @@ export default {
         afs.options = database.classes.find(c => c.name === 'Fighter').abilities
           .find(a => a.name === 'Fighting Style').options
 
+          
         commit('setDatabase', database)
       })
     }

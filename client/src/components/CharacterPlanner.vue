@@ -34,7 +34,16 @@
           @item-chosen="setRaceOption($event)"
           @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list"
           :popups="'left'">
-          <p>Race Abilities</p>
+          <p>Race Features</p>
+        </static-list>
+
+        <static-list :abilitiesSource="filteredSubraceAbilities"
+          :lastModuleToClickItem="lastModuleToClickItem"
+          :options="character.raceOptions" :baseModuleId="'options'+'subrace'"
+          @item-chosen="setRaceOption($event)"
+          @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list"
+          :popups="'left'">
+          <p>Subrace Features</p>
         </static-list>
 
         <choosable-items-list v-show="character.feats.length > 0"
@@ -110,6 +119,7 @@ export default {
 
     ...mapGetters('database', [
       'filteredRaceAbilities',
+      'filteredSubraceAbilities',
       'filteredClassAbilities',
       'filteredSubclassAbilities',
       'filteredFeats',

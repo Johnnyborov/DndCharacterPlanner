@@ -33,7 +33,13 @@ function setNewOptions(state, commit) {
     let newOptions = {}
     let oldOptions = state.character.raceOptions
   
+    let changed = false
     if (addOptions(newOptions, oldOptions, 1, state.character.race.abilities))
+      changed = true
+    if (addOptions(newOptions, oldOptions, 1, state.character.subrace.abilities))
+      changed = true
+
+    if (changed)
       commit('setRaceOptionsObject', newOptions)
   }
 
@@ -143,6 +149,7 @@ export default {
 
     character: {
       race: {id: -1},
+      subrace: {},
       raceOptions: {},
       stats: [13,13,13,12,12,12],
       feats: [],
@@ -225,6 +232,11 @@ export default {
 
     setRace(state, race) {
       state.character.race = race
+      state.changed = true
+    },
+
+    setSubrace(state, subrace) {
+      state.character.subrace = subrace
       state.changed = true
     },
 
@@ -324,6 +336,11 @@ export default {
 
     setRace({commit, dispatch}, arg) {
       commit('setRace', arg)
+      dispatch('setAmounts')
+    },
+
+    setSubrace({commit, dispatch}, arg) {
+      commit('setSubrace', arg)
       dispatch('setAmounts')
     },
 

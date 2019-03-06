@@ -124,12 +124,15 @@ export default {
     saveHandler() {
       let raceOptions = {}
       Object.keys(this.character.raceOptions).forEach(abilityName => {
-        let abilityId = nameToItem(abilityName, this.character.race.abilities).id
+        let abilityId = nameToItem(abilityName,
+          this.character.race.abilities.concat(this.character.subrace.abilities)).id
+
         raceOptions[abilityId] = this.character.raceOptions[abilityName].map(o => o.id)
       })
 
       let char = {
         raceId: this.character.race.id,
+        subraceId: this.character.subrace.id,
         stats: this.character.stats,
         bonusStats: getBonusStats(this.character),
         feats: this.character.feats.map(feat => feat.id),
@@ -198,9 +201,12 @@ export default {
           })
         }
 
+        character.subrace = idToItem(char.subraceId, character.race.subraces)
+
+
         let raceOptions = {}
         Object.keys(char.raceOptions).forEach(abilityId => {
-          let ability = idToItem(abilityId, character.race.abilities)
+          let ability = idToItem(abilityId, character.race.abilities.concat(character.subrace.abilities))
           raceOptions[ability.name] = char.raceOptions[abilityId].map(optionId => {
             return idToItem(optionId, ability.options)
           })

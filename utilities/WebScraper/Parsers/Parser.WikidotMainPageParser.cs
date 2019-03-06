@@ -23,7 +23,7 @@ namespace WebScraper.Parsers
       }
 
 
-      public static List<Class> ScrapeAll(Mode mode)
+      public static (List<Race>, List<Class>) ScrapeAll(Mode mode)
       {
         string mainPageHtml = GetMainPageHtml(mode);
         
@@ -33,7 +33,6 @@ namespace WebScraper.Parsers
           Directory.CreateDirectory(Config.DownloadedPagesDir + "/background_pages");
           Directory.CreateDirectory(Config.DownloadedPagesDir + "/class_pages");
           Directory.CreateDirectory(Config.DownloadedPagesDir + "/subclass_pages");
-          //Directory.CreateDirectory(Config.DownloadedPagesDir + "/feat_pages");
           File.WriteAllText(Config.DownloadedPagesDir + "/MainPage.html.txt", mainPageHtml);
         }
 
@@ -42,24 +41,23 @@ namespace WebScraper.Parsers
         var document = parser.Parse(mainPageHtml);
 
 
-        DoRaces(document, mode);
+        var races = DoRaces(document, mode);
 
         DoBackgrounds(document, mode);
 
         var classes = DoClassesSubclasses(document, mode);
 
-        //DoFeats(document, mode);
 
-        return classes;
+        return (races, classes);
       }
 
 
-      private static void DoRaces(IHtmlDocument document, Mode mode)
+      private static List<Race> DoRaces(IHtmlDocument document, Mode mode)
       {
-        //List<Class> classes = null;
+        List<Race> races = null;
         if (mode == Mode.ScrapeFiles)
         {
-          //classes = new List<Class>();
+          races = new List<Race>();
         }
 
 
@@ -78,12 +76,17 @@ namespace WebScraper.Parsers
             string url = ((IHtmlAnchorElement)anchors[k]).Href;
             var raceFileName = raceType + "__" + anchors[k].TextContent.Trim();
 
-            HandleLink(url, raceFileName, mode, Type.Race);  
+            Race race = HandleLink(url, raceFileName, mode, Type.Race);
+
+            if (mode == Mode.ScrapeFiles)
+            {
+              races.Add(race);
+            }
           }
         }
 
 
-        //return classes;
+        return races;
       }
 
       private static void DoBackgrounds(IHtmlDocument document, Mode mode)
@@ -301,7 +304,7 @@ namespace WebScraper.Parsers
           switch (type)
           {
             case Type.Race:
-              return null;
+              return RacePageParser.ParseRacePage(html);
             case Type.Background:
               return null;
             case Type.Class:

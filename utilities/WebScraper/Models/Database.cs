@@ -8,6 +8,9 @@ namespace WebScraper.Models
 {
   public class Database
   {
+    public List<Option> feats;
+    public List<Race> races;
+
     public List<Spell> cantrips;
     public List<Spell> spells;
     public List<Class> classes;
@@ -19,7 +22,25 @@ namespace WebScraper.Models
 
     public void DoPostParsing()
     {
+      int featIdCounter = 200;
       int spellIdCounter = 400;
+
+      int raceIdCounter = 1000;
+      int subraceIdCounter = 1200;
+
+      int classIdCounter = 1500;
+      int subclassIdCounter = 1600;
+
+      int abilityIdCounter = 2000;
+      int optionIdCounter = 5000;
+
+
+      foreach (var feat in feats)
+      {
+        feat.id = featIdCounter++;
+      }
+
+
       foreach (var spell in spellsAndCantrips)
       {
         spell.id = spellIdCounter++;
@@ -31,10 +52,67 @@ namespace WebScraper.Models
       spells = (from s in spellsAndCantrips where s.level > 0 select s).ToList();
 
 
-      int classIdCounter = 1500;
-      int subclassIdCounter = 1600;
-      int abilityIdCounter = 2000;
-      int optionIdCounter = 5000;
+      
+      foreach (var race in races)
+      {
+        race.id = raceIdCounter++;
+        race.FillSubracesDescriptions();
+
+        foreach (var a in race.abilities)
+        {
+          a.id = abilityIdCounter++;
+
+          a.increases = new List<int>();
+          switch (a.name)
+          {
+            default:
+              break;
+          }
+
+          a.options = new List<Option>();
+          foreach (var o in a.options)
+          {
+            o.id = optionIdCounter++;
+          }
+        }
+
+
+        foreach (var sub in race.subraces)
+        {
+          sub.id = subraceIdCounter++;
+
+          foreach (var a in sub.abilities)
+          {
+            a.id = abilityIdCounter++;
+
+            a.increases = new List<int>();
+            switch (a.name)
+            {
+              case "Ability Score Increase":
+                if (sub.name == "Variant Human")
+                {
+                  a.increases.AddRange(new int[] { 0 });
+                }
+                break;
+              case "Skills":
+                a.increases.AddRange(new int[] { 0 });
+                break;
+              case "Feat":
+                a.increases.AddRange(new int[] { 0 });
+                break;
+              default:
+                break;
+            }
+
+            foreach (var o in a.options)
+            {
+              o.id = optionIdCounter++;
+            }
+          }
+        }
+      }
+
+
       foreach (var cls in classes)
       {
         cls.id = classIdCounter++;
