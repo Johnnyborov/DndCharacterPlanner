@@ -40,16 +40,6 @@ namespace WebScraper.Models
         cls.id = classIdCounter++;
         cls.FillSubclassAbilitiesLevels();
 
-        cls.cantrips = new List<int>();
-        cls.cantrips.Add(1);
-        cls.cantrips.Add(1);
-        cls.cantrips.Add(1);
-        cls.cantrips.Add(5);
-
-        cls.spells = new List<int>();
-        cls.spells.Add(2);
-        cls.spells.Add(5);
-        cls.spells.Add(11);
 
         foreach (var a in cls.abilities)
         {
@@ -64,6 +54,9 @@ namespace WebScraper.Models
             case "Fighting Style":
               a.increases.AddRange(new int[] { 0 });
               break;
+            case "Eldritch Invocations":
+              a.increases.AddRange(new int[] { 0, 0, 5, 7, 9, 12, 15, 18 });
+              break;
             default:
               break;
           }
@@ -73,6 +66,7 @@ namespace WebScraper.Models
             o.id = optionIdCounter++;
           }
         }
+
 
         foreach (var sub in cls.subclasses)
         {

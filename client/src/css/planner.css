@@ -2,6 +2,11 @@
   font-size: 1.6vmin;
 }
 
+#height-balancer {
+  background-color: white;
+  height: 120vmin;
+}
+
 p {
   margin: 0.5vmin;
 }
@@ -25,7 +30,6 @@ select {
   background-color: white;
   display: flex;
   flex-direction: row;
-  height: 200vmin;
 }
 
 

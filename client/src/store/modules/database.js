@@ -81,6 +81,14 @@ export default {
     filteredFeats: (state, getters, rootState, rootGetters) => {
       return state.database.feats.filter(feat => {
         let alreadyChosen = rootState['character'].character.feats.findIndex(f => f.id === feat.id) !== -1
+
+        let options = rootState['character'].character.raceOptions
+        Object.keys(options).forEach(abilityName => {
+          let alreadyChosenByRaceOption = options[abilityName].findIndex(o => o.name === feat.name) !== -1
+
+          if (alreadyChosenByRaceOption) alreadyChosen = true
+        })
+
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](feat, 'feat')
 
         return satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.id))
@@ -147,14 +155,18 @@ export default {
             })
           }
 
-          {
-            let options = rootState['character'].character.raceOptions
-            Object.keys(options).forEach(abilityName => {
-              let alreadyChosenByRace = options[abilityName].findIndex(o => o.name === option.name) !== -1
-  
-              if (alreadyChosenByRace) alreadyChosen = true
-            })
-          }
+          let options = rootState['character'].character.raceOptions
+          Object.keys(options).forEach(abilityName => {
+            let alreadyChosenByRace = options[abilityName].findIndex(o => o.name === option.name) !== -1
+
+            if (alreadyChosenByRace) alreadyChosen = true
+          })
+
+          let alreadyChosenByFeat = rootState['character'].character.feats
+          .findIndex(f => f.name === option.name) !== -1
+
+          if (alreadyChosenByFeat) alreadyChosen = true
+
   
           return !alreadyChosen || canHaveMultiple(option.id)
         })
@@ -234,6 +246,11 @@ export default {
         let dm = database.classes.find(c => c.name === 'Sorcerer').subclasses
           .find(sc => sc.name === 'Divine Soul').abilities.find(a => a.name === 'Divine Magic')
         dm.options = database.spells.filter(s => s.classes.findIndex(c => c === 'Cleric') !== -1)
+
+        let afs = database.classes.find(c => c.name === 'Fighter').subclasses
+          .find(sc => sc.name === 'Champion').abilities.find(a => a.name === 'Additional Fighting Style')
+        afs.options = database.classes.find(c => c.name === 'Fighter').abilities
+          .find(a => a.name === 'Fighting Style').options
 
         commit('setDatabase', database)
       })

@@ -33,9 +33,8 @@ function setNewOptions(state, commit) {
     let newOptions = {}
     let oldOptions = state.character.raceOptions
   
-    addOptions(newOptions, oldOptions, 1, state.character.race.abilities)
-
-    commit('setRaceOptionsObject', newOptions)
+    if (addOptions(newOptions, oldOptions, 1, state.character.race.abilities))
+      commit('setRaceOptionsObject', newOptions)
   }
 
 
@@ -44,15 +43,28 @@ function setNewOptions(state, commit) {
     let oldOptions = state.character.classes[i].options
 
     let classLvl = state.character.classes[i].level
-    addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].class.abilities)
-    addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].subclass.abilities)
+    let changed = false
+    if (addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].class.abilities))
+      changed = true
+    if (addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].subclass.abilities))
+      changed = true
 
-    commit('setClassOptionsObject', {classIndex: i, options: newOptions})
+    if (changed)
+      commit('setClassOptionsObject', {classIndex: i, options: newOptions})
   }
 }
 
+function optionSatisfiesCharacterConfig(option, ability, classLvl) {
+  let isForCurrentAbility = ability.options.findIndex(o => o.id === option.id) !== -1
+  let enoughLevel = option.level ? option.level * 2 - 1 <= classLvl : true
+
+  return isForCurrentAbility && enoughLevel
+}
+
 function addOptions(newOptions, oldOptions, classLvl, abilities) {
-  if (!abilities) return
+  if (!abilities) return false
+
+  let changed = false
 
   abilities.forEach(a => {
     if (a.increases.length > 0) {
@@ -62,12 +74,12 @@ function addOptions(newOptions, oldOptions, classLvl, abilities) {
       if (typeof(oldList) === 'undefined') oldList = []
 
       let newList = Array(amount)
+      if (oldList.length !== newList.length) changed = true
       for (let i = 0; i < newList.length; i++) {
-        let satisfiesCharacterConfig = (i < oldList.length && oldList[i].level) ?
-          oldList[i].level * 2 - 1 <= classLvl : true // a spell with level requirement : something else
-        if (i < oldList.length && satisfiesCharacterConfig) {
+        if (i < oldList.length && optionSatisfiesCharacterConfig(oldList[i], a, classLvl)) {
           newList[i] = oldList[i]
         } else {
+          changed = true
           newList[i] = {id: - 1}
         }
       }
@@ -75,6 +87,8 @@ function addOptions(newOptions, oldOptions, classLvl, abilities) {
       newOptions[a.name] = newList
     }
   })
+
+  return changed
 }
 
 function getListAmount(state, i, type) {
@@ -99,6 +113,19 @@ function getListAmount(state, i, type) {
   return increases.length
 }
 
+
+function areDifferentLists(oldList, newList) {
+  if (oldList.length !== newList.length) return true
+
+  let changed = false
+  for (let i = 0; i < oldList.length; i++) {
+    if (oldList[i].id !== newList[i].id) changed = true
+  }
+
+  return changed
+}
+
+
 const emptyClass = {
   class: {id: -1},
   level: 1,
@@ -112,6 +139,8 @@ export default {
   namespaced: true,
 
   state: {
+    changed: false,
+
     character: {
       race: {id: -1},
       raceOptions: {},
@@ -185,76 +214,104 @@ export default {
   },
 
   mutations: {
+    setChangedFalse(state) {
+      state.changed = false
+    },
+
     setCharacter(state, character) {
       state.character = character
+      state.changed = true
     },
 
     setRace(state, race) {
       state.character.race = race
+      state.changed = true
     },
 
     setStat(state, {index, value}) {
       state.character.stats.splice(index, 1, value)
+      state.changed = true
     },
 
     setFeat(state, {pos, feat}) {
       state.character.feats.splice(pos, 1, feat)
+      state.changed = true
     },
 
     setClass(state, {classIndex, cls}) {
       state.character.classes[classIndex].class = cls
+      state.changed = true
     },
 
     setSubclass(state, {classIndex, subclass}) {
       state.character.classes[classIndex].subclass = subclass
+      state.changed = true
     },
 
     setLevel(state, {classIndex, level}) {
       state.character.classes[classIndex].level = level
+      state.changed = true
     },
 
     setCantrip(state, {classIndex, pos, cantrip}) {
       state.character.classes[classIndex].cantrips.splice(pos, 1, cantrip)
+      state.changed = true
     },
 
     setSpell(state, {classIndex, pos, spell}) {
       state.character.classes[classIndex].spells.splice(pos, 1, spell)
+      state.changed = true
     },
 
     setRaceOption(state, {pos, abilityName, option}) {
       state.character.raceOptions[abilityName].splice(pos, 1, option)
+      state.changed = true
     },
 
     setClassOption(state, {classIndex, pos, abilityName, option}) {
       state.character.classes[classIndex].options[abilityName].splice(pos, 1, option)
+      state.changed = true
     },
 
     setFeatsList(state, feats) {
-      state.character.feats = feats
+      if (areDifferentLists(state.character.feats, feats)) {
+        state.character.feats = feats
+        state.changed = true
+      }
     },
 
     setRaceOptionsObject(state, options) {
       state.character.raceOptions = options
+      state.changed = true
     },
 
     setClassOptionsObject(state, {classIndex, options}) {
       state.character.classes[classIndex].options = options
+      state.changed = true
     },
 
     setCantripsList(state, {classIndex, cantrips}) {
-      state.character.classes[classIndex].cantrips = cantrips
+      if (areDifferentLists(state.character.classes[classIndex].cantrips, cantrips)) {
+        state.character.classes[classIndex].cantrips = cantrips
+        state.changed = true
+      }
     },
 
     setSpellsList(state, {classIndex, spells}) {
-      state.character.classes[classIndex].spells = spells
+      if (areDifferentLists(state.character.classes[classIndex].spells, spells)) {
+        state.character.classes[classIndex].spells = spells
+        state.changed = true
+      }
     },
 
     addClass(state) {
       state.character.classes.push(JSON.parse(JSON.stringify(emptyClass)))
+      state.changed = true
     },
 
     removeClass(state, classIndex) {
       state.character.classes.splice(classIndex, 1)
+      state.changed = true
     }
   },
 

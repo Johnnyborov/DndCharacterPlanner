@@ -1,5 +1,6 @@
 <template>
-  <div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
+<div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
+  <div class="character-planner">
     <character-config class="character-config" :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" />
     <real-stats class="real-stats" />
 
@@ -58,6 +59,9 @@
 
     <saver-loader class="saver-loader">Saving/Loading</saver-loader>
   </div>
+
+  <div id="height-balancer" />
+</div>
 </template>
 
 <script>

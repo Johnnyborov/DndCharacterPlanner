@@ -25,7 +25,7 @@ namespace WebScraper.Parsers
       //WikidotMainPageParser.ScrapeAll(Mode.Download);
 
 
- 
+
 
       // var httpClient = new HttpClient();
       // var request = httpClient.GetAsync("http://gdnd.wikidot.com/feats");
@@ -33,6 +33,15 @@ namespace WebScraper.Parsers
 
       // string html = response.Result;
       // File.WriteAllText(Config.DownloadedPagesDir + "/FeatsPage.html.txt", html);
+
+
+
+      //var httpClient = new HttpClient();
+      //var request = httpClient.GetAsync("http://dnd5e.wikidot.com/warlock:eldritch-invocations");
+      //var response = request.Result.Content.ReadAsStringAsync();
+
+      //string html = response.Result;
+      //File.WriteAllText(Config.DownloadedPagesDir + "/EldritchInvocations.html.txt", html);
     }
 
 

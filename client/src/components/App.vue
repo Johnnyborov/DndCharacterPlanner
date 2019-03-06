@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <character-planner class="character-planner"/>
+    <character-planner/>
   </div>
 </template>
 

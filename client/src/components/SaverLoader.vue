@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapActions} from 'vuex'
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
@@ -97,6 +97,7 @@ export default {
 
   computed: {
     ...mapState('character', [
+      'changed',
       'character'
     ]),
 
@@ -111,6 +112,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      setChangedFalse: 'character/setChangedFalse',
+    }),
+
     ...mapActions({
       setCharacter: 'character/setCharacter',
     }),
@@ -148,11 +153,15 @@ export default {
         })
       }
 
-      
-      api.saveCharacter(char)
-      .then(id => {
-        this.characterId = id
-      })
+
+      if (this.changed) {
+        api.saveCharacter(char)
+        .then(id => {
+          this.characterId = id
+        })
+      }
+
+      this.setChangedFalse()
     },
 
     loadHandler() {

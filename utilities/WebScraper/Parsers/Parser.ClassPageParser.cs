@@ -29,36 +29,51 @@ namespace WebScraper.Parsers
           ++pos;
         var classTable = mainDiv.Children[pos].Children[0];
 
-        (string className, List<int> featsIncreases,
+        (string className, List<int> featsIncreases, List<int> cantripsIncreases, List<int> spellsIncreases,
           string subclassAbilityName, List<int> subclassAbilityLevels, List<Ability> abilitiesList) = ReadClassTable(classTable);
 
 
         FillAbilitiesDescriptions(abilitiesList, mainDiv);
 
 
-        return new Class { name = className, description = description, requirement = requirement, feats = featsIncreases,
-          subclassAbilityName = subclassAbilityName, subclassAbilityLevels = subclassAbilityLevels, abilities = abilitiesList};
+        return new Class { name = className, description = description, requirement = requirement,
+          feats = featsIncreases, cantrips = cantripsIncreases, spells = spellsIncreases,
+          subclassAbilityName = subclassAbilityName, subclassAbilityLevels = subclassAbilityLevels,
+          abilities = abilitiesList};
       }
 
 
-      private static (string, List<int>, string, List<int>, List<Ability>) ReadClassTable(AngleSharp.Dom.IElement table)
+      private static (string, List<int>, List<int>, List<int>, string, List<int>, List<Ability>)
+        ReadClassTable(AngleSharp.Dom.IElement table)
       {
         string className = table.Children[0].Children[0].TextContent.Trim();
         className = className.Replace("The ", "");
 
 
         int featuresColNum = 0;
+        int cantripsColNum = 0;
+        int spellsColNum = 0;
+        int counter = 0;
         foreach (var col in table.Children[1].Children)
         {
-          if (col.TextContent.Trim() != "Features")
-            ++featuresColNum;
-          else
-            break;
+          if (col.TextContent.Trim() == "Features")
+            featuresColNum = counter;
+          else if (col.TextContent.Trim() == "Cantrips Known")
+            cantripsColNum = counter;
+          else if (col.TextContent.Trim() == "Spells Known")
+            spellsColNum = counter;
+
+          ++counter;
         }
+
+        int prevCantripsAmount = 0;
+        int prevSpellsAmount = 0;
 
 
 
         var featsIncreases = new List<int>();
+        var cantripsIncreases = new List<int>();
+        var spellsIncreases = new List<int>();
         string subclassAbilityName = "";
         var subclassAbilityLevels = new List<int>();
         var abilitiesList = new List<Ability>();
@@ -91,9 +106,36 @@ namespace WebScraper.Parsers
               abilitiesList.Add(new Ability { level = level, name = name });
             }
           }
+
+          if (cantripsColNum > 0)
+          {
+            string s = table.Children[rowNum].Children[cantripsColNum].TextContent.Trim();
+            if (s == "" || s == "-") continue;
+
+            int cantripsAmount = Int32.Parse(s);
+            for (int i = 0; i < cantripsAmount - prevCantripsAmount; ++i)
+            {
+              cantripsIncreases.Add(level);
+            }
+            prevCantripsAmount = cantripsAmount;
+          }
+
+          if (spellsColNum > 0)
+          {
+            string s = table.Children[rowNum].Children[spellsColNum].TextContent.Trim();
+            if (s == "" || s == "-") continue;
+
+            int spellsAmount = Int32.Parse(s);
+            for (int i = 0; i < spellsAmount - prevSpellsAmount; ++i)
+            {
+              spellsIncreases.Add(level);
+            }
+            prevSpellsAmount = spellsAmount;
+          }
         }
 
-        return (className, featsIncreases, subclassAbilityName, subclassAbilityLevels, abilitiesList);
+        return (className, featsIncreases, cantripsIncreases, spellsIncreases,
+          subclassAbilityName, subclassAbilityLevels, abilitiesList);
       }
 
 
