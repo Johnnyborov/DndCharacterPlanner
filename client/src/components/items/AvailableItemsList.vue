@@ -3,7 +3,8 @@
     <ul class="scrollable-list" ref='scrollable-ul'>
       <li @click="$emit('item-chosen', {slotId: slotId, item: {id: -1}})" class="remove-option">Remove</li>
       <available-item v-for="item in availableSource" :key="item.name" :item="item" :moduleType="moduleType"
-        @item-clicked="$emit('item-chosen', {slotId: slotId, item: $event})" class="available-item" />
+        @item-clicked="$emit('item-chosen', {slotId: slotId, item: $event})" class="available-item"
+        :popups="popups"/>
     </ul>
   </div> 
 </template>
@@ -19,6 +20,7 @@ export default {
 
   props: {
     moduleType: String,
+    popups: String,
 
     slotId: Number,
     

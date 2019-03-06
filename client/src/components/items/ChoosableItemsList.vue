@@ -2,13 +2,16 @@
   <div>
     <slot></slot>
     <ul>
-      <choosable-item v-for="(item, index) in choosableSource" :key="index" :slotId="index" :item="item" :currentlyClickedSlotId="currentlyClickedSlotId"
-        @slot-clicked="slotClickedHandler" :moduleType="moduleType" class="choosable-item" />
+      <choosable-item v-for="(item, index) in choosableSource" :key="index" :slotId="index"
+        :item="item" :currentlyClickedSlotId="currentlyClickedSlotId" @slot-clicked="slotClickedHandler"
+        :moduleType="moduleType" class="choosable-item" :popups="popups"/>
     </ul>
     
     <div :style="{'top': avaliableItemsPosY + 'px', 'position': 'absolute'}">
-      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items" :availableSource="availableSource" :slotId="currentlyClickedSlotId"
-        :moduleType="moduleType" @item-chosen="$emit('item-chosen', $event)" class="available-items-list" />
+      <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items"
+        :availableSource="availableSource" :slotId="currentlyClickedSlotId"
+        :moduleType="moduleType" @item-chosen="$emit('item-chosen', $event)"
+        class="available-items-list"  :popups="popups"/>
     </div>
   </div>
 </template>
@@ -26,6 +29,7 @@ export default {
 
   props: {
     moduleType: String,
+    popups: String,
 
     moduleId: String,
     lastModuleToClickItem: String,

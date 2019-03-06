@@ -4,7 +4,8 @@
     {{levelText}}{{item.name}}
 
     <div :style="{'position': 'absolute', 'top': posY + 'px'}">
-      <item-tooltip v-if="mouseOver && item.id !== -1" :item="item" :moduleType="moduleType" :posX="posX" class="item-tooltip" />
+      <item-tooltip v-if="mouseOver && item.id !== -1" :item="item" :moduleType="moduleType"
+        :posX="posX" @enter-child="leaveHandler" class="item-tooltip" />
     </div>
   </li>
 </template>

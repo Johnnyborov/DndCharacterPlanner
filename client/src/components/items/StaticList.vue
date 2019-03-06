@@ -4,8 +4,8 @@
     <ul>
       <static-ability v-for="(item, itemIndex) in abilitiesSource" :key="itemIndex" :item="item"
         :moduleType="'abilities'" :options="options" :moduleId="baseModuleId + item.name"
-        @item-chosen="$emit('item-chosen', $event)"
-        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" />
+        @item-chosen="$emit('item-chosen', $event)" :lastModuleToClickItem="lastModuleToClickItem"
+        @slot-clicked="$emit('slot-clicked', $event)" :popups="popups"/>
     </ul>
   </div>
 </template>
@@ -20,6 +20,7 @@ export default {
   },
 
   props: {
+    popups: String,
     lastModuleToClickItem: String,
     abilitiesSource: Array,
     options: Object,

@@ -7,6 +7,7 @@ export default {
 
   props: {
     moduleType: String,
+    popups: String,
     item: Object
   },
 
@@ -32,9 +33,7 @@ export default {
       this.mouseOver = true
       this.posY = this.$el.getBoundingClientRect().top - this.$parent.$el.getBoundingClientRect().top
       
-      if (this.moduleType === 'race' || this.moduleType === 'class' || this.moduleType === 'subclass'
-          || this.moduleType === 'abilities' || this.moduleType === 'options') {
-
+      if (this.popups === 'right') {
         this.posX = this.$el.getBoundingClientRect().width
       } else {
         this.posX = 0

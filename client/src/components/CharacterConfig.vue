@@ -5,7 +5,8 @@
       <choosable-items-list :moduleType="'race'" :moduleId="'race'"
         :choosableSource="[character.race]" :availableSource="filteredRaces"
         @item-chosen="setRace($event.item)"
-        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
+        :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)"
+        class="choosable-items-list list-single" :popups="'right'"/>
     </div>
 
     <base-stats class="base-stats" />
@@ -20,15 +21,18 @@
         <choosable-items-list :moduleType="'class'" :moduleId="'class'+classIndex"
           :choosableSource="[character.classes[classIndex].class]" :availableSource="filteredClasses"
           @item-chosen="setClass({classIndex: classIndex, cls: $event.item})"
-          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)"
+          class="choosable-items-list list-single" :popups="'right'"/>
       </div>
 
       <div v-show="showSubclass(classIndex)" class="container-single">
         <p>Subclass</p>
         <choosable-items-list :moduleType="'subclass'" :moduleId="'subclass'+classIndex"
-          :choosableSource="[character.classes[classIndex].subclass]" :availableSource="filteredSubclasses(classIndex)"
+          :choosableSource="[character.classes[classIndex].subclass]"
+          :availableSource="filteredSubclasses(classIndex)"
           @item-chosen="setSubclass({classIndex: classIndex, subclass: $event.item})"
-          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)" class="choosable-items-list list-single" />
+          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="$emit('slot-clicked', $event)"
+          class="choosable-items-list list-single" :popups="'right'"/>
       </div>
 
       <div class="container-single" style="margin: 1vmin 0 1vmin 0;">
