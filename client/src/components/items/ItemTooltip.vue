@@ -49,7 +49,7 @@ export default {
       let res = this.item.name + '</br>'
       if (this.moduleType === 'cantrips') {
         res = 'Name: ' + res + 'Cantrip</br>'
-      } else if (this.moduleType === 'spells') {
+      } else if (this.moduleType === 'spells' || this.moduleType === 'options' && this.item.level) {
         res = 'Name: ' + res + 'Level: ' + this.item.level + '</br>'
       }
 
@@ -78,9 +78,9 @@ export default {
       if (typeof(this.item.bonusStats) !== 'undefined') {
         this.item.bonusStats.forEach(bonusStat => {
           let sign = ''
-          if (bonusStat.value > 0) sign = '+'
+          if (bonusStat.v > 0) sign = '+'
 
-          res = res + '</br>' + sign + bonusStat.value + ' ' + statName(bonusStat.index)
+          res = res + '</br>' + sign + bonusStat.v + ' ' + statName(bonusStat.i)
         })
       }
 

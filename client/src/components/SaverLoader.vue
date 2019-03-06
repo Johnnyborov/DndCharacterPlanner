@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
@@ -29,6 +29,63 @@ function nameToItem(name, array) {
   return item
 }
 
+function addBonusStatsFor(items, bonusStats) {
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].bonusStats) {
+      bonusStats[i + ':' + items[i].id] = items[i].bonusStats
+    }
+  }
+}
+
+function getBonusStats(character) {
+  let bonusStats = {}
+  addBonusStatsFor(character.feats, bonusStats)
+
+  {
+    let options = character.raceOptions
+    Object.keys(options).forEach(abilityName => {
+      addBonusStatsFor(options[abilityName], bonusStats)
+    })
+  }
+
+  for (let i = 0; i < character.classes.length; i++) {
+    let options = character.classes[i].options
+    Object.keys(options).forEach(abilityName => {
+      addBonusStatsFor(options[abilityName], bonusStats)
+    })
+  }
+
+  return bonusStats
+}
+
+function setBonusStatsFor(items, bonusStats) {
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].id !== -1) {
+      if (bonusStats[i + ':' + items[i].id]) {
+        items[i].bonusStats = bonusStats[i + ':' + items[i].id]
+      }
+    }
+  }
+}
+
+function setBonusStats(character, bonusStats) {
+  setBonusStatsFor(character.feats, bonusStats)
+
+  {
+    let options = character.raceOptions
+    Object.keys(options).forEach(abilityName => {
+      setBonusStatsFor(options[abilityName], bonusStats)
+    })
+  }
+
+  for (let i = 0; i < character.classes.length; i++) {
+    let options = character.classes[i].options
+    Object.keys(options).forEach(abilityName => {
+      setBonusStatsFor(options[abilityName], bonusStats)
+    })
+  }
+}
+
 export default {
   name: 'SaverLoader',
 
@@ -45,7 +102,12 @@ export default {
 
     ...mapState('database', [
       'database'
-    ])
+    ]),
+
+    ...mapGetters('database', [
+      'filteredRaceAbilities',
+      'filteredClassAbilities'
+    ]),
   },
 
   methods: {
@@ -64,13 +126,14 @@ export default {
       let char = {
         raceId: this.character.race.id,
         stats: this.character.stats,
+        bonusStats: getBonusStats(this.character),
         feats: this.character.feats.map(feat => feat.id),
         raceOptions: raceOptions,
 
         classes: this.character.classes.map(c => {
           let options = {}
           Object.keys(c.options).forEach(abilityName => {
-            let abilityId = nameToItem(abilityName, c.class.abilities).id
+            let abilityId = nameToItem(abilityName, c.class.abilities.concat(c.subclass.abilities)).id
             options[abilityId] = c.options[abilityName].map(o => o.id)
           })
 
@@ -113,7 +176,7 @@ export default {
 
             let options = {}
             Object.keys(c.options).forEach(abilityId => {
-              let ability = idToItem(abilityId, cls.class.abilities)
+              let ability = idToItem(abilityId, cls.class.abilities.concat(cls.subclass.abilities))
               options[ability.name] = c.options[abilityId].map(optionId => {
                 return idToItem(optionId, ability.options)
               })
@@ -135,6 +198,8 @@ export default {
         })
 
         character.raceOptions = raceOptions
+
+        setBonusStats(character, char.bonusStats)
 
 
         this.setCharacter(character)

@@ -2,7 +2,7 @@
   <li @mouseenter="enterHandler" @mouseleave="leaveHandler" @click.stop="$emit('item-clicked', realItem)" class="item-slot">
     {{levelText}}{{item.name}}
 
-    <stat-chooser :item="item" @id-changed="idChangedHandler" />
+    <stat-chooser :item="item" @item-changed="itemChangedHandler" />
 
     <div :style="{'position': 'absolute', 'top': posY + 'px'}">
       <item-tooltip v-if="mouseOver" :item="item" :moduleType="moduleType" :posX="posX" class="item-tooltip" />
@@ -29,7 +29,7 @@ export default {
   },
 
   methods: {
-    idChangedHandler(item) {
+    itemChangedHandler(item) {
       this.realItem = item
     }
   }

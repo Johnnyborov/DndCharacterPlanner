@@ -63,7 +63,9 @@ function addOptions(newOptions, oldOptions, classLvl, abilities) {
 
       let newList = Array(amount)
       for (let i = 0; i < newList.length; i++) {
-        if (i < oldList.length) {
+        let satisfiesCharacterConfig = (i < oldList.length && oldList[i].level) ?
+          oldList[i].level * 2 - 1 <= classLvl : true // a spell with level requirement : something else
+        if (i < oldList.length && satisfiesCharacterConfig) {
           newList[i] = oldList[i]
         } else {
           newList[i] = {id: - 1}
@@ -244,9 +246,7 @@ export default {
     },
 
     setSpellsList(state, {classIndex, spells}) {
-      let start = Date.now()
       state.character.classes[classIndex].spells = spells
-      console.log(Date.now() - start)
     },
 
     addClass(state) {

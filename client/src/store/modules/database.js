@@ -1,32 +1,8 @@
 import api from '../../api/planner.js'
 
-const statsTwice = [
-  {id: 110, name: 'stats+1x2', bonusStats: []},
-  {id: 111, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}]},
-  {id: 112, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 2, value: 1}]},
-  {id: 113, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 3, value: 1}]},
-  {id: 114, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 4, value: 1}]},
-  {id: 115, name: 'stats+1x2', bonusStats: [{index: 0, value: 1}, {index: 5, value: 1}]},
-  {id: 122, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 2, value: 1}]},
-  {id: 123, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 3, value: 1}]},
-  {id: 124, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 4, value: 1}]},
-  {id: 125, name: 'stats+1x2', bonusStats: [{index: 1, value: 1}, {index: 5, value: 1}]},
-  {id: 133, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 3, value: 1}]},
-  {id: 134, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 4, value: 1}]},
-  {id: 135, name: 'stats+1x2', bonusStats: [{index: 2, value: 1}, {index: 5, value: 1}]},
-  {id: 144, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 4, value: 1}]},
-  {id: 145, name: 'stats+1x2', bonusStats: [{index: 3, value: 1}, {index: 5, value: 1}]},
-  {id: 155, name: 'stats+1x2', bonusStats: [{index: 4, value: 1}, {index: 5, value: 1}]}
-]
-
-const statsOnce = [
-  {id: 160, name: 'stats+2', bonusStats: []},
-  {id: 161, name: 'stats+2', bonusStats: [{index: 0, value: 2}]},
-  {id: 162, name: 'stats+2', bonusStats: [{index: 1, value: 2}]},
-  {id: 163, name: 'stats+2', bonusStats: [{index: 2, value: 2}]},
-  {id: 164, name: 'stats+2', bonusStats: [{index: 3, value: 2}]},
-  {id: 165, name: 'stats+2', bonusStats: [{index: 4, value: 2}]},
-  {id: 166, name: 'stats+2', bonusStats: [{index: 5, value: 2}]}
+const scoreImprovement = [
+  {id: 110, name: 'stats+1x2'},
+  {id: 160, name: 'stats+2'}
 ]
 
 const featsList = [
@@ -42,8 +18,7 @@ const racesList = [
   {id: 1000, name: 'Human (Normal)', abilities: [
     {
       id: 4000, name: 'Ability Score Increase',
-      bonusStats: [{index: 0, value: 1}, {index: 1, value: 1}, {index: 2, value: 1},
-        {index: 3, value: 1}, {index: 4, value: 1}, {index: 5, value: 1}],
+      bonusStats: [{i:0,v:1},{i:1,v:1},{i:2,v:1},{i:3,v:1},{i:4,v:1},{i:5,v:1}],
       increases: []
     }
   ]},
@@ -51,7 +26,7 @@ const racesList = [
   {id: 1001, name: 'Human (Variant)', abilities: [
     {id: 4011, name: 'Ability Score Increase', increases: []},
     {id: 4022, name: 'Variant Human Stats',
-      optionOnly: true, options: statsTwice, increases: [1]},
+      optionOnly: true, options: [{id: 5400, name: 'stats+1x2'}], increases: [1]},
     {id: 4033, name: 'Variant Human Feat',
       optionOnly: true, options: featsList, increases: [1]},
     {id: 4044, name: 'Variant Human Skill',
@@ -66,20 +41,14 @@ const racesList = [
 
 const database = {
   races: racesList,
-  feats: statsTwice.concat(statsOnce, featsList)
-}
-
-function isVariation(id) {
-  if (id >= 111 && id <= 155 || id >= 161 && id <= 166) return true
-  if (id >= 5111 && id <= 5155) return true
-
-  return false
+  feats: scoreImprovement.concat(featsList)
 }
 
 function canHaveMultiple(id) {
   switch(id) {
-    case 170:
-    case 175:
+    case 110:
+    case 160:
+    case 5400:
       return true
   }
 
@@ -114,7 +83,7 @@ export default {
         let alreadyChosen = rootState['character'].character.feats.findIndex(f => f.id === feat.id) !== -1
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](feat, 'feat')
 
-        return !isVariation(feat.id) && satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.id))
+        return satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.id))
       })
     },
 
@@ -152,19 +121,44 @@ export default {
     },
 
     filteredOptions: (state, getters, rootState, rootGetters) => (ability) => {
-      return ability.options.filter(option => {
-        let alreadyChosen = false
-        for (let i = 0; i < rootState['character'].character.classes.length; i++) {
-          let options = rootState['character'].character.classes[i].options
-          Object.keys(options).forEach(abilityName => {
-            let alreadyChosenByClass = options[abilityName].findIndex(o => o.name === option.name) !== -1
+      if (ability.name === 'Divine Magic') {
+        let index = rootState['character'].character.classes.findIndex(c => c.subclass.name === 'Divine Soul')
+        return ability.options.filter(option => {
+          let alreadyChosen = false
+          for (let i = 0; i < rootState['character'].character.classes.length; i++) {
+            let alreadyChosenByClass = rootState['character'].character.classes[i].spells.findIndex(s => s.id === option.id) !== -1
 
             if (alreadyChosenByClass) alreadyChosen = true
-          })
-        }
+          }
 
-        return !isVariation(option.id) && !alreadyChosen
-      })
+          let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](option, 'spell', index)
+
+          return satisfiesCharacterConfig && !alreadyChosen
+        })
+      } else {
+        return ability.options.filter(option => {
+          let alreadyChosen = false
+          for (let i = 0; i < rootState['character'].character.classes.length; i++) {
+            let options = rootState['character'].character.classes[i].options
+            Object.keys(options).forEach(abilityName => {
+              let alreadyChosenByClass = options[abilityName].findIndex(o => o.name === option.name) !== -1
+  
+              if (alreadyChosenByClass) alreadyChosen = true
+            })
+          }
+
+          {
+            let options = rootState['character'].character.raceOptions
+            Object.keys(options).forEach(abilityName => {
+              let alreadyChosenByRace = options[abilityName].findIndex(o => o.name === option.name) !== -1
+  
+              if (alreadyChosenByRace) alreadyChosen = true
+            })
+          }
+  
+          return !alreadyChosen || canHaveMultiple(option.id)
+        })
+      }
     },
 
     filteredClasses: (state, getters, rootState, rootGetters) => {
@@ -207,9 +201,13 @@ export default {
       return state.database.spells.filter(spell => {
         let alreadyChosen = false
         for (let i = 0; i < rootState['character'].character.classes.length; i++) {
-          let alreadyChosenByClass = rootState['character'].character.classes[i].spells.findIndex(s => s.id === spell.id) !== -1
+          let chosenInSpells = rootState['character'].character.classes[i].spells.findIndex(s => s.id === spell.id) !== -1
+          
+          let options = rootState['character'].character.classes[i].options
+          let chosenInOptions = Object.keys(options)
+            .findIndex(oName => options[oName].findIndex(o => o.id === spell.id) !== -1) !== -1
 
-          if (alreadyChosenByClass) alreadyChosen = true
+          if (chosenInSpells || chosenInOptions) alreadyChosen = true
         }
 
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](spell, 'spell', index)
@@ -232,6 +230,11 @@ export default {
         database.cantrips = db.cantrips
         database.spells = db.spells
         database.classes = db.classes
+
+        let dm = database.classes.find(c => c.name === 'Sorcerer').subclasses
+          .find(sc => sc.name === 'Divine Soul').abilities.find(a => a.name === 'Divine Magic')
+        dm.options = database.spells.filter(s => s.classes.findIndex(c => c === 'Cleric') !== -1)
+
         commit('setDatabase', database)
       })
     }

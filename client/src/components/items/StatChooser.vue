@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="item.id === stats1x2Id">
+    <div v-if="stats1x2Ids.includes(item.id)">
       <div style="display:flex;direction:row;">
         <p>+1</p>
         <select @click.stop :value="selected1" @change="selected1Changed($event)">
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div v-if="item.id === stats2x1Id">
+    <div v-if="stats2x1Ids.includes(item.id)">
       <div style="display:flex;direction:row;">
         <p>+2</p>
         <select @click.stop :value="selected1" @change="selected1Changed($event)">
@@ -35,9 +35,10 @@
 
 <script>
 import {mapState} from 'vuex'
+import { makeRe } from 'minimatch';
 
-const stats1x2Id = 110
-const stats2x1Id = 160
+const stats1x2Ids = [110,5400]
+const stats2x1Ids = [160]
 
 function statIndex(name) {
   switch(name) {
@@ -56,21 +57,23 @@ function statIndex(name) {
   }
 }
 
-function calculateId(id, s1, s2) {
+function makeNewItem(item, s1, s2) {
+  let newItem = JSON.parse(JSON.stringify(item))
+
   let i1 = statIndex(s1)
   let i2 = statIndex(s2)
 
-  if (id === stats1x2Id) {
+  if (stats1x2Ids.includes(item.id)) {
     if (i1 < i2) {
-      return id + 10 * i1 + i2
+      newItem.bonusStats = [{i:i1,v:1},{i:i2,v:1}]
     } else {
-      return id + 10 * i2 + i1
+      newItem.bonusStats = [{i:i2,v:1},{i:i1,v:1}]
     }
+  } else if (stats2x1Ids.includes(item.id)) {
+    newItem.bonusStats = [{i:i1,v:2}]
   }
-  
-  if (id === stats2x1Id) return id + 1 + i1
 
-  return id
+  return newItem
 }
 
 export default {
@@ -86,8 +89,8 @@ export default {
       selected1: 'str',
       selected2: 'agi',
 
-      stats1x2Id: stats1x2Id,
-      stats2x1Id: stats2x1Id
+      stats1x2Ids: stats1x2Ids,
+      stats2x1Ids: stats2x1Ids
     }
   },
 
@@ -106,36 +109,28 @@ export default {
   },
 
   created() {
-    this.changeId()
+    this.changeItem()
   },
 
   methods: {
     selected1Changed(event) {
       this.selected1 = event.target.value
 
-      this.changeId()
+      this.changeItem()
     },
 
     selected2Changed(event) {
       this.selected2 = event.target.value
 
-      this.changeId()
+      this.changeItem()
     },
 
-    changeId() {
-      let newId = calculateId(this.item.id, this.selected1, this.selected2)
-      let newItem
+    changeItem() {
+      let newItem = makeNewItem(this.item, this.selected1, this.selected2)
 
-      switch(this.item.id) {
-        case stats1x2Id:
-        case stats2x1Id:
-          newItem = this.database.feats.find(f => f.id === newId)
-          break
-        default:
-          return
+      if (stats1x2Ids.includes(this.item.id) || stats2x1Ids.includes(this.item.id)) {
+        this.$emit('item-changed', newItem)
       }
-
-      this.$emit('id-changed', newItem)
     }
   }
 }

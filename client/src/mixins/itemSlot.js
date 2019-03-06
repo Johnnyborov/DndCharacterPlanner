@@ -20,8 +20,10 @@ export default {
 
   computed: {
     levelText() {
-      if (this.moduleType === 'spells' && typeof(this.item.level) !== 'undefined') return this.item.level + ':'
-      else return ''
+      if (this.item.level && (this.moduleType === 'spells' || this.moduleType === 'options'))
+        return this.item.level + ':'
+      else
+        return ''
     }
   },
 

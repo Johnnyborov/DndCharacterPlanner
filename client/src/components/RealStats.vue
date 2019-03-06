@@ -29,7 +29,7 @@ function modifyBonusValuesFrom(items, bonusValues) {
   items.forEach(item => {
     if (typeof(item.bonusStats) !== 'undefined') {
       item.bonusStats.forEach(bonusStat => {
-        bonusValues[bonusStat.index] = bonusValues[bonusStat.index] + bonusStat.value
+        bonusValues[bonusStat.i] = bonusValues[bonusStat.i] + bonusStat.v
       })
     }
   })

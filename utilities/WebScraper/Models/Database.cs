@@ -88,6 +88,9 @@ namespace WebScraper.Models
             a.increases = new List<int>();
             switch (a.name)
             {
+              case "Divine Magic":
+                a.increases.AddRange(new int[] { 0 });
+                break;
               case "Fighting Style":
                 a.increases.AddRange(new int[] { 0 });
                 break;
