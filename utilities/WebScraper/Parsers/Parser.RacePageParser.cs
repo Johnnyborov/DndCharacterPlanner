@@ -40,6 +40,17 @@ namespace WebScraper.Parsers
       }
 
 
+      private static (string, List<Ability>) GetAbilities(AngleSharp.Dom.IElement mainDiv)
+      {
+        var header = mainDiv.QuerySelector("#toc0");
+        string raceName = header.TextContent.Trim();
+        raceName = raceName.Replace(" Features", "");
+
+        List<Ability> abilities = ReadAbilities(header);
+
+        return (raceName, abilities);
+      }
+
       private static List<Ability> ReadAbilities(AngleSharp.Dom.IElement header)
       {
         var abilities = new List<Ability>();
@@ -49,7 +60,7 @@ namespace WebScraper.Parsers
         var div = header.NextElementSibling;
         foreach (var p in div.Children)
         {
-          if (p.Children.Length > 0)
+          if (p.Children.Length > 0 && p.TagName == "P")
           {
             string abilityName = p.Children[0].TextContent.Trim();
             abilityName = abilityName.Replace(".", "");
@@ -61,7 +72,7 @@ namespace WebScraper.Parsers
             ability.options = new List<Option>();
             abilities.Add(ability);
           }
-          else // another p continuing description
+          else // another p (or maybe table) continuing description
           {
             abilities.Last().description += p.TextContent.Trim();
           }
@@ -70,38 +81,6 @@ namespace WebScraper.Parsers
         return abilities;
       }
 
-      
-      private static string ReadSubraceDescription(AngleSharp.Dom.IElement header)
-      {
-        string description = "";
-        var div = header.NextElementSibling;
-        foreach (var p in div.Children)
-        {
-          if (p.Children.Length > 0 && p.Children[0].TextContent.Trim() == "Ability Score Increase.")
-          {
-            break;
-          }
-          else
-          {
-            description = description + p.TextContent.Trim();
-            p.Remove();
-          }
-        }
-
-        return description;
-      }
-
-
-      private static (string, List<Ability>) GetAbilities(AngleSharp.Dom.IElement mainDiv)
-      {
-        var header = mainDiv.QuerySelector("#toc0");
-        string raceName = header.TextContent.Trim();
-        raceName = raceName.Replace(" Features", "");
-
-        List<Ability> abilities = ReadAbilities(header);
-
-        return (raceName, abilities);
-      }
 
       private static List<Subrace> GetSubraces(AngleSharp.Dom.IElement mainDiv)
       {
@@ -123,6 +102,27 @@ namespace WebScraper.Parsers
         }
 
         return subraces;
+      }
+
+
+      private static string ReadSubraceDescription(AngleSharp.Dom.IElement header)
+      {
+        string description = "";
+        var div = header.NextElementSibling;
+        foreach (var p in div.Children)
+        {
+          if (p.Children.Length > 0 && p.Children[0].TextContent.Trim() == "Ability Score Increase.")
+          {
+            break;
+          }
+          else
+          {
+            description = description + p.TextContent.Trim();
+            p.Remove();
+          }
+        }
+
+        return description;
       }
     }
   }
