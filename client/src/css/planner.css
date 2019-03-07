@@ -29,6 +29,7 @@ pre {
 select {
   background-color: white;
   font-size: 1.6vmin;
+  width: 2em;
   appearance: none;
 }
 

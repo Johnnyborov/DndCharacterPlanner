@@ -9,11 +9,11 @@ namespace WebScraper.Models
   public class Database
   {
     public List<Option> feats;
-    public List<Race> races;
+    public Dictionary<string, Race> races;
 
     public List<Spell> cantrips;
     public List<Spell> spells;
-    public List<Class> classes;
+    public Dictionary<string, Class> classes;
 
 
     [JsonIgnore]
@@ -38,6 +38,7 @@ namespace WebScraper.Models
       foreach (var feat in feats)
       {
         feat.id = featIdCounter++;
+        feat.FillStats();
       }
 
 
@@ -53,7 +54,7 @@ namespace WebScraper.Models
 
 
       
-      foreach (var race in races)
+      foreach (var race in races.Values)
       {
         race.id = raceIdCounter++;
         race.FillSubracesDescriptions();
@@ -61,29 +62,41 @@ namespace WebScraper.Models
         foreach (var a in race.abilities)
         {
           a.id = abilityIdCounter++;
+          a.FillStats();
 
           a.increases = new List<int>();
           switch (a.name)
           {
+            case "Ability Score Increase":
+              if (race.name == "Half-Elf")
+              {
+                a.increases.AddRange(new int[] { 0 });
+              }
+              break;
+            case "Half-Elf Versatility":
+              a.increases.AddRange(new int[] { 0 });
+              break;
             default:
               break;
           }
 
-          a.options = new List<Option>();
+ 
           foreach (var o in a.options)
           {
             o.id = optionIdCounter++;
+            o.FillStats();
           }
         }
 
 
-        foreach (var sub in race.subraces)
+        foreach (var sub in race.subraces.Values)
         {
           sub.id = subraceIdCounter++;
 
           foreach (var a in sub.abilities)
           {
             a.id = abilityIdCounter++;
+            a.FillStats();
 
             a.increases = new List<int>();
             switch (a.name)
@@ -104,16 +117,18 @@ namespace WebScraper.Models
                 break;
             }
 
+ 
             foreach (var o in a.options)
             {
               o.id = optionIdCounter++;
+              o.FillStats();
             }
           }
         }
       }
 
 
-      foreach (var cls in classes)
+      foreach (var cls in classes.Values)
       {
         cls.id = classIdCounter++;
         cls.FillSubclassAbilitiesLevels();
@@ -122,6 +137,7 @@ namespace WebScraper.Models
         foreach (var a in cls.abilities)
         {
           a.id = abilityIdCounter++;
+          a.FillStats();
 
           a.increases = new List<int>();
           switch (a.name)
@@ -142,11 +158,12 @@ namespace WebScraper.Models
           foreach (var o in a.options)
           {
             o.id = optionIdCounter++;
+            o.FillStats();
           }
         }
 
 
-        foreach (var sub in cls.subclasses)
+        foreach (var sub in cls.subclasses.Values)
         {
           sub.id = subclassIdCounter++;
 
@@ -156,6 +173,7 @@ namespace WebScraper.Models
           foreach (var a in sub.abilities)
           {
             a.id = abilityIdCounter++;
+            a.FillStats();
 
             a.increases = new List<int>();
             switch (a.name)
@@ -176,6 +194,7 @@ namespace WebScraper.Models
             foreach (var o in a.options)
             {
               o.id = optionIdCounter++;
+              o.FillStats();
             }
           }
         }

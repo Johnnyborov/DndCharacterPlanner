@@ -160,19 +160,19 @@ export default {
       api.getCharacter(this.characterId)
       .then(char => {
           let character = {
-          race: nameToItem(char.race, this.database.races),
+          race: nameToItem(char.race, Object.values(this.database.races)),
           stats: char.stats,
           feats: char.feats.map(name => nameToItem(name, this.database.feats)),
 
           classes: char.classes.map(c => {
             let cls = {
-              class: nameToItem(c.class, this.database.classes),
+              class: nameToItem(c.class, Object.values(this.database.classes)),
               level: c.level,
               cantrips: c.cantrips.map(name => nameToItem(name, this.database.cantrips)),
               spells: c.spells.map(name => nameToItem(name, this.database.spells))
             }
 
-            cls.subclass = nameToItem(c.subclass, cls.class.subclasses)
+            cls.subclass = nameToItem(c.subclass, Object.values(cls.class.subclasses))
 
 
             let options = {}
@@ -190,7 +190,7 @@ export default {
           })
         }
 
-        character.subrace = nameToItem(char.subrace, character.race.subraces)
+        character.subrace = nameToItem(char.subrace, Object.values(character.race.subraces))
 
 
         let raceOptions = {}

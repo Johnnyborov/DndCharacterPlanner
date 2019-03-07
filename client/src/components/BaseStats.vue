@@ -3,9 +3,9 @@
     <div>
       <p>Base Stat Scores:</p>
       <ul>
-        <li v-for="(stat, index) in character.stats" :key="index" class="stat">
-          {{statName(index)}}
-          <select :value="character.stats[index]" @change="changeStatValue(index, $event)">
+        <li v-for="(statName, index) in Object.keys(character.stats)" :key="index" class="stat">
+          {{statName}}
+          <select :value="character.stats[statName]" @change="changeStatValue(statName, $event)">
             <option v-for="val in values" :key="val" :value="val">
               {{val}}
             </option>
@@ -39,25 +39,8 @@ export default {
       'setStat'
     ]),
 
-    statName(index) {
-      switch(index) {
-        case 0:
-          return 'str'
-        case 1:
-          return 'agi'
-        case 2:
-          return 'con'
-        case 3:
-          return 'wis'
-        case 4:
-          return 'int'
-        case 5:
-          return 'cha'
-      }
-    },
-
-    changeStatValue(index, event) {
-      this.setStat({index: index, value: Number(event.target.value)})
+    changeStatValue(statName, event) {
+      this.setStat({statName: statName, value: Number(event.target.value)})
     }
   }
 }

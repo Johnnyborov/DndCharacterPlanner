@@ -23,7 +23,7 @@ namespace WebScraper.Parsers
       }
 
 
-      public static (List<Race>, List<Class>) ScrapeAll(Mode mode)
+      public static (Dictionary<string, Race>, Dictionary<string, Class>) ScrapeAll(Mode mode)
       {
         string mainPageHtml = GetMainPageHtml(mode);
         
@@ -52,12 +52,12 @@ namespace WebScraper.Parsers
       }
 
 
-      private static List<Race> DoRaces(IHtmlDocument document, Mode mode)
+      private static Dictionary<string, Race> DoRaces(IHtmlDocument document, Mode mode)
       {
-        List<Race> races = null;
+        Dictionary<string, Race> races = null;
         if (mode == Mode.ScrapeFiles)
         {
-          races = new List<Race>();
+          races = new Dictionary<string, Race>();
         }
 
 
@@ -80,7 +80,7 @@ namespace WebScraper.Parsers
 
             if (mode == Mode.ScrapeFiles)
             {
-              races.Add(race);
+              races.Add(race.name, race);
             }
           }
         }
@@ -127,12 +127,12 @@ namespace WebScraper.Parsers
         //return classes;
       }
 
-      private static List<Class> DoClassesSubclasses(IHtmlDocument document, Mode mode)
+      private static Dictionary<string, Class> DoClassesSubclasses(IHtmlDocument document, Mode mode)
       {
-        List<Class> classes = null;
+        Dictionary<string, Class> classes = null;
         if (mode == Mode.ScrapeFiles)
         {
-          classes = new List<Class>();
+          classes = new Dictionary<string, Class>();
         }
 
 
@@ -150,8 +150,8 @@ namespace WebScraper.Parsers
 
           if (mode == Mode.ScrapeFiles)
           {
-            classes.Add(cls);
-            cls.subclasses = new List<Subclass>();
+            classes.Add(cls.name, cls);
+            cls.subclasses = new Dictionary<string, Subclass>();
           }
 
           if (i == 14) continue; // no subclasses for Rune Scribe (UA)
@@ -164,9 +164,9 @@ namespace WebScraper.Parsers
             string subclassName = anchors[k].TextContent.Trim();
             var subclassFileName = classFileName + "__" + subclassName;
 
-            var Subclass = HandleLink(url, subclassFileName, mode, Type.Subclass);
-            Subclass.name = subclassName;
-            cls.subclasses.Add(Subclass);
+            var subclass = HandleLink(url, subclassFileName, mode, Type.Subclass);
+            subclass.name = subclassName;
+            cls.subclasses.Add(subclass.name, subclass);
           }
         }
 

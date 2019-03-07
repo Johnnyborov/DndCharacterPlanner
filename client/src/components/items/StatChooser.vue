@@ -35,42 +35,18 @@
 
 <script>
 import {mapState} from 'vuex'
-import { makeRe } from 'minimatch';
 
 const stats1x2Ids = [110,5400]
 const stats2x1Ids = [160]
 
-function statIndex(name) {
-  switch(name) {
-    case 'str':
-      return 0
-    case 'agi':
-      return 1
-    case 'con':
-      return 2
-    case 'wis':
-      return 3
-    case 'int':
-      return 4
-    case 'cha':
-      return 5
-  }
-}
 
 function makeNewItem(item, s1, s2) {
   let newItem = JSON.parse(JSON.stringify(item))
 
-  let i1 = statIndex(s1)
-  let i2 = statIndex(s2)
-
   if (stats1x2Ids.includes(item.id)) {
-    if (i1 < i2) {
-      newItem.bonusStats = [{i:i1,v:1},{i:i2,v:1}]
-    } else {
-      newItem.bonusStats = [{i:i2,v:1},{i:i1,v:1}]
-    }
+    newItem.bonusStats = {[s1]:1,[s2]:1}
   } else if (stats2x1Ids.includes(item.id)) {
-    newItem.bonusStats = [{i:i1,v:2}]
+    newItem.bonusStats = {[s1]:2}
   }
 
   return newItem
@@ -126,9 +102,9 @@ export default {
     },
 
     changeItem() {
-      let newItem = makeNewItem(this.item, this.selected1, this.selected2)
-
       if (stats1x2Ids.includes(this.item.id) || stats2x1Ids.includes(this.item.id)) {
+        let newItem = makeNewItem(this.item, this.selected1, this.selected2)
+
         this.$emit('item-changed', newItem)
       }
     }

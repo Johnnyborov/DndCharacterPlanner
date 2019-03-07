@@ -13,12 +13,12 @@ namespace WebScraper.Models
     public string description;
 
     public List<Ability> abilities;
-    public List<Subrace> subraces;
+    public Dictionary<string, Subrace> subraces;
 
 
     public void FillSubracesDescriptions()
     {
-      foreach (var sub in subraces)
+      foreach (var sub in subraces.Values)
       {
         string desc = "";
         foreach (var a in sub.abilities)

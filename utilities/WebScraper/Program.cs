@@ -84,9 +84,9 @@ namespace WebScraper
     }
 
 
-    private static void PrintClasses(List<Class> classes)
+    private static void PrintClasses(Dictionary<string, Class> classes)
     {
-      foreach (var cls in classes)
+      foreach (var cls in classes.Values)
       {
         Console.WriteLine("=======================================================================");
 
@@ -116,7 +116,7 @@ namespace WebScraper
           }
         }
 
-        foreach (var subclass in cls.subclasses)
+        foreach (var subclass in cls.subclasses.Values)
         {
           Console.WriteLine("------------------------------------------------------------------");
 

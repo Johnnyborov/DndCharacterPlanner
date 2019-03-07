@@ -19,7 +19,7 @@ namespace WebScraper.Models
     public string subclassAbilityName;
 
     public List<Ability> abilities;
-    public List<Subclass> subclasses;
+    public Dictionary<string, Subclass> subclasses;
 
 
     [JsonIgnore]
@@ -30,7 +30,7 @@ namespace WebScraper.Models
     {
       Ability subclassAbility = abilities.Find(a => a.name == subclassAbilityName);
 
-      foreach (var sub in subclasses)
+      foreach (var sub in subclasses.Values)
       {
         // Exception for this monk subclass. Only has one ability which can be taken multiple times.
         if (sub.name == "Way of the Four Elements")

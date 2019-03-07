@@ -55,7 +55,7 @@ namespace WebScraper.Parsers
     // create List<Spell> by walking through downloaded pages(with Download mode)
     public static Database ScrapeFiles()
     {
-      (List<Race> races, List<Class> classes) = WikidotMainPageParser.ScrapeAll(Mode.ScrapeFiles);
+      (Dictionary<string, Race> races, Dictionary<string, Class> classes) = WikidotMainPageParser.ScrapeAll(Mode.ScrapeFiles);
       var feats = FeatsParser.ParseFeats();
       var spellsAndCantrips = SpellListPageParser.ScrapeAllSpells(Mode.ScrapeFiles);
 

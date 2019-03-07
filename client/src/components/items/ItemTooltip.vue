@@ -5,23 +5,6 @@
 </template>
 
 <script>
-function statName(index) {
-  switch(index) {
-    case 0:
-      return 'str'
-    case 1:
-      return 'agi'
-    case 2:
-      return 'con'
-    case 3:
-      return 'wis'
-    case 4:
-      return 'int'
-    case 5:
-      return 'cha'
-  }
-}
-
 export default {
   name: 'ItemTooltip',
 
@@ -75,12 +58,12 @@ export default {
         res = res + '</br></br>Description:<pre style="font-size: ' + fontSize + 'vmin;">' + this.item.description + '</pre>'
       }
 
-      if (typeof(this.item.bonusStats) !== 'undefined') {
-        this.item.bonusStats.forEach(bonusStat => {
+      if (this.item.bonusStats) {
+        Object.keys(this.item.bonusStats).forEach(statName => {
           let sign = ''
-          if (bonusStat.v > 0) sign = '+'
+          if (this.item.bonusStats[statName] > 0) sign = '+'
 
-          res = res + '</br>' + sign + bonusStat.v + ' ' + statName(bonusStat.i)
+          res = res + '</br>' + sign + this.item.bonusStats[statName] + ' ' + statName
         })
       }
 

@@ -25,7 +25,7 @@ namespace WebScraper.Parsers
         var elem = mainDiv.Children[0];
         while (elem.NodeName != "DIV")
         {
-          description = description + elem.TextContent.Trim();
+          description = description + "\n" + elem.TextContent.Trim();
 
           elem = elem.NextElementSibling;
         }
@@ -33,7 +33,7 @@ namespace WebScraper.Parsers
 
         (string name, List<Ability> abilitiesList)  = GetAbilities(mainDiv);
 
-        List<Subrace> subraces = GetSubraces(mainDiv);
+        Dictionary<string, Subrace> subraces = GetSubraces(mainDiv);
 
 
         return new Race { name = name, description = description, abilities = abilitiesList, subraces = subraces };
@@ -68,13 +68,33 @@ namespace WebScraper.Parsers
             elem.Children[0].Remove();
             description = elem.TextContent.Trim();
 
-            var ability = new Ability { name = abilityName, description = description, level = 0 };
+            var ability = new Ability { name = abilityName, description = description, level = 0, options = new List<Option>() };
             ability.options = new List<Option>();
             abilities.Add(ability);
+
+            if (ability.name == "Half-Elf Versatility")
+            {
+              var p = elem.NextElementSibling;
+              while (p != null)
+              {
+                string optionName = p.Children[0].TextContent.Trim();
+                optionName = optionName.Replace(".", "");
+
+                p.Children[0].Remove();
+                string optionDescription = p.TextContent.Trim();
+
+                var option = new Option { name = optionName, description = optionDescription };
+                ability.options.Add(option);
+
+                p = p.NextElementSibling;
+              }
+
+              break;
+            }
           }
           else // another p (or maybe table) continuing description
           {
-            abilities.Last().description += HelperFunctions.ReadArbitraryElement(elem);
+            abilities.Last().description += "\n" + HelperFunctions.ReadArbitraryElement(elem);
           }
         }
 
@@ -82,9 +102,9 @@ namespace WebScraper.Parsers
       }
 
 
-      private static List<Subrace> GetSubraces(AngleSharp.Dom.IElement mainDiv)
+      private static Dictionary<string, Subrace> GetSubraces(AngleSharp.Dom.IElement mainDiv)
       {
-        var subraces = new List<Subrace>();
+        var subraces = new Dictionary<string, Subrace>();
 
         var headers = mainDiv.QuerySelectorAll("H3");
 
@@ -98,7 +118,7 @@ namespace WebScraper.Parsers
           List<Ability> abilities = ReadAbilities(header);
 
           var subrace = new Subrace { name = subraceName, description = description, abilities = abilities };
-          subraces.Add(subrace);
+          subraces.Add(subrace.name, subrace);
         }
 
         return subraces;
@@ -117,7 +137,7 @@ namespace WebScraper.Parsers
           }
           else
           {
-            description = description + HelperFunctions.ReadArbitraryElement(elem);
+            description = description + "\n" + HelperFunctions.ReadArbitraryElement(elem);
             elem.Remove();
           }
         }

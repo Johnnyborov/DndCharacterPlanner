@@ -35,7 +35,7 @@ export default {
 
   getters: {
     filteredRaces: (state, getters, rootState, rootGetters) => {
-      return state.database.races.filter(race => {
+      return Object.values(state.database.races).filter(race => {
         let alreadyChosen = rootState['character'].character.race.id === race.id
 
         return !alreadyChosen
@@ -46,7 +46,7 @@ export default {
       let subraces = rootState['character'].character.race.subraces
       if (!subraces) return []
 
-      return subraces.filter(subrace => {
+      return Object.values(subraces).filter(subrace => {
         let alreadyChosen = rootState['character'].character.subrace.id === subrace.id
 
         return !alreadyChosen
@@ -160,7 +160,7 @@ export default {
     },
 
     filteredClasses: (state, getters, rootState, rootGetters) => {
-      return state.database.classes.filter(cls => {
+      return Object.values(state.database.classes).filter(cls => {
         let alreadyChosen = rootState['character'].character.classes.findIndex(c => c.class.id === cls.id) !== -1
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](cls, 'class')
         
@@ -172,7 +172,7 @@ export default {
       let subclasses = rootState['character'].character.classes[index].class.subclasses
       if (!subclasses) return []
 
-      return subclasses.filter(subclass => {
+      return Object.values(subclasses).filter(subclass => {
         let alreadyChosen = rootState['character'].character.classes[index].subclass.id === subclass.id
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](subclass, 'subclass', index)
 
@@ -233,20 +233,20 @@ export default {
         database.races = db.races
 
 
-        database.races.find(r => r.name === 'Human').subraces
-          .find(s => s.name === 'Variant Human').abilities
+        database.races['Half-Elf'].abilities
           .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
-        database.races.find(r => r.name === 'Human').subraces
-          .find(s => s.name === 'Variant Human').abilities
+        database.races['Human'].subraces['Variant Human'].abilities
+          .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
+        database.races['Human'].subraces['Variant Human'].abilities
           .find(a => a.name === 'Feat').options = db.feats
 
-        let dm = database.classes.find(c => c.name === 'Sorcerer').subclasses
-          .find(sc => sc.name === 'Divine Soul').abilities.find(a => a.name === 'Divine Magic')
+        let dm = database.classes['Sorcerer'].subclasses['Divine Soul'].abilities
+          .find(a => a.name === 'Divine Magic')
         dm.options = database.spells.filter(s => s.classes.findIndex(c => c === 'Cleric') !== -1)
 
-        let afs = database.classes.find(c => c.name === 'Fighter').subclasses
-          .find(sc => sc.name === 'Champion').abilities.find(a => a.name === 'Additional Fighting Style')
-        afs.options = database.classes.find(c => c.name === 'Fighter').abilities
+        let afs = database.classes['Fighter'].subclasses['Champion'].abilities
+          .find(a => a.name === 'Additional Fighting Style')
+        afs.options = database.classes['Fighter'].abilities
           .find(a => a.name === 'Fighting Style').options
 
           

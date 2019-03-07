@@ -149,7 +149,14 @@ export default {
       race: {id: -1},
       subrace: {},
       raceOptions: {},
-      stats: [13,13,13,12,12,12],
+      stats: {
+        'str': 13,
+        'agi': 13,
+        'con': 13,
+        'wis': 13,
+        'int': 13,
+        'cha': 13
+      },
       feats: [],
       classes: [JSON.parse(JSON.stringify(emptyClass))]
     }
@@ -166,7 +173,8 @@ export default {
     },
 
     canAddClass(state, getters, rootState) {
-      return getters.totalLevel < 20 && state.character.classes.length < rootState['database'].database.classes.length
+      return getters.totalLevel < 20
+        && state.character.classes.length < Object.keys(rootState['database'].database.classes).length
     },
 
     canRemoveClass(state) {
@@ -178,7 +186,7 @@ export default {
         case 'subrace': {
           let isForCurrentRace = false
           if (state.character.race.subraces) {
-            isForCurrentRace = state.character.race.subraces
+            isForCurrentRace = Object.values(state.character.race.subraces)
               .findIndex(sub => sub.id === item.id) !== -1
           }
 
@@ -202,7 +210,7 @@ export default {
           // check isForCurrentClass in case of class/level change
           let isForCurrentClass = false
           if (state.character.classes[index].class.subclasses) {
-            isForCurrentClass = state.character.classes[index].class.subclasses
+            isForCurrentClass = Object.values(state.character.classes[index].class.subclasses)
               .findIndex(sub => sub.id === item.id) !== -1
           }
           
@@ -217,7 +225,8 @@ export default {
 
           let className = state.character.classes[index].class.name
           let isDivineSoul = state.character.classes[index].subclass.name === 'Divine Soul'
-          let isForCurrentClass = item.classes.findIndex(c => c === className || isDivineSoul && c === 'Cleric') !== -1
+          let isForCurrentClass = Object.values(item.classes)
+            .findIndex(c => c === className || isDivineSoul && c === 'Cleric') !== -1
     
           let enoughLevel = item.level * 2 - 1 <= state.character.classes[index].level
 
@@ -247,8 +256,8 @@ export default {
       state.changed = true
     },
 
-    setStat(state, {index, value}) {
-      state.character.stats.splice(index, 1, value)
+    setStat(state, {statName, value}) {
+      state.character.stats[statName] = value
       state.changed = true
     },
 

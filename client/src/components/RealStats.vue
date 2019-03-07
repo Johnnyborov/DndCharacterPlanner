@@ -3,9 +3,8 @@
     <div>
       <p>Real Stat Scores:</p>  
       <ul>
-        <li v-for="(stat, index) in character.stats" :key="index" class="stat">
-          {{statName(index)}}
-          {{realStatValues[index]}}
+        <li v-for="(statName, index) in Object.keys(character.stats)" :key="index" class="stat">
+          {{statName}} {{realStatValues[statName]}}
         </li>
       </ul>
     </div>
@@ -27,9 +26,9 @@ import {mapState, mapGetters} from 'vuex'
 
 function modifyBonusValuesFrom(items, bonusValues) {
   items.forEach(item => {
-    if (typeof(item.bonusStats) !== 'undefined') {
-      item.bonusStats.forEach(bonusStat => {
-        bonusValues[bonusStat.i] = bonusValues[bonusStat.i] + bonusStat.v
+    if (item.bonusStats) {
+      Object.keys(item.bonusStats).forEach(statName => {
+        bonusValues[statName] += item.bonusStats[statName]
       })
     }
   })
@@ -49,7 +48,14 @@ export default {
     ]),
 
     bonusValues() {
-      let bonusValues = [0, 0, 0, 0, 0, 0]
+      let bonusValues = {
+        'str': 0,
+        'agi': 0,
+        'con': 0,
+        'wis': 0,
+        'int': 0,
+        'cha': 0
+      }
 
       modifyBonusValuesFrom(this.character.feats, bonusValues)
 
@@ -75,10 +81,10 @@ export default {
     },
 
     realStatValues() {
-      let res = []
-      for (let i = 0; i < this.character.stats.length; i++) {
-        res[i] = Math.min(this.character.stats[i] + this.bonusValues[i], 20)
-      }
+      let res = {}
+      Object.keys(this.character.stats).forEach(statName => {
+        res[statName] = Math.min(this.character.stats[statName] + this.bonusValues[statName], 20)
+      })
 
       return res
     },
