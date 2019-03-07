@@ -11,12 +11,12 @@ namespace WebScraper.Models
     public string name;
     public string description;
 
-    public Dictionary<string, int> stats;
+    public Dictionary<string, int> bonusStats;
 
 
     public void FillStats()
     {
-      stats = new Dictionary<string, int>();
+      bonusStats = new Dictionary<string, int>();
     }
   }
 }

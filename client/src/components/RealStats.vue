@@ -44,7 +44,9 @@ export default {
 
     ...mapGetters('database', [
       'filteredRaceAbilities',
-      'filteredClassAbilities'
+      'filteredSubraceAbilities',
+      'filteredClassAbilities',
+      'filteredSubclassAbilities'
     ]),
 
     bonusValues() {
@@ -61,6 +63,7 @@ export default {
 
       {
         modifyBonusValuesFrom(this.filteredRaceAbilities, bonusValues)
+        modifyBonusValuesFrom(this.filteredSubraceAbilities, bonusValues)
 
         let options = this.character.raceOptions
         Object.keys(options).forEach(abilityName => {
@@ -70,6 +73,7 @@ export default {
 
       for (let i = 0; i < this.character.classes.length; i++) {
         modifyBonusValuesFrom(this.filteredClassAbilities(i), bonusValues)
+        modifyBonusValuesFrom(this.filteredSubclassAbilities(i), bonusValues)
 
         let options = this.character.classes[i].options
         Object.keys(options).forEach(abilityName => {
@@ -88,25 +92,6 @@ export default {
 
       return res
     },
-  },
-
-  methods: {
-    statName(index) {
-      switch(index) {
-        case 0:
-          return 'str'
-        case 1:
-          return 'agi'
-        case 2:
-          return 'con'
-        case 3:
-          return 'wis'
-        case 4:
-          return 'int'
-        case 5:
-          return 'cha'
-      }
-    }
   }
 }
 </script>

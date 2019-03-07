@@ -1,6 +1,6 @@
 <template>
   <li class="item-slot">
-    <div v-if="!item.optionOnly" @mouseenter="enterHandler" @mouseleave="leaveHandler" class="item-slot choosable-item disabled-item">
+    <div @mouseenter="enterHandler" @mouseleave="leaveHandler" class="item-slot choosable-item disabled-item">
       {{levelText}}{{item.name}}
 
       <div :style="{'position': 'absolute', 'top': posY + 'px'}">

@@ -195,6 +195,11 @@ namespace WebScraper.Parsers
               options.Add(new Option { name = optionName, description = optionDescription }); // write previous one
 
             optionName = elem.TextContent.Trim();
+            if (!char.IsLetterOrDigit(optionName[0]))
+            {
+              optionName = optionName.Remove(0, 1);
+              optionName = optionName.Trim();
+            }
             optionDescription = "";
           }
           else // just description

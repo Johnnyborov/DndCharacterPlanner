@@ -5,14 +5,23 @@ const scoreImprovement = [
   {id: 160, name: 'stats+2'}
 ]
 
-const scoreIncreaseVariant = [{id: 5400, name: 'stats+1x2'}]
+const bonusStatsAllOne = {
+  'str': 1,
+  'agi': 1,
+  'con': 1,
+  'wis': 1,
+  'int': 1,
+  'cha': 1
+}
+
+const scoreIncreaseVariant = [{id: 5800, name: 'stats+1x2'}]
 
 
 function canHaveMultiple(id) {
   switch(id) {
     case 110:
     case 160:
-    case 5400:
+    case 5800:
       return true
   }
 
@@ -232,9 +241,13 @@ export default {
         database.feats = scoreImprovement.concat(db.feats)
         database.races = db.races
 
+        
+        database.races['Human'].subraces['Standard Human'].abilities
+          .find(a => a.name === 'Ability Score Increase').bonusStats = bonusStatsAllOne
 
         database.races['Half-Elf'].abilities
           .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
+
         database.races['Human'].subraces['Variant Human'].abilities
           .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
         database.races['Human'].subraces['Variant Human'].abilities

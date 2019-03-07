@@ -14,10 +14,11 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
-function nameToItem(name, array) {
+function nameToItem(name, array, deepCopy) {
   if (name === '') return {id: -1}
 
   let item = array.find(el => el.name === name)
+  if (deepCopy === 'deepCopy') return JSON.parse(JSON.stringify(item))
 
   return item
 }
@@ -106,7 +107,7 @@ export default {
 
   methods: {
     ...mapMutations({
-      setChangedFalse: 'character/setChangedFalse',
+      setChangedFalse: 'character/setChangedFalse'
     }),
 
     ...mapActions({
@@ -172,14 +173,16 @@ export default {
               spells: c.spells.map(name => nameToItem(name, this.database.spells))
             }
 
-            cls.subclass = nameToItem(c.subclass, Object.values(cls.class.subclasses))
+            cls.subclass = cls.class.subclasses ?
+              nameToItem(c.subclass, Object.values(cls.class.subclasses))
+              : {id: -1}
 
 
             let options = {}
             Object.keys(c.options).forEach(abilityName => {
               let ability = nameToItem(abilityName, cls.class.abilities.concat(cls.subclass.abilities))
               options[abilityName] = c.options[abilityName].map(optionName => {
-                return nameToItem(optionName, ability.options)
+                return nameToItem(optionName, ability.options, 'deepCopy')
               })
             })
 
@@ -190,14 +193,16 @@ export default {
           })
         }
 
-        character.subrace = nameToItem(char.subrace, Object.values(character.race.subraces))
+        character.subrace = character.race.subraces ?
+          nameToItem(char.subrace, Object.values(character.race.subraces))
+          : {id: -1}
 
 
         let raceOptions = {}
         Object.keys(char.raceOptions).forEach(abilityName => {
           let ability = nameToItem(abilityName, character.race.abilities.concat(character.subrace.abilities))
           raceOptions[abilityName] = char.raceOptions[abilityName].map(optionName => {
-            return nameToItem(optionName, ability.options)
+            return nameToItem(optionName, ability.options, 'deepCopy')
           })
         })
 

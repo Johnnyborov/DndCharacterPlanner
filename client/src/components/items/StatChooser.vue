@@ -36,7 +36,7 @@
 <script>
 import {mapState} from 'vuex'
 
-const stats1x2Ids = [110,5400]
+const stats1x2Ids = [110,5800]
 const stats2x1Ids = [160]
 
 
