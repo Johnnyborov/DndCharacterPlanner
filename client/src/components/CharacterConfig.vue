@@ -9,7 +9,7 @@
         class="choosable-items-list list-single" :popups="'right'"/>
     </div>
 
-    <div class="container-single">
+    <div v-show="filteredSubraces.length > 0" class="container-single">
       <p>Subrace</p>
       <choosable-items-list :moduleType="'subrace'" :moduleId="'subrace'"
         :choosableSource="[character.subrace]" :availableSource="filteredSubraces"
@@ -34,7 +34,7 @@
           class="choosable-items-list list-single" :popups="'right'"/>
       </div>
 
-      <div v-show="showSubclass(classIndex)" class="container-single">
+      <div v-show="filteredSubclasses(classIndex).length > 0" class="container-single">
         <p>Subclass</p>
         <choosable-items-list :moduleType="'subclass'" :moduleId="'subclass'+classIndex"
           :choosableSource="[character.classes[classIndex].subclass]"
@@ -114,12 +114,6 @@ export default {
 
     levelChangedHandler(index, event) {
       this.setLevel({classIndex: index, level: Number(event.target.value)})
-    },
-
-    showSubclass(index) {
-      if (this.filteredSubclasses(index).length === 0) return false
-
-      return true
     },
 
     possibleLevels(index) {

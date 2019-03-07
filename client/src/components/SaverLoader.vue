@@ -14,74 +14,67 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import api from '../api/planner.js'
 
-function idToItem(id, array) {
-  if (id === -1) return {id: -1}
-  if (!array) return {id: -1}
-
-  let item = array.find(el => el.id == id)
-
-  return item
-}
-
 function nameToItem(name, array) {
+  if (name === '') return {id: -1}
+
   let item = array.find(el => el.name === name)
 
   return item
 }
 
-function addBonusStatsFor(items, bonusStats) {
+function addBonusStatsFor(items, bonusStats, prefix) {
   for (let i = 0; i < items.length; i++) {
     if (items[i].bonusStats) {
-      bonusStats[i + ':' + items[i].id] = items[i].bonusStats
+      bonusStats[prefix + ':' + items[i].name + ':' + i] = items[i].bonusStats
     }
   }
 }
 
 function getBonusStats(character) {
   let bonusStats = {}
-  addBonusStatsFor(character.feats, bonusStats)
+  addBonusStatsFor(character.feats, bonusStats, 'f')
 
   {
     let options = character.raceOptions
     Object.keys(options).forEach(abilityName => {
-      addBonusStatsFor(options[abilityName], bonusStats)
+      addBonusStatsFor(options[abilityName], bonusStats, 'ro')
     })
   }
 
   for (let i = 0; i < character.classes.length; i++) {
     let options = character.classes[i].options
     Object.keys(options).forEach(abilityName => {
-      addBonusStatsFor(options[abilityName], bonusStats)
+      addBonusStatsFor(options[abilityName], bonusStats, 'c' + i + 'o')
     })
   }
 
   return bonusStats
 }
 
-function setBonusStatsFor(items, bonusStats) {
+function setBonusStatsFor(items, bonusStats, prefix) {
   for (let i = 0; i < items.length; i++) {
     if (items[i].id !== -1) {
-      if (bonusStats[i + ':' + items[i].id]) {
-        items[i].bonusStats = bonusStats[i + ':' + items[i].id]
+      if (bonusStats[prefix + ':' + items[i].name + ':' + i]) {
+        items[i].bonusStats = bonusStats[prefix + ':' + items[i].name + ':' + i]
       }
     }
   }
 }
 
 function setBonusStats(character, bonusStats) {
-  setBonusStatsFor(character.feats, bonusStats)
+  setBonusStatsFor(character.feats, bonusStats, 'f')
 
   {
     let options = character.raceOptions
     Object.keys(options).forEach(abilityName => {
-      setBonusStatsFor(options[abilityName], bonusStats)
+      setBonusStatsFor(options[abilityName], bonusStats, 'ro')
     })
   }
 
   for (let i = 0; i < character.classes.length; i++) {
     let options = character.classes[i].options
     Object.keys(options).forEach(abilityName => {
-      setBonusStatsFor(options[abilityName], bonusStats)
+      setBonusStatsFor(options[abilityName], bonusStats, 'c' + i + 'o')
     })
   }
 }
@@ -124,33 +117,29 @@ export default {
     saveHandler() {
       let raceOptions = {}
       Object.keys(this.character.raceOptions).forEach(abilityName => {
-        let abilityId = nameToItem(abilityName,
-          this.character.race.abilities.concat(this.character.subrace.abilities)).id
-
-        raceOptions[abilityId] = this.character.raceOptions[abilityName].map(o => o.id)
+        raceOptions[abilityName] = this.character.raceOptions[abilityName].map(o => o.id === -1 ? '' : o.name)
       })
 
       let char = {
-        raceId: this.character.race.id,
-        subraceId: this.character.subrace.id,
+        race: this.character.race.id === -1 ? '' : this.character.race.name,
+        subrace: this.character.subrace.id === -1 ? '' : this.character.subrace.name,
         stats: this.character.stats,
         bonusStats: getBonusStats(this.character),
-        feats: this.character.feats.map(feat => feat.id),
+        feats: this.character.feats.map(feat => feat.id === -1 ? '' : feat.name),
         raceOptions: raceOptions,
 
         classes: this.character.classes.map(c => {
           let options = {}
           Object.keys(c.options).forEach(abilityName => {
-            let abilityId = nameToItem(abilityName, c.class.abilities.concat(c.subclass.abilities)).id
-            options[abilityId] = c.options[abilityName].map(o => o.id)
+            options[abilityName] = c.options[abilityName].map(o => o.id === -1 ? '' : o.name)
           })
 
           return {
-            classId: c.class.id,
-            subclassId: c.subclass.id,
+            class: c.class.id === -1 ? '' : c.class.name,
+            subclass: c.subclass.id === -1 ? '' : c.subclass.name,
             level: c.level,
-            cantrips: c.cantrips.map(cantrip => cantrip.id),
-            spells: c.spells.map(spell => spell.id),
+            cantrips: c.cantrips.map(cantrip => cantrip.id === -1 ? '' : cantrip.name),
+            spells: c.spells.map(spell => spell.id === -1 ? '' : spell.name),
             options: options
           }
         })
@@ -171,26 +160,26 @@ export default {
       api.getCharacter(this.characterId)
       .then(char => {
           let character = {
-          race: idToItem(char.raceId, this.database.races),
+          race: nameToItem(char.race, this.database.races),
           stats: char.stats,
-          feats: char.feats.map(id => idToItem(id, this.database.feats)),
+          feats: char.feats.map(name => nameToItem(name, this.database.feats)),
 
           classes: char.classes.map(c => {
             let cls = {
-              class: idToItem(c.classId, this.database.classes),
+              class: nameToItem(c.class, this.database.classes),
               level: c.level,
-              cantrips: c.cantrips.map(id => idToItem(id, this.database.cantrips)),
-              spells: c.spells.map(id => idToItem(id, this.database.spells))
+              cantrips: c.cantrips.map(name => nameToItem(name, this.database.cantrips)),
+              spells: c.spells.map(name => nameToItem(name, this.database.spells))
             }
 
-            cls.subclass = idToItem(c.subclassId, cls.class.subclasses)
+            cls.subclass = nameToItem(c.subclass, cls.class.subclasses)
 
 
             let options = {}
-            Object.keys(c.options).forEach(abilityId => {
-              let ability = idToItem(abilityId, cls.class.abilities.concat(cls.subclass.abilities))
-              options[ability.name] = c.options[abilityId].map(optionId => {
-                return idToItem(optionId, ability.options)
+            Object.keys(c.options).forEach(abilityName => {
+              let ability = nameToItem(abilityName, cls.class.abilities.concat(cls.subclass.abilities))
+              options[abilityName] = c.options[abilityName].map(optionName => {
+                return nameToItem(optionName, ability.options)
               })
             })
 
@@ -201,14 +190,14 @@ export default {
           })
         }
 
-        character.subrace = idToItem(char.subraceId, character.race.subraces)
+        character.subrace = nameToItem(char.subrace, character.race.subraces)
 
 
         let raceOptions = {}
-        Object.keys(char.raceOptions).forEach(abilityId => {
-          let ability = idToItem(abilityId, character.race.abilities.concat(character.subrace.abilities))
-          raceOptions[ability.name] = char.raceOptions[abilityId].map(optionId => {
-            return idToItem(optionId, ability.options)
+        Object.keys(char.raceOptions).forEach(abilityName => {
+          let ability = nameToItem(abilityName, character.race.abilities.concat(character.subrace.abilities))
+          raceOptions[abilityName] = char.raceOptions[abilityName].map(optionName => {
+            return nameToItem(optionName, ability.options)
           })
         })
 

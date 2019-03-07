@@ -73,25 +73,23 @@ function addOptions(newOptions, oldOptions, classLvl, abilities) {
   let changed = false
 
   abilities.forEach(a => {
-    if (a.increases.length > 0) {
-      let amount = a.increases.filter(lvl => lvl <= classLvl).length
+    let amount = a.increases.filter(lvl => lvl <= classLvl).length
 
-      let oldList = oldOptions[a.name]
-      if (typeof(oldList) === 'undefined') oldList = []
+    let oldList = oldOptions[a.name]
+    if (typeof(oldList) === 'undefined') oldList = []
 
-      let newList = Array(amount)
-      if (oldList.length !== newList.length) changed = true
-      for (let i = 0; i < newList.length; i++) {
-        if (i < oldList.length && optionSatisfiesCharacterConfig(oldList[i], a, classLvl)) {
-          newList[i] = oldList[i]
-        } else {
-          changed = true
-          newList[i] = {id: - 1}
-        }
+    let newList = Array(amount)
+    if (oldList.length !== newList.length) changed = true
+    for (let i = 0; i < newList.length; i++) {
+      if (i < oldList.length && optionSatisfiesCharacterConfig(oldList[i], a, classLvl)) {
+        newList[i] = oldList[i]
+      } else {
+        changed = true
+        newList[i] = {id: - 1}
       }
-
-      newOptions[a.name] = newList
     }
+
+    newOptions[a.name] = newList
   })
 
   return changed
@@ -177,6 +175,15 @@ export default {
 
     satisfiesCharacterConfig: (state) => (item, type, index) => {
       switch(type) {
+        case 'subrace': {
+          let isForCurrentRace = false
+          if (state.character.race.subraces) {
+            isForCurrentRace = state.character.race.subraces
+              .findIndex(sub => sub.id === item.id) !== -1
+          }
+
+          return isForCurrentRace
+        }
         case 'feat': {
           return true
         }
@@ -336,6 +343,7 @@ export default {
 
     setRace({commit, dispatch}, arg) {
       commit('setRace', arg)
+      dispatch('checkSubrace')
       dispatch('setAmounts')
     },
 
@@ -399,6 +407,12 @@ export default {
       commit('setFeatsList', makeNewList(totalFeatsAmount, state, getters, 'feats'))
 
       setNewOptions(state, commit)
+    },
+
+    checkSubrace({state, getters, commit}) {
+      if (!getters.satisfiesCharacterConfig(state.character.subrace, 'subrace')) {
+        commit('setSubrace', {id: -1})
+      }
     },
 
     checkSubclass({state, getters, commit}) {
