@@ -11,7 +11,7 @@
       <available-items-list v-show="currentlyClickedSlotId !== -1" ref="available-items"
         :availableSource="availableSource" :slotId="currentlyClickedSlotId"
         :moduleType="moduleType" @item-chosen="$emit('item-chosen', $event)"
-        class="available-items-list"  :popups="popups"/>
+        class="available-items-list" :popups="popups"/>
     </div>
   </div>
 </template>

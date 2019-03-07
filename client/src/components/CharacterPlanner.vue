@@ -55,28 +55,32 @@
           :popups="'left'">
           <p>Feats</p>
         </choosable-items-list>
-
-        <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex"
-          v-show="character.classes[classIndex].cantrips.length > 0"
-          :moduleType="'cantrips'" :moduleId="'cantrips' + classIndex"
-          :choosableSource="character.classes[classIndex].cantrips" :availableSource="filteredCantrips(classIndex)"
-          @item-chosen="setCantrip({classIndex: classIndex, pos: $event.slotId, cantrip: $event.item})"
-          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event"
-          class="choosable-items-list" :popups="'left'">
-          <p>{{smartClassName(cls, classIndex)}} Cantrips:</p>
-        </choosable-items-list>
       </div>
 
       <div>
-        <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex"
-          v-show="character.classes[classIndex].spells.length > 0"
-          :moduleType="'spells'" :moduleId="'spells' + classIndex"
-          :choosableSource="character.classes[classIndex].spells" :availableSource="filteredSpells(classIndex)"
-          @item-chosen="setSpell({classIndex: classIndex, pos: $event.slotId, spell: $event.item})"
-          :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event"
-          class="choosable-items-list" :popups="'left'">
-          <p>{{smartClassName(cls, classIndex)}} Spells:</p>
-        </choosable-items-list>
+        <div>
+          <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex"
+            v-show="character.classes[classIndex].cantrips.length > 0"
+            :moduleType="'cantrips'" :moduleId="'cantrips' + classIndex"
+            :choosableSource="character.classes[classIndex].cantrips" :availableSource="filteredCantrips(classIndex)"
+            @item-chosen="setCantrip({classIndex: classIndex, pos: $event.slotId, cantrip: $event.item})"
+            :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event"
+            class="choosable-items-list" :popups="'left'">
+            <p>{{smartClassName(cls, classIndex)}} Cantrips:</p>
+          </choosable-items-list>
+        </div>
+          
+        <div>
+          <choosable-items-list v-for="(cls, classIndex) in character.classes" :key="classIndex"
+            v-show="character.classes[classIndex].spells.length > 0"
+            :moduleType="'spells'" :moduleId="'spells' + classIndex"
+            :choosableSource="character.classes[classIndex].spells" :availableSource="filteredSpells(classIndex)"
+            @item-chosen="setSpell({classIndex: classIndex, pos: $event.slotId, spell: $event.item})"
+            :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event"
+            class="choosable-items-list" :popups="'left'">
+            <p>{{smartClassName(cls, classIndex)}} Spells:</p>
+          </choosable-items-list>
+        </div>
       </div>
     </div>
 
