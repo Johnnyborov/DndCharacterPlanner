@@ -54,7 +54,7 @@ namespace WebScraper.Parsers
           var elem = header.NextElementSibling;
           while (elem != null && elem.NodeName != "H3")
           {
-            description = description + elem.TextContent.Trim();
+            description = description + HelperFunctions.ReadArbitraryElement(elem);
 
             elem = elem.NextElementSibling;
           }

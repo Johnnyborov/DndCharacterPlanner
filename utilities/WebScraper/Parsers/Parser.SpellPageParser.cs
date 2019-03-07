@@ -234,63 +234,9 @@ namespace WebScraper.Parsers
 
           if (isPureDescription)
           {
-            if (currentElem.TagName == "TABLE")
-            {
-              var tbody = currentElem.Children[0];
-              result = result + "\n" + ReadTable(tbody);
-            }
-            else if (currentElem.TagName == "UL" || currentElem.TagName == "OL")
-            {
-              result = result + "\n" + ReadList(currentElem);
-            }
-            else if (currentElem.TagName == "P")
-            {
-              result = result + "\n" + currentElem.TextContent.Trim();
-            }
-            else
-            {
-              result = result + "\n" + currentElem.TextContent.Trim();
-            }
+            result = result + "\n" + HelperFunctions.ReadArbitraryElement(currentElem);
           }
         }
-
-        return result;
-      }
-
-
-      private static string ReadTable(AngleSharp.Dom.IElement tbody)
-      {
-        string result = "";
-
-        result = result + "<table>";
-        foreach (var row in tbody.Children)
-        {
-          result = result + "<tr>";
-          foreach (var item in row.Children)
-          {
-            string text = item.TextContent.Trim();
-            if (text == "") text = "X";
-            result = result + "<td>" + text + "</td>";
-          }
-          result = result + "</tr>";
-        }
-        result = result + "</table>";
-
-        return result;
-      }
-
-
-      private static string ReadList(AngleSharp.Dom.IElement ul)
-      {
-        string result = "";
-
-        result = result + "<ul style=\"list-style-type: square; padding-left: 2em;\">";
-        foreach (var li in ul.Children)
-        {
-          string text = li.TextContent.Trim();
-          result = result + "<li>" + text + "</li>";
-        }
-        result = result + "</ul>";
 
         return result;
       }

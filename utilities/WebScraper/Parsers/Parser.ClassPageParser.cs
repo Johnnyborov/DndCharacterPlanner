@@ -155,7 +155,7 @@ namespace WebScraper.Parsers
           var elem = header.NextElementSibling;
           while (elem != null && elem.NodeName != "H3")
           {
-            description = description + elem.TextContent.Trim();
+            description = description + HelperFunctions.ReadArbitraryElement(elem);
 
             elem = elem.NextElementSibling;
           }
@@ -200,9 +200,9 @@ namespace WebScraper.Parsers
           else // just description
           {
             if (textBeforeOptions)
-              description = description + elem.TextContent.Trim();
+              description = description + HelperFunctions.ReadArbitraryElement(elem);
             else
-              optionDescription = optionDescription + elem.TextContent.Trim();
+              optionDescription = optionDescription + HelperFunctions.ReadArbitraryElement(elem);
           }
 
 

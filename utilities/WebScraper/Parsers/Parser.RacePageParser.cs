@@ -58,15 +58,15 @@ namespace WebScraper.Parsers
 
         string description = "";
         var div = header.NextElementSibling;
-        foreach (var p in div.Children)
+        foreach (var elem in div.Children)
         {
-          if (p.Children.Length > 0 && p.TagName == "P")
+          if (elem.Children.Length > 0 && elem.TagName == "P")
           {
-            string abilityName = p.Children[0].TextContent.Trim();
+            string abilityName = elem.Children[0].TextContent.Trim();
             abilityName = abilityName.Replace(".", "");
 
-            p.Children[0].Remove();
-            description = p.TextContent.Trim();
+            elem.Children[0].Remove();
+            description = elem.TextContent.Trim();
 
             var ability = new Ability { name = abilityName, description = description, level = 0 };
             ability.options = new List<Option>();
@@ -74,7 +74,7 @@ namespace WebScraper.Parsers
           }
           else // another p (or maybe table) continuing description
           {
-            abilities.Last().description += p.TextContent.Trim();
+            abilities.Last().description += HelperFunctions.ReadArbitraryElement(elem);
           }
         }
 
@@ -109,16 +109,16 @@ namespace WebScraper.Parsers
       {
         string description = "";
         var div = header.NextElementSibling;
-        foreach (var p in div.Children)
+        foreach (var elem in div.Children)
         {
-          if (p.Children.Length > 0 && p.Children[0].TextContent.Trim() == "Ability Score Increase.")
+          if (elem.Children.Length > 0 && elem.Children[0].TextContent.Trim() == "Ability Score Increase.")
           {
             break;
           }
           else
           {
-            description = description + p.TextContent.Trim();
-            p.Remove();
+            description = description + HelperFunctions.ReadArbitraryElement(elem);
+            elem.Remove();
           }
         }
 
