@@ -11,6 +11,11 @@ p {
   margin: 0.5vmin;
 }
 
+.stat-chooser div div p {
+  margin: 0;
+}
+
+
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -22,7 +27,9 @@ pre {
 }
 
 select {
+  background-color: white;
   font-size: 1.6vmin;
+  appearance: none;
 }
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="stat-chooser">
     <div v-if="stats1x2Ids.includes(item.id)">
       <div style="display:flex;direction:row;">
         <p>+1</p>
