@@ -105,8 +105,15 @@ function getListAmount(state, getters, i, type) {
       increases = feats.filter(lvl => lvl <= state.character.classes[i].level)
       break
     case 'cantrips':
-      let cantrips = state.character.classes[i].class.cantrips
-      increases = cantrips.filter(lvl => lvl <= state.character.classes[i].level)
+      if (state.character.classes[i].subclass.cantrips
+          && state.character.classes[i].subclass.cantrips.length > 0) {
+
+        let cantrips = state.character.classes[i].subclass.cantrips
+        increases = cantrips.filter(lvl => lvl <= state.character.classes[i].level)
+      } else {
+        let cantrips = state.character.classes[i].class.cantrips
+        increases = cantrips.filter(lvl => lvl <= state.character.classes[i].level)
+      }
       break
     case 'spells':
       switch (state.character.classes[i].class.name) {
@@ -119,8 +126,14 @@ function getListAmount(state, getters, i, type) {
         case 'Paladin':
          return Math.max(getters.realStatModifiers['cha'] + state.character.classes[i].level, 1)
       }
-      let spells = state.character.classes[i].class.spells
-      increases = spells.filter(lvl => lvl <= state.character.classes[i].level)
+      if (state.character.classes[i].subclass.spells
+          && state.character.classes[i].subclass.spells.length > 0) {
+        let spells = state.character.classes[i].subclass.spells
+        increases = spells.filter(lvl => lvl <= state.character.classes[i].level)
+      } else {
+        let spells = state.character.classes[i].class.spells
+        increases = spells.filter(lvl => lvl <= state.character.classes[i].level)
+      }
       break
   }
 
@@ -190,7 +203,7 @@ function bonusValues(state, rootGetters) {
 const emptyClass = {
   class: {id: -1},
   level: 1,
-  subclass: {},
+  subclass: {id: -1},
   cantrips: [],
   spells: [],
   options: {}
@@ -204,7 +217,7 @@ export default {
 
     character: {
       race: {id: -1},
-      subrace: {},
+      subrace: {id: -1},
       raceOptions: {},
       stats: {
         'str': 13,
@@ -302,6 +315,15 @@ export default {
           let isDivineSoul = state.character.classes[index].subclass.name === 'Divine Soul'
           let isForCurrentClass = Object.values(item.classes)
             .findIndex(c => c === className || isDivineSoul && c === 'Cleric') !== -1
+
+          if (state.character.classes[index].subclass.name === 'Arcane Trickster') {
+            isForCurrentClass = Object.values(item.classes)
+              .findIndex(c => c === 'Wizard') !== -1
+          }
+          if (state.character.classes[index].subclass.name === 'Eldritch Knight') {
+            isForCurrentClass = Object.values(item.classes)
+              .findIndex(c => c === 'Wizard') !== -1
+          }
     
           let enoughLevel = item.level * 2 - 1 <= state.character.classes[index].level
 

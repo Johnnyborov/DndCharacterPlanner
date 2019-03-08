@@ -12,5 +12,8 @@ namespace WebScraper.Models
     public string name;
     public string description;
     public List<Ability> abilities;
+
+    public List<int> cantrips;
+    public List<int> spells;
   }
 }
