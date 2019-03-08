@@ -18,7 +18,7 @@
         class="choosable-items-list list-single" :popups="'right'"/>
     </div>
 
-    <base-stats class="base-stats" />
+    <character-stats class="character-stats" />
     
     <div class="container-single">
       <p>Character Level:</p><p>{{totalLevel}}</p>
@@ -62,14 +62,15 @@
 
 <script>
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
-import BaseStats from './BaseStats.vue'
+import CharacterStats from './CharacterStats.vue'
+
 import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'CharacterConfig',
   components: {
     'choosable-items-list': ChoosableItemsList,
-    'base-stats': BaseStats
+    'character-stats': CharacterStats
   },
 
   props: {

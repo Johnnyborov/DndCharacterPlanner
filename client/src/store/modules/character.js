@@ -95,7 +95,7 @@ function addOptions(newOptions, oldOptions, classLvl, abilities) {
   return changed
 }
 
-function getListAmount(state, i, type) {
+function getListAmount(state, getters, i, type) {
   if (state.character.classes[i].class.id === -1) return 0
 
   let increases
@@ -109,6 +109,16 @@ function getListAmount(state, i, type) {
       increases = cantrips.filter(lvl => lvl <= state.character.classes[i].level)
       break
     case 'spells':
+      switch (state.character.classes[i].class.name) {
+        case 'Artificer':
+         return Math.max(getters.realStatModifiers['int'] + state.character.classes[i].level, 1)
+        case 'Cleric':
+        case 'Druid':
+        case 'Wizard':
+         return Math.max(getters.realStatModifiers['wis'] + state.character.classes[i].level, 1)
+        case 'Paladin':
+         return Math.max(getters.realStatModifiers['cha'] + state.character.classes[i].level, 1)
+      }
       let spells = state.character.classes[i].class.spells
       increases = spells.filter(lvl => lvl <= state.character.classes[i].level)
       break
@@ -127,6 +137,53 @@ function areDifferentLists(oldList, newList) {
   }
 
   return changed
+}
+
+
+function modifyBonusValuesFrom(items, bonusValues) {
+  items.forEach(item => {
+    if (item.bonusStats) {
+      Object.keys(item.bonusStats).forEach(statName => {
+        bonusValues[statName] += item.bonusStats[statName]
+      })
+    }
+  })
+}
+
+
+function bonusValues(state, rootGetters) {
+  let bonusValues = {
+    'str': 0,
+    'agi': 0,
+    'con': 0,
+    'wis': 0,
+    'int': 0,
+    'cha': 0
+  }
+
+  modifyBonusValuesFrom(state.character.feats, bonusValues)
+
+  {
+    modifyBonusValuesFrom(rootGetters['database/filteredRaceAbilities'], bonusValues)
+    modifyBonusValuesFrom(rootGetters['database/filteredSubraceAbilities'], bonusValues)
+
+    let options = state.character.raceOptions
+    Object.keys(options).forEach(abilityName => {
+      modifyBonusValuesFrom(options[abilityName], bonusValues)
+    })
+  }
+
+  for (let i = 0; i < state.character.classes.length; i++) {
+    modifyBonusValuesFrom(rootGetters['database/filteredClassAbilities'](i), bonusValues)
+    modifyBonusValuesFrom(rootGetters['database/filteredSubclassAbilities'](i), bonusValues)
+
+    let options = state.character.classes[i].options
+    Object.keys(options).forEach(abilityName => {
+      modifyBonusValuesFrom(options[abilityName], bonusValues)
+    })
+  }
+
+  return bonusValues
 }
 
 
@@ -163,6 +220,24 @@ export default {
   },
 
   getters: {
+    realStatScores(state, getters, rootState, rootGetters) {
+      let res = {}
+      Object.keys(state.character.stats).forEach(statName => {
+        res[statName] = Math.min(state.character.stats[statName] + bonusValues(state, rootGetters)[statName], 20)
+      })
+    
+      return res
+    },
+
+    realStatModifiers(state, getters) {
+      let res = {}
+      Object.keys(state.character.stats).forEach(statName => {
+        res[statName] = Math.floor((getters.realStatScores[statName] - 10) / 2)
+      })
+
+      return res
+    },
+
     totalLevel(state) {
       let sum = 0
       state.character.classes.forEach(c => {
@@ -350,6 +425,11 @@ export default {
       dispatch('setAmounts')
     },
 
+    setStat({commit, dispatch}, arg) {
+      commit('setStat', arg)
+      dispatch('setAmounts')
+    },
+
     setRace({commit, dispatch}, arg) {
       commit('setRace', arg)
       dispatch('checkSubrace')
@@ -385,12 +465,14 @@ export default {
       commit('setSpell', arg)
     },
 
-    setRaceOption({commit}, arg) {
+    setRaceOption({commit, dispatch}, arg) {
       commit('setRaceOption', arg)
+      dispatch('setAmounts')
     },
 
-    setClassOption({commit}, arg) {
+    setClassOption({commit, dispatch}, arg) {
       commit('setClassOption', arg)
+      dispatch('setAmounts')
     },
 
     setLevel({commit, dispatch}, arg) {
@@ -403,9 +485,9 @@ export default {
       let totalFeatsAmount = 0
 
       for (let i = 0; i < state.character.classes.length; i++) {
-        let featsAmount = getListAmount(state, i, 'feats')
-        let cantripsAmount = getListAmount(state, i, 'cantrips')
-        let spellsAmount = getListAmount(state, i, 'spells')
+        let featsAmount = getListAmount(state, null, i, 'feats')
+        let cantripsAmount = getListAmount(state, null, i, 'cantrips')
+        let spellsAmount = getListAmount(state, getters, i, 'spells')
 
         totalFeatsAmount += featsAmount
 

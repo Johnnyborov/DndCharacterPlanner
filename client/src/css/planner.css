@@ -44,7 +44,7 @@ select {
 
 .saver-loader {
   background-color: wheat;
-  width: 10vmin;
+  width: 12vmin;
 }
 
 
@@ -53,25 +53,16 @@ select {
   background-color: lavender;
   display: flex;
   flex-direction: column;
-  width: 18vmin;
+  width: 20vmin;
 }
 
-.base-stats {
+.character-stats {
   background-color: gray;
-}
-
-.real-stats {
-  background-color: darkslategray;
-  width: 9vmin;
 }
 
 .stat {
   color: aliceblue;
-  margin: 0.5vmin;
-  display: flex;
-  justify-content: space-between;
 }
-
 
 
 .spell-lists-area {
@@ -102,7 +93,7 @@ select {
 .choosable-items-list {
   background-color: goldenrod;
   position: relative;
-  width: 21vmin;
+  width: 20vmin;
   margin: 0.5vmin 0.5vmin 4.5vmin 0.5vmin;
   padding: 0.5vmin;
 }

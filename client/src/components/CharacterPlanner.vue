@@ -2,7 +2,6 @@
 <div @click="lastModuleToClickItem=''" @mouseleave="lastModuleToClickItem=''">
   <div class="character-planner">
     <character-config class="character-config" :lastModuleToClickItem="lastModuleToClickItem" @slot-clicked="lastModuleToClickItem=$event" />
-    <real-stats class="real-stats" />
 
     <div class="spell-lists-area">
       <div>
@@ -95,7 +94,6 @@
 import ChoosableItemsList from './items/ChoosableItemsList.vue'
 import StaticList from './items/StaticList.vue'
 import CharacterConfig from './CharacterConfig.vue'
-import RealStats from './RealStats.vue'
 import SaverLoader from './SaverLoader.vue'
 
 import {mapState, mapGetters, mapActions} from 'vuex'
@@ -105,7 +103,6 @@ export default {
   components: {
     'saver-loader': SaverLoader,
     'character-config': CharacterConfig,
-    'real-stats': RealStats,
     'choosable-items-list': ChoosableItemsList,
     'static-list': StaticList
   },
