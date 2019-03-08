@@ -68,6 +68,11 @@ namespace WebScraper.Parsers
           var header = document.QuerySelector("#toc" + i);
           string raceType = header.TextContent.Trim();
 
+          if (mode == Mode.ScrapeFiles)
+          {
+            if (!raceType.Contains("Common")) continue;
+          }
+
           header = header.NextElementSibling;
           var anchors = header.QuerySelectorAll("a");
 
@@ -146,6 +151,11 @@ namespace WebScraper.Parsers
           string url = ((IHtmlAnchorElement)anchors[0]).Href;
           string classFileName = anchors[0].TextContent.Trim();
 
+          if (mode == Mode.ScrapeFiles)
+          {
+            if (classFileName.Contains("Artificer") || classFileName.Contains("Rune Scribe")) continue;
+          }
+
           Class cls = HandleLink(url, classFileName, mode, Type.Class);
 
           if (mode == Mode.ScrapeFiles)
@@ -162,6 +172,12 @@ namespace WebScraper.Parsers
           {
             url = ((IHtmlAnchorElement)anchors[k]).Href;
             string subclassName = anchors[k].TextContent.Trim();
+
+            if (mode == Mode.ScrapeFiles)
+            {
+              if (subclassName.Contains("(UA)") || subclassName.Contains("(Amonkhet)") || subclassName.Contains("(HB)")) continue;
+            }
+
             var subclassFileName = classFileName + "__" + subclassName;
 
             var subclass = HandleLink(url, subclassFileName, mode, Type.Subclass);

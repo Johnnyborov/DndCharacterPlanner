@@ -35,6 +35,7 @@ namespace WebScraper.Models
       int optionIdCounter = 5000;
 
 
+      feats.RemoveAll(f => f.name.Contains("(UA)"));
       foreach (var feat in feats)
       {
         feat.id = featIdCounter++;
@@ -82,7 +83,8 @@ namespace WebScraper.Models
               break;
           }
 
- 
+
+          a.options.RemoveAll(o => o.name.Contains("(UA)"));
           foreach (var o in a.options)
           {
             o.id = optionIdCounter++;
@@ -119,7 +121,8 @@ namespace WebScraper.Models
                 break;
             }
 
- 
+
+            a.options.RemoveAll(o => o.name.Contains("(UA)"));
             foreach (var o in a.options)
             {
               o.id = optionIdCounter++;
@@ -157,6 +160,8 @@ namespace WebScraper.Models
               break;
           }
 
+
+          a.options.RemoveAll(o => o.name.Contains("(UA)"));
           foreach (var o in a.options)
           {
             o.id = optionIdCounter++;
@@ -196,6 +201,8 @@ namespace WebScraper.Models
                 break;
             }
 
+
+            a.options.RemoveAll(o => o.name.Contains("(UA)"));
             foreach (var o in a.options)
             {
               o.id = optionIdCounter++;

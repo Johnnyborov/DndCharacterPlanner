@@ -316,6 +316,27 @@ export default {
           let isForCurrentClass = Object.values(item.classes)
             .findIndex(c => c === className || isDivineSoul && c === 'Cleric') !== -1
 
+          if (state.character.classes[index].subclass.name === 'Hexblade') {
+            let isSpecialSpell = false
+            switch(item.name) {
+              case 'Shield':
+              case 'Wrathful Smite':
+              case 'Blur':
+              case 'Branding Smite':
+              case 'Blink':
+              case 'Elemental Weapon':
+              case 'Phantasmal Killer':
+              case 'Staggering Smite':
+              case 'Banishing Smite':
+              case 'Cone of Cold':
+                isSpecialSpell = true
+                break;
+            }
+            isForCurrentClass =
+              Object.values(item.classes).findIndex(c => c === className) !== -1
+              || isSpecialSpell
+          }
+
           if (state.character.classes[index].subclass.name === 'Arcane Trickster') {
             isForCurrentClass = Object.values(item.classes)
               .findIndex(c => c === 'Wizard') !== -1
@@ -327,7 +348,9 @@ export default {
     
           let enoughLevel = item.level * 2 - 1 <= state.character.classes[index].level
 
-          return isForCurrentClass && enoughLevel
+          let validSource = item.source === 'PHB' || item.source === 'XGTE'
+
+          return isForCurrentClass && enoughLevel && validSource
         }
       }
     }
