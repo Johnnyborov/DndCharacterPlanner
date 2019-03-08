@@ -14,6 +14,8 @@ namespace WebScraper.Models
     public int level;
     public List<string> classes;
 
+    public string school;
+
     public string time;
     public string range;
     public string components;
@@ -25,6 +27,7 @@ namespace WebScraper.Models
     public bool ritual;
     public bool concentration;
 
+    public string source;
 
     [JsonIgnore]
     public List<string> categories;
@@ -57,6 +60,58 @@ namespace WebScraper.Models
           string className = str.Substring(0, str.Length - 7);
           classes.Add(className);
         }
+      }
+    }
+
+    public void SetSchool()
+    {
+      school = categories.Find(s =>
+      {
+        switch(s)
+        {
+          case "Abjuration":
+          case "Conjuration":
+          case "Divination":
+          case "Enchantment":
+          case "Evocation":
+          case "Illusion":
+          case "Necromancy":
+          case "Transmutation":
+            return true;
+          default:
+            return false;
+        }
+      });
+    }
+
+    public void SetSource()
+    {
+      string src = categories.Find(s =>
+      {
+        switch (s)
+        {
+          case "Player's Handbook":
+          case "Xanathar's Guide to Everything":
+          case "Unearthed Arcana":
+            return true;
+          default:
+            return false;
+        }
+      });
+
+      switch (src)
+      {
+        case "Player's Handbook":
+          source = "PHB";
+          break;
+        case "Xanathar's Guide to Everything":
+          source = "XGTE";
+          break;
+        case "Unearthed Arcana":
+          source = "UA";
+          break;
+        default:
+          break;
       }
     }
   }

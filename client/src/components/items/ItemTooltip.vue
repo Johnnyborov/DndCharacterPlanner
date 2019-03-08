@@ -47,7 +47,10 @@ export default {
           }
         }
       }
-    
+
+      if (this.item.source) res = res + '</br>Source: ' + this.item.source + '<br/>'
+
+      if (this.item.school) res = res + '</br>School: ' + this.item.school
       if (this.item.time) res = res + '</br>Time: ' + this.item.time
       if (this.item.range) res = res + '</br>Range: ' + this.item.range
       if (this.item.components) res = res + '</br>Components: ' + this.item.components

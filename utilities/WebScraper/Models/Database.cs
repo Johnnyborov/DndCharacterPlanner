@@ -47,6 +47,8 @@ namespace WebScraper.Models
         spell.id = spellIdCounter++;
         spell.SetLevel();
         spell.SetClasses();
+        spell.SetSchool();
+        spell.SetSource();
       }
 
       cantrips = (from s in spellsAndCantrips where s.level == 0 select s).ToList();
