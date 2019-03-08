@@ -1,6 +1,6 @@
 <template>
   <div class="stat-chooser">
-    <div v-if="stats1x2Ids.includes(item.id)">
+    <div v-if="statsPlus1x2Items.includes(item.name)">
       <div style="display:flex;direction:row;">
         <p>+1</p>
         <select @click.stop :value="selected1" @change="selected1Changed($event)">
@@ -19,11 +19,23 @@
       </div>
     </div>
 
-    <div v-if="stats2x1Ids.includes(item.id)">
+    <div v-if="statsPlus2x1Items.includes(item.name)">
       <div style="display:flex;direction:row;">
         <p>+2</p>
         <select @click.stop :value="selected1" @change="selected1Changed($event)">
-          <option v-for="stat in statTypes" :key="stat" :value="stat">
+          <option v-for="stat in statTypesFiltered" :key="stat" :value="stat">
+            {{stat}}
+          </option>
+        </select>
+        <br />
+      </div>
+    </div>
+
+    <div v-if="statsPlus1x1Items.includes(item.name)">
+      <div style="display:flex;direction:row;">
+        <p>+1</p>
+        <select @click.stop :value="selected1" @change="selected1Changed($event)">
+          <option v-for="stat in statTypesFiltered" :key="stat" :value="stat">
             {{stat}}
           </option>
         </select>
@@ -36,17 +48,21 @@
 <script>
 import {mapState} from 'vuex'
 
-const stats1x2Ids = [110,5800]
-const stats2x1Ids = [160]
+const statsPlus1x2Items = ['stats+1x2']
+const statsPlus2x1Items = ['stat+2']
+const statsPlus1x1Items = ['Resilient','Athlete','Lightly Armored',
+'Moderately Armored','Observant','Tavern Brawler','Weapon Master']
 
 
 function makeNewItem(item, s1, s2) {
   let newItem = JSON.parse(JSON.stringify(item))
 
-  if (stats1x2Ids.includes(item.id)) {
+  if (statsPlus1x2Items.includes(item.name)) {
     newItem.bonusStats = {[s1]:1,[s2]:1}
-  } else if (stats2x1Ids.includes(item.id)) {
+  } else if (statsPlus2x1Items.includes(item.name)) {
     newItem.bonusStats = {[s1]:2}
+  } else if (statsPlus1x1Items.includes(item.name)) {
+    newItem.bonusStats = {[s1]:1}
   }
 
   return newItem
@@ -61,12 +77,13 @@ export default {
 
   data() {
     return {
-      statTypes: ['str', 'agi', 'con', 'wis', 'int', 'cha'],
+      statTypes: ['str', 'dex', 'con', 'wis', 'int', 'cha'],
       selected1: 'str',
-      selected2: 'agi',
+      selected2: 'dex',
 
-      stats1x2Ids: stats1x2Ids,
-      stats2x1Ids: stats2x1Ids
+      statsPlus1x2Items: statsPlus1x2Items,
+      statsPlus2x1Items: statsPlus2x1Items,
+      statsPlus1x1Items: statsPlus1x1Items
     }
   },
 
@@ -81,6 +98,23 @@ export default {
 
     statTypesMinusSelected2() {
       return this.statTypes.filter(t => t !== this.selected2)
+    },
+
+    statTypesFiltered() {
+      switch(this.item.name) {
+        case 'Athlete':
+        case 'Lightly Armored':
+        case 'Moderately Armored':
+        case 'Weapon Master':
+          return ['str', 'dex']
+        case 'Observant':
+          this.selected1 = 'int'
+          return ['int', 'wis']
+        case 'Tavern Brawler':
+          return ['str', 'con']
+        default:
+          return this.statTypes
+      }
     }
   },
 
@@ -102,7 +136,7 @@ export default {
     },
 
     changeItem() {
-      if (stats1x2Ids.includes(this.item.id) || stats2x1Ids.includes(this.item.id)) {
+      if (statsPlus1x2Items.concat(statsPlus2x1Items, statsPlus1x1Items).includes(this.item.name)) {
         let newItem = makeNewItem(this.item, this.selected1, this.selected2)
 
         this.$emit('item-changed', newItem)

@@ -163,7 +163,7 @@ export default {
           let character = {
           race: nameToItem(char.race, Object.values(this.database.races)),
           stats: char.stats,
-          feats: char.feats.map(name => nameToItem(name, this.database.feats)),
+          feats: char.feats.map(name => nameToItem(name, this.database.feats, 'deepCopy')),
 
           classes: char.classes.map(c => {
             let cls = {

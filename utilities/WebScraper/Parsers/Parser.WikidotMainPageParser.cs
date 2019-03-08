@@ -293,7 +293,7 @@ namespace WebScraper.Parsers
         }
         else
         {
-          html = GetHtml(url);
+          html = HelperFunctions.GetHtmlFromUrl(url);
         }
 
 
@@ -328,17 +328,6 @@ namespace WebScraper.Parsers
       }
 
 
-      private static string GetHtml(string url)
-      {
-        var httpClient = new HttpClient();
-        var request = httpClient.GetAsync(url);
-        var response = request.Result.Content.ReadAsStringAsync();
-
-
-        return response.Result;
-      }
-
-
       private static string GetMainPageHtml(Mode mode)
       {
         if (mode == Mode.ScrapeFiles)
@@ -348,7 +337,7 @@ namespace WebScraper.Parsers
         else
         {
           string mainPageUrl = "http://dnd5e.wikidot.com";
-          return GetHtml(mainPageUrl);
+          return HelperFunctions.GetHtmlFromUrl(mainPageUrl);
         }
       }
     }

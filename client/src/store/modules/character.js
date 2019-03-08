@@ -167,7 +167,7 @@ function modifyBonusValuesFrom(items, bonusValues) {
 function bonusValues(state, rootGetters) {
   let bonusValues = {
     'str': 0,
-    'agi': 0,
+    'dex': 0,
     'con': 0,
     'wis': 0,
     'int': 0,
@@ -221,7 +221,7 @@ export default {
       raceOptions: {},
       stats: {
         'str': 13,
-        'agi': 13,
+        'dex': 13,
         'con': 13,
         'wis': 13,
         'int': 13,

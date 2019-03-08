@@ -175,8 +175,14 @@ namespace WebScraper.Parsers
         if (ability.name == "Eldritch Invocations")
           ability.options = EldritchInvocationsParser.ParseEldritchInvocations();
 
-        if (ability.name != "Metamagic" &&
-            ability.name != "Fighting Style") return;
+        switch (ability.name)
+        {
+          case "Metamagic":
+          case "Fighting Style":
+            break;
+          default:
+            return;
+        }
 
 
 

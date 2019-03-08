@@ -2,12 +2,12 @@ import api from '../../api/planner.js'
 
 const scoreImprovement = [
   {id: 110, name: 'stats+1x2'},
-  {id: 160, name: 'stats+2'}
+  {id: 160, name: 'stat+2'}
 ]
 
 const bonusStatsAllOne = {
   'str': 1,
-  'agi': 1,
+  'dex': 1,
   'con': 1,
   'wis': 1,
   'int': 1,
@@ -17,11 +17,11 @@ const bonusStatsAllOne = {
 const scoreIncreaseVariant = [{id: 5800, name: 'stats+1x2'}]
 
 
-function canHaveMultiple(id) {
-  switch(id) {
-    case 110:
-    case 160:
-    case 5800:
+function canHaveMultiple(name) {
+  switch(name) {
+    case 'stats+1x2':
+    case 'stat+2':
+    case 'Elemental Adept':
       return true
   }
 
@@ -75,7 +75,7 @@ export default {
 
         let satisfiesCharacterConfig = rootGetters['character/satisfiesCharacterConfig'](feat, 'feat')
 
-        return satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.id))
+        return satisfiesCharacterConfig && (!alreadyChosen || canHaveMultiple(feat.name))
       })
     },
 
@@ -163,7 +163,7 @@ export default {
           if (alreadyChosenByFeat) alreadyChosen = true
 
   
-          return !alreadyChosen || canHaveMultiple(option.id)
+          return !alreadyChosen || canHaveMultiple(option.name)
         })
       }
     },

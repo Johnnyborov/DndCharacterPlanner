@@ -109,9 +109,9 @@ namespace WebScraper.Models
                   a.increases.AddRange(new int[] { 0 });
                 }
                 break;
-              case "Skills":
-                a.increases.AddRange(new int[] { 0 });
-                break;
+              //case "Skills":
+              //  a.increases.AddRange(new int[] { 0 });
+              //  break;
               case "Feat":
                 a.increases.AddRange(new int[] { 0 });
                 break;

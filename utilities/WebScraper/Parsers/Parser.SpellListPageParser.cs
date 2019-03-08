@@ -64,17 +64,7 @@ namespace WebScraper.Parsers
         return spells;
       }
 
-      private static string GetHtml(string url)
-      {
-        var httpClient = new HttpClient();
-        var request = httpClient.GetAsync(url);
-        var response = request.Result.Content.ReadAsStringAsync();
-
-
-        return response.Result;
-      }
-
-
+   
       private static string GetAllSpellsPage(Mode mode)
       {
         if (mode == Mode.ScrapeFiles)
@@ -84,7 +74,7 @@ namespace WebScraper.Parsers
         else
         {
           string allSpellsListUrl = "https://dnd5e.fandom.com/wiki/List_of_Spells";
-          return GetHtml(allSpellsListUrl);
+          return HelperFunctions.GetHtmlFromUrl(allSpellsListUrl);
         }
       }
 
@@ -139,7 +129,7 @@ namespace WebScraper.Parsers
         }
         else
         {
-          html = GetHtml(url);
+          html = HelperFunctions.GetHtmlFromUrl(url);
         }
 
 

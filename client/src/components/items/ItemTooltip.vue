@@ -11,13 +11,17 @@ export default {
   props: {
     moduleType: String,
     item: Object,
-    posX: Number
+    posX: Number,
+    popups: String
   },
 
   mounted() {
-    if (this.text.length > 800) {
-      this.$el.style.width = Math.min(this.text.length / 20, 63) + 'vmin'
-      this.$el.style.left = - 1.5 - Math.min(this.text.length / 20, 63) + 'vmin'
+    if (this.text.length > 1050) {
+      let max = 63
+      if (this.popups === 'mid') max = 45
+ 
+      this.$el.style.width = Math.min(this.text.length / 30, max) + 'vmin'
+      this.$el.style.left = - 1.5 - Math.min(this.text.length / 30, max) + 'vmin'
     }
 
     if (this.posX > 0) { // tooltip on right

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using WebScraper.Models;
-
+using System.Net.Http;
 
 namespace WebScraper.Parsers
 {
@@ -13,6 +13,17 @@ namespace WebScraper.Parsers
   {
     private static class HelperFunctions
     {
+      public static string GetHtmlFromUrl(string url)
+      {
+        var httpClient = new HttpClient();
+        var request = httpClient.GetAsync(url);
+        var response = request.Result.Content.ReadAsStringAsync();
+
+
+        return response.Result;
+      }
+
+
       public static string ReadArbitraryElement(AngleSharp.Dom.IElement elem)
       {
         string result = "";

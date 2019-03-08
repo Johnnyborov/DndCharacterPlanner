@@ -32,7 +32,7 @@
           :options="character.raceOptions" :baseModuleId="'options'+'race'"
           @item-chosen="setRaceOption($event)"
           @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list"
-          :popups="'left'">
+          :popups="'mid'">
           <p>Race Features</p>
         </static-list>
 
@@ -41,7 +41,7 @@
           :options="character.raceOptions" :baseModuleId="'options'+'subrace'"
           @item-chosen="setRaceOption($event)"
           @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list"
-          :popups="'left'">
+          :popups="'mid'">
           <p>Subrace Features</p>
         </static-list>
 
@@ -51,7 +51,7 @@
           @item-chosen="setFeat({pos: $event.slotId, feat: $event.item})"
           :lastModuleToClickItem="lastModuleToClickItem"
           @slot-clicked="lastModuleToClickItem=$event" class="choosable-items-list"
-          :popups="'left'">
+          :popups="'mid'">
           <p>Feats</p>
         </choosable-items-list>
       </div>
