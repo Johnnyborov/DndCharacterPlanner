@@ -1,17 +1,12 @@
 <template>
   <div id="app">
-    <character-planner/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import CharacterPlanner from './CharacterPlanner.vue'
-
 export default {
-  name: 'app',
-  components: {
-    'character-planner': CharacterPlanner
-  }
+  name: 'app'
 }
 </script>
 

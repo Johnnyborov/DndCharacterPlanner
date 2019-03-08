@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <saver-loader class="saver-loader">Saving/Loading</saver-loader>
+    <saver-loader ref="saver-loader" class="saver-loader">Saving/Loading</saver-loader>
   </div>
 
   <div id="height-balancer" />
@@ -98,6 +98,9 @@ import SaverLoader from './SaverLoader.vue'
 
 import {mapState, mapGetters, mapActions} from 'vuex'
 
+import api from '../api/planner.js'
+
+
 export default {
   name: 'CharacterPlanner',
   components: {
@@ -105,6 +108,10 @@ export default {
     'character-config': CharacterConfig,
     'choosable-items-list': ChoosableItemsList,
     'static-list': StaticList
+  },
+
+  props: {
+    charId: String
   },
 
   data() {
@@ -145,6 +152,9 @@ export default {
 
   created() {
     this.$store.dispatch('database/load')
+    .then(() => {
+      if (this.charId) this.$refs['saver-loader'].loadCharacter(this.charId)
+    })
   }
 }
 </script>

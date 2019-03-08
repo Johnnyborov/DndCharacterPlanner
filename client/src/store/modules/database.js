@@ -232,39 +232,45 @@ export default {
 
   actions: {
     load({commit}) {
-      api.getDndDatabase()
-      .then(db => {
-        let database = {}
-        database.cantrips = db.cantrips
-        database.spells = db.spells
-        database.classes = db.classes
-        database.feats = scoreImprovement.concat(db.feats)
-        database.races = db.races
-
-        
-        database.races['Human'].subraces['Standard Human'].abilities
-          .find(a => a.name === 'Ability Score Increase').bonusStats = bonusStatsAllOne
-
-        database.races['Half-Elf'].abilities
-          .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
-
-        database.races['Human'].subraces['Variant Human'].abilities
-          .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
-        database.races['Human'].subraces['Variant Human'].abilities
-          .find(a => a.name === 'Feat').options = db.feats
-
-        let dm = database.classes['Sorcerer'].subclasses['Divine Soul'].abilities
-          .find(a => a.name === 'Divine Magic')
-        dm.options = database.spells.filter(s => s.classes.findIndex(c => c === 'Cleric') !== -1)
-
-        let afs = database.classes['Fighter'].subclasses['Champion'].abilities
-          .find(a => a.name === 'Additional Fighting Style')
-        afs.options = database.classes['Fighter'].abilities
-          .find(a => a.name === 'Fighting Style').options
-
+      let loadedPromise = new Promise(resolve => {
+        api.getDndDatabase()
+        .then(db => {
+          let database = {}
+          database.cantrips = db.cantrips
+          database.spells = db.spells
+          database.classes = db.classes
+          database.feats = scoreImprovement.concat(db.feats)
+          database.races = db.races
+  
           
-        commit('setDatabase', database)
+          database.races['Human'].subraces['Standard Human'].abilities
+            .find(a => a.name === 'Ability Score Increase').bonusStats = bonusStatsAllOne
+  
+          database.races['Half-Elf'].abilities
+            .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
+  
+          database.races['Human'].subraces['Variant Human'].abilities
+            .find(a => a.name === 'Ability Score Increase').options = scoreIncreaseVariant
+          database.races['Human'].subraces['Variant Human'].abilities
+            .find(a => a.name === 'Feat').options = db.feats
+  
+          let dm = database.classes['Sorcerer'].subclasses['Divine Soul'].abilities
+            .find(a => a.name === 'Divine Magic')
+          dm.options = database.spells.filter(s => s.classes.findIndex(c => c === 'Cleric') !== -1)
+  
+          let afs = database.classes['Fighter'].subclasses['Champion'].abilities
+            .find(a => a.name === 'Additional Fighting Style')
+          afs.options = database.classes['Fighter'].abilities
+            .find(a => a.name === 'Fighting Style').options
+  
+            
+          commit('setDatabase', database)
+
+          resolve()
+        })
       })
+
+      return loadedPromise
     }
   }
 }

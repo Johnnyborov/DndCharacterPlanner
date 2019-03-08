@@ -48,10 +48,18 @@ namespace server
         app.UseCors(builder => builder.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod());
       }
 
-      var options = new DefaultFilesOptions();
-      options.DefaultFileNames.Clear();
-      options.DefaultFileNames.Add("index.html");
-      app.UseDefaultFiles(options);
+      app.Use(async (context, next) =>
+      {
+        await next();
+        var path = context.Request.Path.Value;
+
+        if (!path.StartsWith("/api") && !System.IO.Path.HasExtension(path))
+        {
+          context.Request.Path = "/index.html";
+          await next();
+        }
+      });
+
 
       app.UseStaticFiles();
 

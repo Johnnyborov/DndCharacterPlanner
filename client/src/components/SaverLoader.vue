@@ -114,6 +114,9 @@ export default {
       setCharacter: 'character/setCharacter',
     }),
 
+    loadHandler() {
+      this.loadCharacter(this.characterId)
+    },
 
     saveHandler() {
       let raceOptions = {}
@@ -151,14 +154,15 @@ export default {
         api.saveCharacter(char)
         .then(id => {
           this.characterId = id
+          this.$router.push({name: 'home', params: {id: String(id)}})
         })
       }
 
       this.setChangedFalse()
     },
 
-    loadHandler() {
-      api.getCharacter(this.characterId)
+    loadCharacter(charId) {
+      api.getCharacter(charId)
       .then(char => {
           let character = {
           race: nameToItem(char.race, Object.values(this.database.races)),
