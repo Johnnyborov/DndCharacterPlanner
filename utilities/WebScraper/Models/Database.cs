@@ -189,6 +189,9 @@ namespace WebScraper.Models
               case "Additional Fighting Style":
                 a.increases.AddRange(new int[] { 0 });
                 break;
+              case "Combat Superiority":
+                a.increases.AddRange(new int[] { 0, 0, 0, 7, 7, 10, 10, 15, 15 });
+                break;
               default:
                 break;
             }

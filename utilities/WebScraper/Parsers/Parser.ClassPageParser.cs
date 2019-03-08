@@ -173,7 +173,10 @@ namespace WebScraper.Parsers
         ability.options = options;
 
         if (ability.name == "Eldritch Invocations")
-          ability.options = EldritchInvocationsParser.ParseEldritchInvocations();
+          ability.options = SeparateOptionsPageParser.ParseOptions("EldritchInvocations.html.txt");
+
+        if (ability.name == "Combat Superiority")
+          ability.options = SeparateOptionsPageParser.ParseOptions("BattlemasterManeuvers.html.txt");
 
         switch (ability.name)
         {

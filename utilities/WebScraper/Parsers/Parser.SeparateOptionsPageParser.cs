@@ -11,11 +11,11 @@ namespace WebScraper.Parsers
 {
   static partial class Parser
   {
-    private static class EldritchInvocationsParser
+    private static class SeparateOptionsPageParser
     {
-      public static List<Option> ParseEldritchInvocations()
+      public static List<Option> ParseOptions(string fileName)
       {
-        string html = File.ReadAllText(Config.DownloadedPagesDir + "/EldritchInvocations.html.txt");
+        string html = File.ReadAllText(Config.DownloadedPagesDir + "/" +  fileName);
 
 
         var parser = new HtmlParser();
