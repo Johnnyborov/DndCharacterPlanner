@@ -234,7 +234,7 @@ namespace WebScraper.Parsers
 
           if (isPureDescription)
           {
-            result = result + "\n" + HelperFunctions.ReadArbitraryElement(currentElem);
+            result = result + HelperFunctions.ReadArbitraryElement(currentElem);
           }
         }
 

@@ -15,6 +15,7 @@ namespace WebScraper.Models
     public List<Ability> abilities;
     public Dictionary<string, Subrace> subraces;
 
+    public string type;
 
     public void FillSubracesDescriptions()
     {
@@ -23,7 +24,7 @@ namespace WebScraper.Models
         string desc = "";
         foreach (var a in sub.abilities)
         {
-          desc = desc + a.name + ":" + a.description + "\n";
+          desc = desc + "<p>" + a.name + ":" + a.description + "</p>";
         }
 
         sub.description = desc;

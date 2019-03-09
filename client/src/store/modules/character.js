@@ -348,9 +348,7 @@ export default {
     
           let enoughLevel = item.level * 2 - 1 <= state.character.classes[index].level
 
-          let validSource = item.source === 'PHB' || item.source === 'XGTE'
-
-          return isForCurrentClass && enoughLevel && validSource
+          return isForCurrentClass && enoughLevel
         }
       }
     }

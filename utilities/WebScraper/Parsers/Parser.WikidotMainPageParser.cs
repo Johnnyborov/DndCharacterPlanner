@@ -68,10 +68,6 @@ namespace WebScraper.Parsers
           var header = document.QuerySelector("#toc" + i);
           string raceType = header.TextContent.Trim();
 
-          if (mode == Mode.ScrapeFiles)
-          {
-            if (!raceType.Contains("Common")) continue;
-          }
 
           header = header.NextElementSibling;
           var anchors = header.QuerySelectorAll("a");
@@ -85,6 +81,9 @@ namespace WebScraper.Parsers
 
             if (mode == Mode.ScrapeFiles)
             {
+              if (race.name.Contains(" HB") || race.name.Contains("(HB)") || !raceType.Contains("Common Races") && race.name != "Tabaxi") continue;
+
+              race.type = raceType;
               races.Add(race.name, race);
             }
           }
@@ -172,17 +171,17 @@ namespace WebScraper.Parsers
           {
             url = ((IHtmlAnchorElement)anchors[k]).Href;
             string subclassName = anchors[k].TextContent.Trim();
-
-            if (mode == Mode.ScrapeFiles)
-            {
-              if (subclassName.Contains("(UA)") || subclassName.Contains("(Amonkhet)") || subclassName.Contains("(HB)")) continue;
-            }
-
             var subclassFileName = classFileName + "__" + subclassName;
 
             var subclass = HandleLink(url, subclassFileName, mode, Type.Subclass);
-            subclass.name = subclassName;
-            cls.subclasses.Add(subclass.name, subclass);
+
+            if (mode == Mode.ScrapeFiles)
+            {
+              if (subclassName.Contains("(UA)") || subclassName.Contains("(Amonkhet)") || subclassName.Contains("(HB)") || subclassName.Contains(" HB")) continue;
+
+              subclass.name = subclassName;
+              cls.subclasses.Add(subclass.name, subclass);
+            }
           }
         }
 

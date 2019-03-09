@@ -39,7 +39,7 @@ namespace WebScraper.Parsers
         }
         else if (elem.TagName == "P")
         {
-          result = elem.TextContent.Trim();
+          result = "<p>" + elem.TextContent.Trim() + "</p>";
         }
         else
         {
@@ -61,7 +61,18 @@ namespace WebScraper.Parsers
           {
             string text = item.TextContent.Trim();
             if (text == "") text = "X";
-            result = result + "<td>" + text + "</td>";
+
+            if (item.HasAttribute("colspan"))
+            {
+              var colspan = item.GetAttribute("colspan");
+              string val = colspan.ToString();
+
+              result = result + "<td colspan=\"" + val + "\">" + text + "</td>";
+            }
+            else
+            {
+              result = result + "<td>" + text + "</td>";
+            }
           }
           result = result + "</tr>";
         }

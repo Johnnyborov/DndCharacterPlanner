@@ -5,7 +5,7 @@
 
     <div :style="{'position': 'absolute', 'top': posY + 'px'}">
       <item-tooltip v-if="mouseOver && item.id !== -1" :item="item" :moduleType="moduleType"
-        :posX="posX" @enter-child="leaveHandler" :popups="popups" class="item-tooltip" />
+        :posX="2.1*posX" @enter-child="leaveHandler" :popups="popups" class="item-tooltip" />
     </div>
   </li>
 </template>

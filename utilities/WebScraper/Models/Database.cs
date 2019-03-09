@@ -52,6 +52,8 @@ namespace WebScraper.Models
         spell.SetSource();
       }
 
+      spellsAndCantrips.RemoveAll(s => s.source != "PHB" && s.source != "XGTE");
+
       cantrips = (from s in spellsAndCantrips where s.level == 0 select s).ToList();
       spells = (from s in spellsAndCantrips where s.level > 0 select s).ToList();
 

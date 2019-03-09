@@ -25,7 +25,7 @@ namespace WebScraper.Parsers
         var elem = mainDiv.Children[0];
         while (elem.NodeName != "DIV")
         {
-          description = description + "\n" + elem.TextContent.Trim();
+          description = description + HelperFunctions.ReadArbitraryElement(elem);
 
           elem = elem.NextElementSibling;
         }
@@ -131,7 +131,7 @@ namespace WebScraper.Parsers
           var elem = header.NextElementSibling;
           while (elem != null && elem.NodeName != "H3")
           {
-            description = description + "\n" + HelperFunctions.ReadArbitraryElement(elem);
+            description = description + HelperFunctions.ReadArbitraryElement(elem);
 
             elem = elem.NextElementSibling;
           }

@@ -33,7 +33,7 @@ namespace WebScraper.Parsers
           string description = "";
           while (elem != null && elem.NodeName != "H6")
           {
-            description = description + "\n" + HelperFunctions.ReadArbitraryElement(elem);
+            description = description + HelperFunctions.ReadArbitraryElement(elem);
 
             elem = elem.NextElementSibling;
           }

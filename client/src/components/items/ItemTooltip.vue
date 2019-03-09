@@ -52,25 +52,26 @@ export default {
         }
       }
 
+      if (this.item.school) res = res + 'School: ' + this.item.school
       if (this.item.source) res = res + '</br>Source: ' + this.item.source + '<br/>'
 
-      if (this.item.school) res = res + '</br>School: ' + this.item.school
       if (this.item.time) res = res + '</br>Time: ' + this.item.time
       if (this.item.range) res = res + '</br>Range: ' + this.item.range
       if (this.item.components) res = res + '</br>Components: ' + this.item.components
-      if (this.item.duration) res = res + '</br>Duration: ' + this.item.duration
+      if (this.item.duration) res = res + '</br>Duration: ' + this.item.duration + '</br>'
 
 
       if (this.item.requirement) {
-        res = res + '</br>Prerequisite: ' + this.item.requirement
+        res = res + '</br>Prerequisite: ' + this.item.requirement + '</br>'
       }
 
       if (this.item.description) {
         let fontSize = Math.max(Math.min(3000 / this.item.description.length, 1.4), 1.2)
-        res = res + '</br></br>Description:<pre style="font-size: ' + fontSize + 'vmin;">' + this.item.description + '</pre>'
+        res = res + '</br>Description:<pre style="font-size: ' + fontSize + 'vmin;">' + this.item.description + '</pre>'
       }
 
       if (this.item.bonusStats) {
+        if (Object.keys(this.item.bonusStats).length > 0) res = res + '</br>Stats:'
         Object.keys(this.item.bonusStats).forEach(statName => {
           let sign = ''
           if (this.item.bonusStats[statName] > 0) sign = '+'

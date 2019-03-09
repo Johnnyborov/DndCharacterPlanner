@@ -25,7 +25,7 @@ namespace WebScraper.Parsers
         var elem = mainDiv.Children[0];
         while (elem.NodeName != "DIV")
         {
-          description = description + "\n" + elem.TextContent.Trim();
+          description = description + HelperFunctions.ReadArbitraryElement(elem);
 
           elem = elem.NextElementSibling;
         }
@@ -94,7 +94,7 @@ namespace WebScraper.Parsers
           }
           else // another p (or maybe table) continuing description
           {
-            abilities.Last().description += "\n" + HelperFunctions.ReadArbitraryElement(elem);
+            abilities.Last().description += HelperFunctions.ReadArbitraryElement(elem);
           }
         }
 
