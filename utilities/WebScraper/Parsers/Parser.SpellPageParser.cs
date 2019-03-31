@@ -71,8 +71,10 @@ namespace WebScraper.Parsers
           (time, range, components, duration) = ReadAttributes(2, elem.Children[0], "usual");
 
 
-          if (elem.Children[0].Children[0].TextContent.Trim() == "Word of Radiance") // an exceptionional page
+          if (elem.Children[0].Children[0].TextContent.Trim() == "Word of Radiance" ||
+              elem.Children[0].Children[0].TextContent.Trim() == "Fireball") // an exceptionional pages
           {
+
             elem.Children[0].Remove();
             description = elem.TextContent.Trim();
           }

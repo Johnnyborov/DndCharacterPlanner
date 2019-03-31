@@ -95,6 +95,22 @@ namespace WebScraper.Models
         }
 
 
+
+        var toRemoveList = new List<string>();
+        foreach (var sub in race.subraces.Values)
+        {
+          if (sub.name.Contains(" HB") || sub.name.Contains("(HB)"))
+          {
+            toRemoveList.Add(sub.name);
+          }
+        }
+
+        foreach (var subName in toRemoveList)
+        {
+          race.subraces.Remove(subName);
+        }
+
+
         foreach (var sub in race.subraces.Values)
         {
           sub.id = subraceIdCounter++;

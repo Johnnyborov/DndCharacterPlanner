@@ -39,6 +39,15 @@ function setNewOptions(state, commit) {
     if (addOptions(newOptions, oldOptions, 1, state.character.subrace.abilities))
       changed = true
 
+      if (oldOptions.length !== newOptions.length) {
+        changed = true
+      }
+      else {
+        Object.keys(oldOptions).forEach(abilityName => {
+          if (!newOptions[abilityName]) changed = true
+        })
+      }
+
     if (changed)
       commit('setRaceOptionsObject', newOptions)
   }
@@ -54,6 +63,15 @@ function setNewOptions(state, commit) {
       changed = true
     if (addOptions(newOptions, oldOptions, classLvl, state.character.classes[i].subclass.abilities))
       changed = true
+
+    if (oldOptions.length !== newOptions.length) {
+      changed = true
+    }
+    else {
+      Object.keys(oldOptions).forEach(abilityName => {
+        if (!newOptions[abilityName]) changed = true
+      })
+    }
 
     if (changed)
       commit('setClassOptionsObject', {classIndex: i, options: newOptions})
@@ -118,10 +136,10 @@ function getListAmount(state, getters, i, type) {
     case 'spells':
       switch (state.character.classes[i].class.name) {
         case 'Artificer':
+        case 'Wizard':
          return Math.max(getters.realStatModifiers['int'] + state.character.classes[i].level, 1)
         case 'Cleric':
         case 'Druid':
-        case 'Wizard':
          return Math.max(getters.realStatModifiers['wis'] + state.character.classes[i].level, 1)
         case 'Paladin':
          return Math.max(getters.realStatModifiers['cha'] + state.character.classes[i].level, 1)
@@ -209,27 +227,28 @@ const emptyClass = {
   options: {}
 }
 
+const emptyChar = {
+  race: {id: -1},
+  subrace: {id: -1},
+  raceOptions: {},
+  stats: {
+    'str': 8,
+    'dex': 8,
+    'con': 8,
+    'wis': 8,
+    'int': 8,
+    'cha': 8
+  },
+  feats: [],
+  classes: [JSON.parse(JSON.stringify(emptyClass))]
+}
+
 export default {
   namespaced: true,
 
   state: {
     changed: false,
-
-    character: {
-      race: {id: -1},
-      subrace: {id: -1},
-      raceOptions: {},
-      stats: {
-        'str': 13,
-        'dex': 13,
-        'con': 13,
-        'wis': 13,
-        'int': 13,
-        'cha': 13
-      },
-      feats: [],
-      classes: [JSON.parse(JSON.stringify(emptyClass))]
-    }
+    character: JSON.parse(JSON.stringify(emptyChar))
   },
 
   getters: {
@@ -359,6 +378,11 @@ export default {
       state.changed = false
     },
 
+    resetCharacter(state) {
+      state.character = JSON.parse(JSON.stringify(emptyChar))
+      state.changed = false
+    },
+
     setCharacter(state, character) {
       state.character = character
       state.changed = true
@@ -462,6 +486,10 @@ export default {
   },
 
   actions: {
+    resetCharacter({commit}) {
+      commit('resetCharacter')
+    },
+
     setCharacter({commit, dispatch}, character) {
       commit('setCharacter', character)
       dispatch('checkSubclass')
@@ -524,7 +552,7 @@ export default {
       dispatch('setAmounts')
     },
 
-    setAmounts({state, getters, rootState, rootGetters, commit}) {
+    setAmounts({state, getters, commit}) {
       let totalFeatsAmount = 0
 
       for (let i = 0; i < state.character.classes.length; i++) {

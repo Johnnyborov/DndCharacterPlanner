@@ -6,6 +6,9 @@
     Id to load:
     <input v-model="characterId"/>
     <button @click="loadHandler">Load</button>
+    <br />
+    <br />
+    <button @click="resetHandler">Reset</button>
   </div>
 </template>
 
@@ -112,7 +115,14 @@ export default {
 
     ...mapActions({
       setCharacter: 'character/setCharacter',
+      resetCharacter: 'character/resetCharacter'
     }),
+
+    resetHandler() {
+      this.resetCharacter()
+
+      this.$router.push({name: 'home', params: {}})
+    },
 
     loadHandler() {
       this.loadCharacter(this.characterId)
@@ -216,6 +226,8 @@ export default {
 
 
         this.setCharacter(character)
+        this.setChangedFalse()
+        this.$router.push({name: 'home', params: {id: String(charId)}})
       })
     }
   }
