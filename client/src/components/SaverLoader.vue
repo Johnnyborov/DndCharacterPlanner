@@ -121,7 +121,7 @@ export default {
     resetHandler() {
       this.resetCharacter()
 
-      this.$router.push({name: 'home', params: {}})
+      this.$router.push({name: 'planner', params: {}})
     },
 
     loadHandler() {
@@ -164,7 +164,7 @@ export default {
         api.saveCharacter(char)
         .then(id => {
           this.characterId = id
-          this.$router.push({name: 'home', params: {id: String(id)}})
+          this.$router.push({name: 'planner', params: {id: String(id)}})
         })
       }
 
@@ -227,7 +227,7 @@ export default {
 
         this.setCharacter(character)
         this.setChangedFalse()
-        this.$router.push({name: 'home', params: {id: String(charId)}})
+        this.$router.push({name: 'planner', params: {id: String(charId)}})
       })
     }
   }

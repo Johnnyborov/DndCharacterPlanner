@@ -110,10 +110,6 @@ export default {
     'static-list': StaticList
   },
 
-  props: {
-    charId: String
-  },
-
   data() {
     return {
       lastModuleToClickItem: ''
@@ -153,8 +149,18 @@ export default {
   created() {
     this.$store.dispatch('database/load')
     .then(() => {
-      if (this.charId) this.$refs['saver-loader'].loadCharacter(this.charId)
+      if (this.$route.params.id)
+        this.$refs['saver-loader'].loadCharacter(this.$route.params.id)
     })
+  },
+
+  watch: {
+    '$route' (to, from) {
+      if (to.params.id)
+        this.$refs['saver-loader'].loadCharacter(to.params.id)
+      else
+        this.$refs['saver-loader'].resetCharacter()
+    }
   }
 }
 </script>

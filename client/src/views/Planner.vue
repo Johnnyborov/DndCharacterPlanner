@@ -1,15 +1,12 @@
 <template>
-  <div class="home">
-    <character-planner :charId="$route.params.id"/>
-  </div>
+  <character-planner />
 </template>
 
 <script>
-// @ is an alias to /src
 import CharacterPlanner from '@/components/CharacterPlanner.vue'
 
 export default {
-  name: 'home',
+  name: 'planner',
   components: {
     'character-planner': CharacterPlanner
   }
